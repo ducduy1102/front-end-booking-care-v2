@@ -5,6 +5,19 @@ import * as actions from "../../store/actions";
 import "./Login.scss";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  const handleLogin = () => {
+    console.log("Username:", username);
+    console.log("Password:", password);
+  };
+
+  const handleShowHidePassword = () => {
+    alert("click me");
+  };
+
   const btnLogin = useRef(null);
   const lang = useSelector((state) => state.app.language);
   const dispatch = useDispatch();
@@ -32,21 +45,34 @@ const Login = () => {
             <input
               type="text"
               name="username"
+              value={username}
               className="form-control"
               placeholder="Enter your username"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="form-group login-input">
             <label className="text-label">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="form-control"
-              placeholder="Enter your password"
-            />
+            <div className="custom-input-password">
+              <input
+                type={isShowPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                className="form-control"
+                placeholder="Enter your password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span onClick={() => setIsShowPassword(!isShowPassword)}>
+                <i
+                  className={isShowPassword ? "fas fa-eye" : "fas fa-eye-slash"}
+                ></i>
+              </span>
+            </div>
           </div>
           <div className="">
-            <button className="btn-login">Login</button>
+            <button className="btn-login" onClick={() => handleLogin()}>
+              Login
+            </button>
           </div>
           <div className="">
             <span className="forgot-password">Forgot your password</span>
@@ -55,8 +81,8 @@ const Login = () => {
             <span className="text-other-login">Or Login With</span>
           </div>
           <div className="social-login">
-            <i class="fab fa-google-plus-g google"></i>
-            <i class="fab fa-facebook-f facebook"></i>
+            <i className="fab fa-google-plus-g google"></i>
+            <i className="fab fa-facebook-f facebook"></i>
           </div>
         </div>
       </div>
