@@ -3,15 +3,39 @@ import { useSelector, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
+import { handleLogin } from "../../services/userService";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
-    console.log("Username:", username);
-    console.log("Password:", password);
+  const dispatch = useDispatch();
+  // C1
+  // const userLoginSuccess = (userInfo) =>
+  //   dispatch(actions.userLoginSuccess(userInfo));
+
+  const handleUserLogin = async () => {
+    setErrorMessage("");
+
+    try {
+      let data = await handleLogin(username, password);
+      if (data && data.errCode !== 0) {
+        setErrorMessage(data.message);
+      }
+      if (data && data.errCode === 0) {
+        // C1
+        // userLoginSuccess(data.user);
+
+        // C2
+        dispatch(actions.userLoginSuccess(data.user));
+      }
+    } catch (error) {
+      if (error?.response?.data) {
+        setErrorMessage(error.response.data.message);
+      }
+    }
   };
 
   const handleShowHidePassword = () => {
@@ -20,7 +44,6 @@ const Login = () => {
 
   const btnLogin = useRef(null);
   const lang = useSelector((state) => state.app.language);
-  const dispatch = useDispatch();
 
   const handlePersistorState = () => {
     // Implementation for handling persistor state if needed
@@ -69,8 +92,11 @@ const Login = () => {
               </span>
             </div>
           </div>
+          <div className="" style={{ color: "red" }}>
+            {errorMessage}
+          </div>
           <div className="">
-            <button className="btn-login" onClick={() => handleLogin()}>
+            <button className="btn-login" onClick={() => handleUserLogin()}>
               Login
             </button>
           </div>

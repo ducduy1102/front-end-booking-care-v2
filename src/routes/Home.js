@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Home = () => {
-  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const linkToRedirect = isLoggedIn ? "/system/user-manage" : "/login";
 
   return <Redirect to={linkToRedirect} />;

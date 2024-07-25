@@ -30,7 +30,7 @@
 
 // const mapStateToProps = state => {
 //     return {
-//         isLoggedIn: state.admin.isLoggedIn
+//         isLoggedIn: state.user.isLoggedIn
 //     };
 // };
 
@@ -51,7 +51,7 @@ import "./Header.scss";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.admin.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const processLogout = () => dispatch(actions.processLogout());
 
   return (
