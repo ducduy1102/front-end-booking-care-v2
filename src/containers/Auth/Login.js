@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { push } from "connected-react-router";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLogin } from "../../services/userService";
@@ -38,25 +37,8 @@ const Login = () => {
     }
   };
 
-  const handleShowHidePassword = () => {
-    alert("click me");
-  };
-
   const btnLogin = useRef(null);
   const lang = useSelector((state) => state.app.language);
-
-  const handlePersistorState = () => {
-    // Implementation for handling persistor state if needed
-  };
-
-  const redirectToSystemPage = () => {
-    dispatch(push("/system/user-manage"));
-  };
-
-  const processLogin = () => {
-    // dispatch(actions.adminLoginSuccess(adminInfo));
-    redirectToSystemPage();
-  };
 
   return (
     <div className="login-background">
