@@ -1,3 +1,20 @@
+.modal-user-container {
+  .modal-content {
+    .modal-header {
+      button {
+        font-size: 25px;
+        color: white;
+        border: none;
+        background: transparent;
+      }
+    }
+  }
+}
+
+.btn {
+  border: none !important;
+}
+
 .table-user {
   .btn-edit,
   .btn-delete {

@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
 import { history } from "../redux";
 import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 import {
   userIsAuthenticated,
@@ -19,6 +20,7 @@ import System from "../routes/System";
 
 import { CustomToastCloseButton } from "../components/CustomToast";
 import ConfirmModal from "../components/ConfirmModal";
+import "bootstrap/dist/css/bootstrap.css";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -74,6 +76,17 @@ const App = (props) => {
             draggable={false}
             closeButton={<CustomToastCloseButton />}
           />
+          {/* <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          /> */}
         </div>
       </Router>
     </Fragment>
