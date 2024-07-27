@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import { createNewUser, getAllUsers } from "../../services/userService";
+import {
+  createNewUser,
+  deleteUser,
+  getAllUsers,
+} from "../../services/userService";
 import "./UserManage.scss";
 import ModalUser from "./ModalUser";
+import { emitter } from "../../utils/emitter";
 
 const UserManage = () => {
   const [arrUsers, setArrUsers] = useState([]);
@@ -23,7 +28,6 @@ const UserManage = () => {
 
     if (res && res.errCode === 0) {
       setArrUsers(res.users);
-      console.log("list user", res.users);
     }
   };
 
@@ -43,6 +47,20 @@ const UserManage = () => {
       } else {
         await fetchUsers();
         setIsOpenModalUser(false);
+        emitter.emit("EVENT_CLEAR_MODAL_DATA");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDeleteUser = async (user) => {
+    try {
+      let res = await deleteUser(user.id);
+      if (res && res.errCode === 0) {
+        await fetchUsers();
+      } else {
+        alert(res.message);
       }
     } catch (error) {
       console.log(error);
@@ -100,7 +118,11 @@ const UserManage = () => {
                           <button className="btn-edit">
                             <i className="fas fa-edit"></i>
                           </button>
-                          <button type="submit" className="btn-delete">
+                          <button
+                            type="submit"
+                            className="btn-delete"
+                            onClick={() => handleDeleteUser(item)}
+                          >
                             <i className="fas fa-trash-alt"></i>
                           </button>
                         </td>

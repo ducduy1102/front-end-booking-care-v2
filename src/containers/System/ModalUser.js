@@ -2,15 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { toast } from "react-toastify";
 import _ from "lodash";
-// import { createNewUser } from "../../services/userService";
-
-// {
-// isOpen,
-// action,
-// dataModalUser,
-// onClosed = () => {},
-// ...rest
-// }
+import { emitter } from "../../utils/emitter";
 
 const ModalUser = (props) => {
   const defaulUserData = {
@@ -35,12 +27,26 @@ const ModalUser = (props) => {
     roleId: true,
   };
 
+  // useEffect(()=> {
+  //   emitter.on("EVENT_CLEAR_MODAL_DATA", );
+  // })
+
   const toggle = () => {
     props.toggleUserModal();
   };
 
   const [userData, setUserData] = useState(defaulUserData);
   const [validInputs, setValidInputs] = useState(validInputsDefault);
+
+  const listenToEmitter = () => {
+    emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
+      setUserData(defaulUserData);
+    });
+  };
+
+  useEffect(() => {
+    listenToEmitter();
+  });
 
   const handleOnChangeInput = (value, name) => {
     let _userData = _.cloneDeep(userData);
@@ -65,7 +71,6 @@ const ModalUser = (props) => {
     let isValid = true;
     for (let i = 0; i < arrInput.length; i++) {
       if (!userData[arrInput[i]]) {
-        // Update state
         let _validInputs = _.cloneDeep(validInputsDefault);
         _validInputs[arrInput[i]] = false;
         setValidInputs(_validInputs);
@@ -86,7 +91,6 @@ const ModalUser = (props) => {
       // call api create model
       props.confirmCreateNewUser(userData);
     }
-    console.log("data", userData);
   };
 
   return (
@@ -98,7 +102,7 @@ const ModalUser = (props) => {
         size="lg"
         centered
       >
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggle}>Create a new user</ModalHeader>
         <ModalBody>
           <form className="row g-3">
             <div className="form-group col-sm-6">
@@ -225,9 +229,7 @@ const ModalUser = (props) => {
               </select>
             </div>
             <div className="form-group col-sm-3">
-              <label htmlFor="phoneNumber" className="form-label">
-                Role
-              </label>
+              <label className="form-label">Role</label>
               <select
                 className="form-select"
                 onChange={(e) => handleOnChangeInput(e.target.value, "roleId")}
@@ -235,7 +237,7 @@ const ModalUser = (props) => {
               >
                 <option value="1">Admin</option>
                 <option value="2">Doctor</option>
-                <option defaultValue="3">Patient</option>
+                <option value="3">Patient</option>
               </select>
             </div>
           </form>
