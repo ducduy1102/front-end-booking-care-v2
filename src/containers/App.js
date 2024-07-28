@@ -21,6 +21,7 @@ import System from "../routes/System";
 import { CustomToastCloseButton } from "../components/CustomToast";
 import ConfirmModal from "../components/ConfirmModal";
 import "bootstrap/dist/css/bootstrap.css";
+import HomePage from "./Home/HomePage";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -47,7 +48,7 @@ const App = (props) => {
     <Fragment>
       <Router history={history}>
         <div className="main-container">
-          <ConfirmModal />
+          {/* <ConfirmModal /> */}
           {props.isLoggedIn && <Header />}
 
           <span className="content-container">
@@ -61,6 +62,7 @@ const App = (props) => {
                 path={path.SYSTEM}
                 component={userIsAuthenticated(System)}
               />
+              <Route path={path.HOME_PAGE} component={HomePage} />
             </Switch>
           </span>
 
