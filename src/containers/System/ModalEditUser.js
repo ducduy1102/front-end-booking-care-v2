@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import _ from "lodash";
 import { emitter } from "../../utils/emitter";
 
-const ModalUser = (props) => {
+const ModalEditUser = (props) => {
   const defaulUserData = {
+    id: "",
     email: "",
-    password: "",
     firstName: "",
     lastName: "",
     address: "",
@@ -18,7 +18,6 @@ const ModalUser = (props) => {
 
   const validInputsDefault = {
     email: true,
-    password: true,
     firstName: true,
     lastName: true,
     address: true,
@@ -27,10 +26,6 @@ const ModalUser = (props) => {
     roleId: true,
   };
 
-  // useEffect(()=> {
-  //   emitter.on("EVENT_CLEAR_MODAL_DATA", );
-  // })
-
   const toggle = () => {
     props.toggleUserModal();
   };
@@ -38,14 +33,21 @@ const ModalUser = (props) => {
   const [userData, setUserData] = useState(defaulUserData);
   const [validInputs, setValidInputs] = useState(validInputsDefault);
 
-  const listenToEmitter = () => {
-    emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
-      setUserData(defaulUserData);
-    });
-  };
-
   useEffect(() => {
-    listenToEmitter();
+    let user = props.currentUser;
+    // check ko rỗng
+    if (user && !_.isEmpty(user)) {
+      setUserData({
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        gender: user.gender,
+        roleId: user.roleId,
+      });
+    }
   }, []);
 
   const handleOnChangeInput = (value, name) => {
@@ -56,11 +58,8 @@ const ModalUser = (props) => {
   };
 
   const checkValidateInputs = () => {
-    // setValidInputs(validInputsDefault);
-    // console.log("valid inpust", validInputs);
     let arrInput = [
       "email",
-      "password",
       "firstName",
       "lastName",
       "address",
@@ -85,12 +84,13 @@ const ModalUser = (props) => {
     return isValid;
   };
 
-  const handleAddNewUser = () => {
+  const handleEditUser = () => {
     let isValid = checkValidateInputs();
     if (isValid === true) {
       // call api create model
-      props.confirmCreateNewUser(userData);
+      props.editUser(userData);
     }
+    // console.log("data", userData);
   };
 
   return (
@@ -102,7 +102,7 @@ const ModalUser = (props) => {
         size="lg"
         centered
       >
-        <ModalHeader toggle={toggle}>Create a new user</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit user</ModalHeader>
         <ModalBody>
           <form className="row g-3">
             <div className="form-group col-sm-6">
@@ -111,14 +111,12 @@ const ModalUser = (props) => {
               </label>
               <input
                 type="email"
-                className={
-                  validInputs.email ? "form-control" : "form-control is-invalid"
-                }
-                // className="form-control"
+                className="form-control"
                 placeholder="Enter your email..."
                 name="email"
                 value={userData.email}
                 onChange={(e) => handleOnChangeInput(e.target.value, "email")}
+                disabled
               />
             </div>
             <div className="form-group col-sm-6">
@@ -127,18 +125,10 @@ const ModalUser = (props) => {
               </label>
               <input
                 type="password"
-                className={
-                  validInputs.password
-                    ? "form-control"
-                    : "form-control is-invalid"
-                }
-                // className="form-control"
-                placeholder="Enter your password..."
+                className="form-control"
+                placeholder="*******"
                 name="password"
-                value={userData.password}
-                onChange={(e) =>
-                  handleOnChangeInput(e.target.value, "password")
-                }
+                disabled
               />
             </div>
             <div className="form-group col-sm-6">
@@ -224,7 +214,7 @@ const ModalUser = (props) => {
                 onChange={(e) => handleOnChangeInput(e.target.value, "gender")}
                 value={userData.gender}
               >
-                <option defaultValue="1">Male</option>
+                <option value="1">Male</option>
                 <option value="0">Female</option>
               </select>
             </div>
@@ -246,8 +236,8 @@ const ModalUser = (props) => {
           <Button color="secondary" onClick={toggle} className="px-3">
             Close
           </Button>
-          <Button color="primary" className="px-3" onClick={handleAddNewUser}>
-            Create
+          <Button color="primary" className="px-3" onClick={handleEditUser}>
+            Save Changes
           </Button>
         </ModalFooter>
       </Modal>
@@ -255,4 +245,4 @@ const ModalUser = (props) => {
   );
 };
 
-export default ModalUser;
+export default ModalEditUser;
