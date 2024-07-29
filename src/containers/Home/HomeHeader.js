@@ -1,16 +1,25 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import "./HomeHeader.scss";
 import logo from "../../assets/images/logo.svg";
 import { FormattedMessage } from "react-intl";
+import { LANGUAGES } from "../../utils";
+import { changeLanguageApp } from "../../store/actions";
+import viFlag from "../../assets/images/vietnam-flag.svg";
+import enFlag from "../../assets/images/en-flag.svg";
 
 const HomeHeader = (props) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const lang = useSelector((state) => state.app.language);
-  console.log("check props", isLoggedIn, lang);
+  const language = useSelector((state) => state.app.language);
   // const processLogout = () => dispatch(actions.processLogout());
+
+  const changeLanguage = (language) => {
+    //fire redux event (actions)
+    dispatch(changeLanguageApp(language));
+  };
+
   return (
     <>
       <div className=" home-header-container">
@@ -68,11 +77,46 @@ const HomeHeader = (props) => {
               <i className="fas fa-question-circle"></i>
               <FormattedMessage id="home-header.support" />
             </div>
-            <div className="language-vi">VN</div>
-            <div className="language-en">EN</div>
+            <div
+              className={
+                language === "vi" ? "language-vi active" : "language-vi"
+              }
+            >
+              <img
+                src={viFlag}
+                alt=""
+                className="img-vi"
+                onClick={() => changeLanguage(LANGUAGES.VI)}
+              />
+              <span
+                className="text-vi"
+                onClick={() => changeLanguage(LANGUAGES.VI)}
+              >
+                VN
+              </span>
+            </div>
+            <div
+              className={
+                language === "en" ? "language-en active" : "language-en"
+              }
+            >
+              <img
+                src={enFlag}
+                alt=""
+                className="img-en"
+                onClick={() => changeLanguage(LANGUAGES.EN)}
+              />
+              <span
+                className="text-en"
+                onClick={() => changeLanguage(LANGUAGES.EN)}
+              >
+                EN
+              </span>
+            </div>
           </div>
         </div>
         <div className="home-header-banner">
+          <div className="overlay"></div>
           <div className="content-up">
             <div className="main-title">
               <FormattedMessage id="banner.main-title" />
