@@ -10,6 +10,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import OutstandingDoctor from "./Section/OutstandingDoctor";
 import HandBook from "./Section/HandBook";
+import About from "./Section/About";
+import HomeFooter from "./HomeFooter";
 
 const HomePage = () => {
   let settings = {
@@ -27,6 +29,8 @@ const HomePage = () => {
       <MedicalFacility settings={settings} />
       <OutstandingDoctor settings={settings} />
       <HandBook settings={settings} />
+      <About />
+      <HomeFooter />
     </div>
   );
 };
