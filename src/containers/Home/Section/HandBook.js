@@ -4,42 +4,42 @@ import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 
-const Specialty = (props) => {
+const HandBook = (props) => {
   const { settings } = props;
 
   return (
-    <div className="section-share section-specialty">
+    <div className="section-share section-handbook">
       <div className="container">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Chuyên khoa phổ biến</span>
+            <span className="title-section">Cẩm nang</span>
             <button className="btn-section">Xem thêm</button>
           </div>
           <div className="section-body">
             <Slider {...settings}>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
               <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
+                <div className="bg-img section-handbook"></div>
+                <div className="section-title">Cẩm nang</div>
               </div>
             </Slider>
           </div>
@@ -49,4 +49,4 @@ const Specialty = (props) => {
   );
 };
 
-export default Specialty;
+export default HandBook;
