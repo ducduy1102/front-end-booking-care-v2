@@ -50,7 +50,6 @@ const App = (props) => {
       <Router history={history}>
         <div className="main-container">
           {/* <ConfirmModal /> */}
-          {props.isLoggedIn && <Header />}
 
           <div className="content-container">
             <CustomScrollbars style={{ height: "100vh", width: "100%" }}>

@@ -11,7 +11,7 @@ import enFlag from "../../assets/images/en-flag.svg";
 
 const HomeHeader = (props) => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  // const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
   const language = useSelector((state) => state.app.language);
   // const processLogout = () => dispatch(actions.processLogout());
 
