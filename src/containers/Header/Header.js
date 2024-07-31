@@ -52,12 +52,16 @@ import { LANGUAGES } from "../../utils";
 import { changeLanguageApp } from "../../store/actions";
 import viFlag from "../../assets/images/vietnam-flag.svg";
 import enFlag from "../../assets/images/en-flag.svg";
+import { FormattedMessage } from "react-intl";
 
 const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const processLogout = () => dispatch(actions.processLogout());
   const language = useSelector((state) => state.app.language);
+
+  console.log("check user info: ", userInfo);
 
   const changeLanguage = (language) => {
     //fire redux event (actions)
@@ -72,6 +76,10 @@ const Header = () => {
       </div>
 
       <div className="languages">
+        <span className="welcome">
+          <FormattedMessage id="home-header.welcome" />,{" "}
+          {userInfo?.firstName ? userInfo.firstName : "User"} !
+        </span>
         <div
           className={language === "vi" ? "language-vi active" : "language-vi"}
         >
