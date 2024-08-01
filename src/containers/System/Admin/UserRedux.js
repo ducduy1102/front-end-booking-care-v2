@@ -1,30 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCodeService } from "../../../services/userService";
+// import { getAllCodeService } from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
+import { fetchGenderStart } from "../../../store/actions";
 
 const UserRedux = () => {
   const dispatch = useDispatch();
   const language = useSelector((state) => state.app.language);
-  const [genderArr, setGenderArr] = useState([]);
+  const genderRedux = useSelector((state) => state.admin.genders);
 
+  // c2: call api trong redux rồi gọi ra
   useEffect(() => {
-    // componentDidMount equivalent
-    fetchAllCode();
-  }, []);
+    dispatch(fetchGenderStart());
+  }, [dispatch]);
 
-  const fetchAllCode = async () => {
-    try {
-      let res = await getAllCodeService("GENDER");
-      if (res && res.errCode === 0) {
-        setGenderArr(res.data);
-      }
-      // console.log("check data", genderArr);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const [genderArr, setGenderArr] = useState([]);
+  // useEffect(() => {
+  //   setGenderArr(genderRedux);
+  // }, [genderRedux]);
+
+  // c1: call api trực tiếp
+  // useEffect(() => {
+  //   // componentDidMount equivalent
+  //   fetchAllCode();
+  // }, []);
+
+  // const fetchAllCode = async () => {
+  //   try {
+  //     let res = await getAllCodeService("GENDER");
+  //     if (res && res.errCode === 0) {
+  //       setGenderArr(res.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="container user-redux-container">
@@ -113,9 +124,9 @@ const UserRedux = () => {
                   <FormattedMessage id="manage-user.gender" />
                 </label>
                 <select id="gender" className="form-select" name="gender">
-                  {genderArr &&
-                    genderArr.length > 0 &&
-                    genderArr.map((item, index) => {
+                  {genderRedux &&
+                    genderRedux.length > 0 &&
+                    genderRedux.map((item, index) => {
                       return (
                         <option key={`gender-${index}`}>
                           {language === LANGUAGES.VI
