@@ -8,12 +8,14 @@ import {
   fetchPositionStart,
   fetchRoleStart,
   createNewUserStart,
+  fetchAllUserStart,
 } from "../../../store/actions";
 import "../UserManage.scss";
 import "./UserRedux.scss";
 import "react-image-lightbox/style.css";
 import Lightbox from "react-image-lightbox";
 import _ from "lodash";
+import TableManageUser from "./TableManageUser";
 
 const UserRedux = () => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const UserRedux = () => {
   const roleRedux = useSelector((state) => state.admin.roles);
   const isLoading = useSelector((state) => state.admin.isLoading);
 
-  const createNewUSer = (data) => dispatch(createNewUserStart(data));
+  const createNewUser = (data) => dispatch(createNewUserStart(data));
   const [isOpen, setIsOpen] = useState(false);
   const [previewImgURL, setPreviewImgURL] = useState("");
 
@@ -46,9 +48,10 @@ const UserRedux = () => {
     lastName: "",
     address: "",
     phoneNumber: "",
-    gender: "",
-    positionId: "",
-    roleId: "",
+    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].key : "",
+    positionId:
+      positionRedux && positionRedux.length > 0 ? positionRedux[0].key : "",
+    roleId: roleRedux && roleRedux.length > 0 ? roleRedux[0].key : "",
     avatar: "",
   };
 
@@ -147,7 +150,8 @@ const UserRedux = () => {
     event.preventDefault();
     let isValid = checkValidateInputs();
     if (isValid === false) return;
-    createNewUSer(userData);
+    createNewUser(userData);
+    setUserData(defaulUserData);
   };
 
   return (
@@ -161,7 +165,7 @@ const UserRedux = () => {
         <div className="user-redux-body">
           <div className="container">
             <div className="row">
-              <form className="row g-3">
+              <div className="row g-3">
                 <div className="my-3 col-12">
                   <FormattedMessage id="manage-user.add" />
                 </div>
@@ -364,16 +368,16 @@ const UserRedux = () => {
                     ></div>
                   </div>
                 </div>
-                <div className="col-12">
+                <div className="my-3 col-12">
                   <button
-                    type="submit"
+                    type="button"
                     className="btn btn-primary"
                     onClick={(e) => handleSaveUser(e)}
                   >
                     <FormattedMessage id="manage-user.save" />
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -384,6 +388,7 @@ const UserRedux = () => {
           onCloseRequest={() => setIsOpen(false)}
         />
       )}
+      <TableManageUser />
     </div>
   );
 };

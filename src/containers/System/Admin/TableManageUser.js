@@ -1,116 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createNewUser,
-  deleteUser,
-  editUser,
-  getAllUsers,
-} from "../../services/userService";
-import "./UserManage.scss";
-import ModalUser from "./ModalUser";
-import { emitter } from "../../utils/emitter";
-import ModalEditUser from "./ModalEditUser";
+import "./TableManageUser.scss";
+import { fetchAllUserStart, deleteUserStart } from "../../../store/actions";
+// import { emitter } from "../../utils/emitter";
 
-const UserManage = () => {
+const TableManageUser = () => {
+  const dispatch = useDispatch();
   const [arrUsers, setArrUsers] = useState([]);
-
-  // Modal update/create user
-  const [isOpenModalUser, setIsOpenModalUser] = useState(false);
-  const [isOpenModalEditUser, setIsOpenModalEditUser] = useState(false);
-  const [userDataEdit, setUserDataEdit] = useState({});
-
-  // const dispatch = useDispatch();
-  // const state = useSelector((state) => state); // Adjust according to your state structure
+  // const [userDataEdit, setUserDataEdit] = useState({});
+  const usersRedux = useSelector((state) => state.admin.users);
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    dispatch(fetchAllUserStart());
+  }, [dispatch]);
 
-  const fetchUsers = async () => {
-    let res = await getAllUsers("ALL");
+  useEffect(() => {
+    setArrUsers(usersRedux);
+  }, [usersRedux]);
 
-    if (res && res.errCode === 0) {
-      setArrUsers(res.users);
-    }
-  };
-
-  const confirmCreateNewUser = async (data) => {
-    try {
-      const res = await createNewUser(data);
-      if (res && res.errCode !== 0) {
-        alert(res.message);
-      } else {
-        await fetchUsers();
-        setIsOpenModalUser(false);
-        emitter.emit("EVENT_CLEAR_MODAL_DATA");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleEditUser = (user) => {
-    // console.log("check user", user);
-    setIsOpenModalEditUser(true);
-    setUserDataEdit(user);
-  };
-
-  const doEditUser = async (user) => {
-    // console.log("click edit", user);
-    try {
-      let res = await editUser(user);
-      // console.log("res", res);
-      if (res && res.errCode !== 0) {
-        console.log(res.message);
-      } else {
-        setIsOpenModalEditUser(false);
-        await fetchUsers();
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const handleEditUser = () => {
+    // setUserDataEdit(user);
+    console.log("edit user");
   };
 
   const handleDeleteUser = async (user) => {
-    try {
-      let res = await deleteUser(user.id);
-      if (res && res.errCode === 0) {
-        await fetchUsers();
-      } else {
-        alert(res.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(deleteUserStart(user.id));
   };
 
   return (
     <div className="users-container">
       <div className="container">
-        <ModalUser
-          isOpen={isOpenModalUser}
-          toggleUserModal={() => setIsOpenModalUser(!isOpenModalUser)}
-          confirmCreateNewUser={confirmCreateNewUser}
-        />
-        {isOpenModalEditUser && (
-          <ModalEditUser
-            isOpen={isOpenModalEditUser}
-            toggleUserModal={() => setIsOpenModalEditUser(!isOpenModalEditUser)}
-            currentUser={userDataEdit}
-            editUser={doEditUser}
-          />
-        )}
-
-        <div className="text-center title">Manage Users</div>
-        <div className="mx-1">
-          <button
-            className="btn btn-primary"
-            onClick={() => setIsOpenModalUser(true)}
-          >
-            <i className="fa fa-plus-circle"></i> Add new user
-          </button>
-        </div>
         <div className="users-content">
           <div className="mt-3 table-user">
             <table className="table table-hover table-bordered">
@@ -184,4 +104,4 @@ const UserManage = () => {
   );
 };
 
-export default UserManage;
+export default TableManageUser;
