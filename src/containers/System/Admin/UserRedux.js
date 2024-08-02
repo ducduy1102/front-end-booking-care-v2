@@ -7,11 +7,13 @@ import {
   fetchGenderStart,
   fetchPositionStart,
   fetchRoleStart,
+  createNewUserStart,
 } from "../../../store/actions";
 import "../UserManage.scss";
 import "./UserRedux.scss";
 import "react-image-lightbox/style.css";
 import Lightbox from "react-image-lightbox";
+import _ from "lodash";
 
 const UserRedux = () => {
   const dispatch = useDispatch();
@@ -21,8 +23,9 @@ const UserRedux = () => {
   const roleRedux = useSelector((state) => state.admin.roles);
   const isLoading = useSelector((state) => state.admin.isLoading);
 
+  const createNewUSer = (data) => dispatch(createNewUserStart(data));
   const [isOpen, setIsOpen] = useState(false);
-  const [previewImagURL, setPreviewImagURL] = useState("");
+  const [previewImgURL, setPreviewImgURL] = useState("");
 
   // c2: call api trong redux rồi gọi ra
   useEffect(() => {
@@ -36,18 +39,115 @@ const UserRedux = () => {
   //   setGenderArr(genderRedux);
   // }, [genderRedux]);
 
+  const defaulUserData = {
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    phoneNumber: "",
+    gender: "",
+    positionId: "",
+    roleId: "",
+    avatar: "",
+  };
+
+  const defaultValidInputs = {
+    email: true,
+    password: true,
+    firstName: true,
+    lastName: true,
+    address: true,
+    phoneNumber: true,
+  };
+
+  const [validInputs, setValidInputs] = useState(defaultValidInputs);
+  const [userData, setUserData] = useState(defaulUserData);
+
+  useEffect(() => {
+    if (genderRedux && genderRedux.length > 0) {
+      setUserData((prevData) => ({
+        ...prevData,
+        gender: genderRedux[0].key,
+      }));
+    } else {
+      return;
+    }
+  }, [genderRedux]);
+
+  useEffect(() => {
+    if (roleRedux && roleRedux.length > 0) {
+      setUserData((prevData) => ({
+        ...prevData,
+        roleId: roleRedux[0].key,
+      }));
+    } else {
+      return;
+    }
+  }, [roleRedux]);
+
+  useEffect(() => {
+    if (positionRedux.length > 0) {
+      setUserData((prevData) => ({
+        ...prevData,
+        positionId: positionRedux[0].key,
+      }));
+    } else {
+      return;
+    }
+  }, [positionRedux]);
+
   const handleOnChangeImage = (e) => {
     let file = e.target.files[0];
-    // console.log("objecturrl", objectUrl);
     if (file) {
       let objectUrl = URL.createObjectURL(file);
-      setPreviewImagURL(objectUrl);
+      setPreviewImgURL(objectUrl);
+      setUserData({ ...userData, avatar: file });
     }
   };
 
   const openPreviewImage = () => {
-    if (!previewImagURL) return;
+    if (!previewImgURL) return;
     setIsOpen(true);
+  };
+
+  const handleOnChangeInput = (value, name) => {
+    let _userData = _.cloneDeep(userData);
+    _userData[name] = value;
+
+    setUserData(_userData);
+  };
+
+  const checkValidateInputs = () => {
+    let arrInput = [
+      "email",
+      "password",
+      "firstName",
+      "lastName",
+      "address",
+      "phoneNumber",
+    ];
+    let isValid = true;
+    for (let i = 0; i < arrInput.length; i++) {
+      if (!userData[arrInput[i]]) {
+        let _validInputs = _.cloneDeep(defaultValidInputs);
+        _validInputs[arrInput[i]] = false;
+        setValidInputs(_validInputs);
+        alert("Missing parameters: " + arrInput[i]);
+
+        isValid = false;
+        break;
+      }
+    }
+
+    return isValid;
+  };
+
+  const handleSaveUser = (event) => {
+    event.preventDefault();
+    let isValid = checkValidateInputs();
+    if (isValid === false) return;
+    createNewUSer(userData);
   };
 
   return (
@@ -75,6 +175,10 @@ const UserRedux = () => {
                     id="email"
                     name="email"
                     placeholder="Enter your email..."
+                    value={userData.email}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "email")
+                    }
                   />
                 </div>
                 <div className="col-md-3">
@@ -87,6 +191,10 @@ const UserRedux = () => {
                     id="password"
                     name="password"
                     placeholder="Enter your password..."
+                    value={userData.password}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "password")
+                    }
                   />
                 </div>
                 <div className="col-md-3">
@@ -99,6 +207,10 @@ const UserRedux = () => {
                     id="firstName"
                     name="firstName"
                     placeholder="Enter your first name..."
+                    value={userData.firstName}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "firstName")
+                    }
                   />
                 </div>
                 <div className="col-md-3">
@@ -111,6 +223,10 @@ const UserRedux = () => {
                     id="lastName"
                     name="lastName"
                     placeholder="Enter your last name..."
+                    value={userData.lastName}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "lastName")
+                    }
                   />
                 </div>
                 <div className="col-md-3">
@@ -123,6 +239,10 @@ const UserRedux = () => {
                     id="phoneNumber"
                     name="phoneNumber"
                     placeholder="Enter your phone number..."
+                    value={userData.phoneNumber}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "phoneNumber")
+                    }
                   />
                 </div>
                 <div className="col-md-9">
@@ -135,18 +255,30 @@ const UserRedux = () => {
                     id="address"
                     name="address"
                     placeholder="Enter your address..."
+                    value={userData.address}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "address")
+                    }
                   />
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="gender" className="form-label">
                     <FormattedMessage id="manage-user.gender" />
                   </label>
-                  <select id="gender" className="form-select" name="gender">
+                  <select
+                    id="gender"
+                    className="form-select"
+                    name="gender"
+                    value={userData.gender}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "gender")
+                    }
+                  >
                     {genderRedux &&
                       genderRedux.length > 0 &&
                       genderRedux.map((item, index) => {
                         return (
-                          <option key={`gender-${index}`}>
+                          <option key={`gender-${index}`} value={item.key}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -156,15 +288,23 @@ const UserRedux = () => {
                   </select>
                 </div>
                 <div className="col-md-3">
-                  <label htmlFor="position" className="form-label">
+                  <label htmlFor="positionId" className="form-label">
                     <FormattedMessage id="manage-user.position" />
                   </label>
-                  <select id="position" className="form-select" name="position">
+                  <select
+                    id="positionId"
+                    className="form-select"
+                    name="positionId"
+                    value={userData.positionId}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "positionId")
+                    }
+                  >
                     {positionRedux &&
                       positionRedux.length > 0 &&
                       positionRedux.map((item, index) => {
                         return (
-                          <option key={`position-${index}`}>
+                          <option key={`position-${index}`} value={item.key}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -177,12 +317,20 @@ const UserRedux = () => {
                   <label htmlFor="roleId" className="form-label">
                     <FormattedMessage id="manage-user.role" />
                   </label>
-                  <select id="roleId" className="form-select" name="roleId">
+                  <select
+                    id="roleId"
+                    className="form-select"
+                    name="roleId"
+                    value={userData.roleId}
+                    onChange={(e) =>
+                      handleOnChangeInput(e.target.value, "roleId")
+                    }
+                  >
                     {roleRedux &&
                       roleRedux.length > 0 &&
                       roleRedux.map((item, index) => {
                         return (
-                          <option key={`role-${index}`}>
+                          <option key={`role-${index}`} value={item.key}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -198,25 +346,30 @@ const UserRedux = () => {
                   <div className="preview-img-container">
                     <input
                       type="file"
-                      name=""
+                      name="preview-img"
                       id="preview-img"
                       onChange={(e) => handleOnChangeImage(e)}
                       hidden
                     />
                     <label className="label-upload" htmlFor="preview-img">
-                      Tải ảnh <i className="fas fa-cloud-upload-alt"></i>
+                      <FormattedMessage id="manage-user.upload-image" />{" "}
+                      <i className="fas fa-cloud-upload-alt"></i>
                     </label>
                     <div
                       className="preview-img"
                       style={{
-                        backgroundImage: `url(${previewImagURL})`,
+                        backgroundImage: `url(${previewImgURL})`,
                       }}
                       onClick={() => openPreviewImage()}
                     ></div>
                   </div>
                 </div>
                 <div className="col-12">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={(e) => handleSaveUser(e)}
+                  >
                     <FormattedMessage id="manage-user.save" />
                   </button>
                 </div>
@@ -227,7 +380,7 @@ const UserRedux = () => {
       )}
       {isOpen === true && (
         <Lightbox
-          mainSrc={previewImagURL}
+          mainSrc={previewImgURL}
           onCloseRequest={() => setIsOpen(false)}
         />
       )}
