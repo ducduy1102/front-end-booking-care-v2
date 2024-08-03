@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 // import { getAllCodeService } from "../../../services/userService";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, CRUD_ACTIONS } from "../../../utils";
 import {
   fetchGenderStart,
   fetchPositionStart,
   fetchRoleStart,
   createNewUserStart,
-  fetchAllUserStart,
+  editUserStart,
 } from "../../../store/actions";
 import "../UserManage.scss";
 import "./UserRedux.scss";
@@ -24,10 +24,13 @@ const UserRedux = () => {
   const positionRedux = useSelector((state) => state.admin.positions);
   const roleRedux = useSelector((state) => state.admin.roles);
   const isLoading = useSelector((state) => state.admin.isLoading);
+  const usersRedux = useSelector((state) => state.admin.users);
 
   const createNewUser = (data) => dispatch(createNewUserStart(data));
+  const editUserRedux = (data) => dispatch(editUserStart(data));
   const [isOpen, setIsOpen] = useState(false);
   const [previewImgURL, setPreviewImgURL] = useState("");
+  const [action, setAction] = useState("");
 
   // c2: call api trong redux rồi gọi ra
   useEffect(() => {
@@ -63,6 +66,12 @@ const UserRedux = () => {
     address: true,
     phoneNumber: true,
   };
+
+  useEffect(() => {
+    if (usersRedux) {
+      setAction(CRUD_ACTIONS.CREATE);
+    }
+  }, [usersRedux]);
 
   const [validInputs, setValidInputs] = useState(defaultValidInputs);
   const [userData, setUserData] = useState(defaulUserData);
@@ -150,8 +159,38 @@ const UserRedux = () => {
     event.preventDefault();
     let isValid = checkValidateInputs();
     if (isValid === false) return;
-    createNewUser(userData);
+    if (action === CRUD_ACTIONS.CREATE) {
+      createNewUser(userData);
+    }
+    if (action === CRUD_ACTIONS.EDIT) {
+      editUserRedux({
+        id: userData.id,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        address: userData.address,
+        phoneNumber: userData.phoneNumber,
+        gender: userData.gender,
+        roleId: userData.roleId,
+        positionId: userData.positionId,
+      });
+    }
     setUserData(defaulUserData);
+  };
+  const handleEditUserFromParent = (user) => {
+    // console.log("check handle Edit User From Parent", user);
+    setUserData({
+      email: user.email,
+      password: "HARDCODE",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      gender: user.gender,
+      roleId: user.roleId,
+      positionId: user.positionId,
+      id: user.id,
+    });
+    setAction(CRUD_ACTIONS.EDIT);
   };
 
   return (
@@ -183,6 +222,7 @@ const UserRedux = () => {
                     onChange={(e) =>
                       handleOnChangeInput(e.target.value, "email")
                     }
+                    disabled={action === CRUD_ACTIONS.EDIT ? true : false}
                   />
                 </div>
                 <div className="col-md-3">
@@ -199,6 +239,7 @@ const UserRedux = () => {
                     onChange={(e) =>
                       handleOnChangeInput(e.target.value, "password")
                     }
+                    disabled={action === CRUD_ACTIONS.EDIT ? true : false}
                   />
                 </div>
                 <div className="col-md-3">
@@ -371,10 +412,18 @@ const UserRedux = () => {
                 <div className="my-3 col-12">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className={
+                      action === CRUD_ACTIONS.EDIT
+                        ? "btn btn-warning"
+                        : "btn btn-primary"
+                    }
                     onClick={(e) => handleSaveUser(e)}
                   >
-                    <FormattedMessage id="manage-user.save" />
+                    {action === CRUD_ACTIONS.EDIT ? (
+                      <FormattedMessage id="manage-user.edit" />
+                    ) : (
+                      <FormattedMessage id="manage-user.save" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -388,7 +437,7 @@ const UserRedux = () => {
           onCloseRequest={() => setIsOpen(false)}
         />
       )}
-      <TableManageUser />
+      <TableManageUser handleEditUserFromParentKey={handleEditUserFromParent} />
     </div>
   );
 };

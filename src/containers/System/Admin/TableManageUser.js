@@ -5,7 +5,7 @@ import "./TableManageUser.scss";
 import { fetchAllUserStart, deleteUserStart } from "../../../store/actions";
 // import { emitter } from "../../utils/emitter";
 
-const TableManageUser = () => {
+const TableManageUser = (props) => {
   const dispatch = useDispatch();
   const [arrUsers, setArrUsers] = useState([]);
   // const [userDataEdit, setUserDataEdit] = useState({});
@@ -19,9 +19,10 @@ const TableManageUser = () => {
     setArrUsers(usersRedux);
   }, [usersRedux]);
 
-  const handleEditUser = () => {
+  const handleEditUser = (user) => {
     // setUserDataEdit(user);
-    console.log("edit user");
+    // console.log("edit user", user);
+    props.handleEditUserFromParentKey(user);
   };
 
   const handleDeleteUser = async (user) => {
@@ -58,7 +59,13 @@ const TableManageUser = () => {
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
                         <td>{item.address}</td>
-                        <td>{item.gender === 1 ? "Male" : "Female"}</td>
+                        <td>
+                          {item.gender === "M"
+                            ? "Male"
+                            : item.gender === "F"
+                            ? "Female"
+                            : "Other"}
+                        </td>
                         <td>{item.phoneNumber}</td>
                         <td>
                           {item.roleId === "R1"
