@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 // import { getAllCodeService } from "../../../services/userService";
-import { LANGUAGES, CRUD_ACTIONS } from "../../../utils";
+import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import {
   fetchGenderStart,
   fetchPositionStart,
@@ -70,6 +70,7 @@ const UserRedux = () => {
   useEffect(() => {
     if (usersRedux) {
       setAction(CRUD_ACTIONS.CREATE);
+      setPreviewImgURL("");
     }
   }, [usersRedux]);
 
@@ -109,12 +110,14 @@ const UserRedux = () => {
     }
   }, [positionRedux]);
 
-  const handleOnChangeImage = (e) => {
+  const handleOnChangeImage = async (e) => {
     let file = e.target.files[0];
     if (file) {
+      let base64 = await CommonUtils.getBase64(file);
+      // console.log("base64 file image: ", base64);
       let objectUrl = URL.createObjectURL(file);
       setPreviewImgURL(objectUrl);
-      setUserData({ ...userData, avatar: file });
+      setUserData({ ...userData, avatar: base64 });
     }
   };
 
@@ -172,11 +175,16 @@ const UserRedux = () => {
         gender: userData.gender,
         roleId: userData.roleId,
         positionId: userData.positionId,
+        avatar: userData.avatar,
       });
     }
     setUserData(defaulUserData);
   };
   const handleEditUserFromParent = (user) => {
+    let imageBase64 = "";
+    if (user.image) {
+      imageBase64 = new Buffer(user.image, "base64").toString("binary");
+    }
     // console.log("check handle Edit User From Parent", user);
     setUserData({
       email: user.email,
@@ -188,8 +196,10 @@ const UserRedux = () => {
       gender: user.gender,
       roleId: user.roleId,
       positionId: user.positionId,
+      avatar: "",
       id: user.id,
     });
+    setPreviewImgURL(imageBase64);
     setAction(CRUD_ACTIONS.EDIT);
   };
 
@@ -391,7 +401,7 @@ const UserRedux = () => {
                   <div className="preview-img-container">
                     <input
                       type="file"
-                      name="preview-img"
+                      name="avatar"
                       id="preview-img"
                       onChange={(e) => handleOnChangeImage(e)}
                       hidden
@@ -429,6 +439,9 @@ const UserRedux = () => {
               </div>
             </div>
           </div>
+          <TableManageUser
+            handleEditUserFromParentKey={handleEditUserFromParent}
+          />
         </div>
       )}
       {isOpen === true && (
@@ -437,7 +450,6 @@ const UserRedux = () => {
           onCloseRequest={() => setIsOpen(false)}
         />
       )}
-      <TableManageUser handleEditUserFromParentKey={handleEditUserFromParent} />
     </div>
   );
 };
