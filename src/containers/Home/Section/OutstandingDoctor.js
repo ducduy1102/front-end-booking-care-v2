@@ -5,6 +5,7 @@ import { fetchTopDoctor } from "../../../store/actions/adminActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { LANGUAGES } from "../../../utils";
+import { FormattedMessage } from "react-intl";
 
 const OutstandingDoctor = (props) => {
   const { settings } = props;
@@ -27,8 +28,12 @@ const OutstandingDoctor = (props) => {
       <div className="container">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Bác sĩ nổi bật tuần qua</span>
-            <button className="btn-section">Xem thêm</button>
+            <span className="title-section">
+              <FormattedMessage id="homepage.outstanding-doctor" />
+            </span>
+            <button className="btn-section">
+              <FormattedMessage id="homepage.more-info" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...settings}>
@@ -41,7 +46,7 @@ const OutstandingDoctor = (props) => {
                       "binary"
                     );
                   }
-                  let nameVi = `${item.positionData.valueVi}, ${item.firstName} ${item.lastName}`;
+                  let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                   let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
                   return (
                     <div className="section-custom" key={`top-doctor-${index}`}>
@@ -51,6 +56,7 @@ const OutstandingDoctor = (props) => {
                             className="bg-img section-outstanding-doctor"
                             style={{
                               backgroundImage: `url(${imageBase64})`,
+                              backgroundColor: "#45c3d2",
                             }}
                           ></div>
                         </div>
