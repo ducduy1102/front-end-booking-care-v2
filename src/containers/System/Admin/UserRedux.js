@@ -51,10 +51,10 @@ const UserRedux = () => {
     lastName: "",
     address: "",
     phoneNumber: "",
-    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].key : "",
+    gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].keyMap : "",
     positionId:
-      positionRedux && positionRedux.length > 0 ? positionRedux[0].key : "",
-    roleId: roleRedux && roleRedux.length > 0 ? roleRedux[0].key : "",
+      positionRedux && positionRedux.length > 0 ? positionRedux[0].keyMap : "",
+    roleId: roleRedux && roleRedux.length > 0 ? roleRedux[0].keyMap : "",
     avatar: "",
   };
 
@@ -81,7 +81,7 @@ const UserRedux = () => {
     if (genderRedux && genderRedux.length > 0) {
       setUserData((prevData) => ({
         ...prevData,
-        gender: genderRedux[0].key,
+        gender: genderRedux[0].keyMap,
       }));
     } else {
       return;
@@ -92,7 +92,7 @@ const UserRedux = () => {
     if (roleRedux && roleRedux.length > 0) {
       setUserData((prevData) => ({
         ...prevData,
-        roleId: roleRedux[0].key,
+        roleId: roleRedux[0].keyMap,
       }));
     } else {
       return;
@@ -103,7 +103,7 @@ const UserRedux = () => {
     if (positionRedux.length > 0) {
       setUserData((prevData) => ({
         ...prevData,
-        positionId: positionRedux[0].key,
+        positionId: positionRedux[0].keyMap,
       }));
     } else {
       return;
@@ -333,7 +333,7 @@ const UserRedux = () => {
                       genderRedux.length > 0 &&
                       genderRedux.map((item, index) => {
                         return (
-                          <option key={`gender-${index}`} value={item.key}>
+                          <option key={`gender-${index}`} value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -359,7 +359,7 @@ const UserRedux = () => {
                       positionRedux.length > 0 &&
                       positionRedux.map((item, index) => {
                         return (
-                          <option key={`position-${index}`} value={item.key}>
+                          <option key={`position-${index}`} value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -385,7 +385,7 @@ const UserRedux = () => {
                       roleRedux.length > 0 &&
                       roleRedux.map((item, index) => {
                         return (
-                          <option key={`role-${index}`} value={item.key}>
+                          <option key={`role-${index}`} value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}

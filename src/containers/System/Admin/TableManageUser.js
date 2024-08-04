@@ -75,12 +75,14 @@ const TableManageUser = (props) => {
                 {arrUsers && arrUsers.length > 0 ? (
                   arrUsers.map((item, index) => {
                     const gender = genderRedux.find(
-                      (g) => g.key === item.gender
+                      (g) => g.keyMap === item.gender
                     );
                     const position = positionRedux.find(
-                      (p) => p.key === item.positionId
+                      (p) => p.keyMap === item.positionId
                     );
-                    const role = roleRedux.find((r) => r.key === item.roleId);
+                    const role = roleRedux.find(
+                      (r) => r.keyMap === item.roleId
+                    );
 
                     const getValue = (obj) =>
                       obj
