@@ -22,6 +22,7 @@ import ConfirmModal from "../components/ConfirmModal";
 import "bootstrap/dist/css/bootstrap.css";
 import HomePage from "./Home/HomePage";
 import CustomScrollbars from "../components/CustomScrollbars";
+import DetailDoctor from "./Patient/Doctor/DetailDoctor";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -63,6 +64,7 @@ const App = (props) => {
                   component={userIsAuthenticated(System)}
                 />
                 <Route path={path.HOME_PAGE} component={HomePage} />
+                <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
               </Switch>
             </CustomScrollbars>
           </div>

@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { LANGUAGES } from "../../../utils";
 import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
 
 const OutstandingDoctor = (props) => {
+  const history = useHistory();
+
   const { settings } = props;
 
   const dispatch = useDispatch();
@@ -22,6 +25,11 @@ const OutstandingDoctor = (props) => {
   useEffect(() => {
     setArrDoctors(topDoctorsRedux);
   }, [topDoctorsRedux]);
+
+  const handleViewDetailDoctor = (doctor) => {
+    console.log("object", doctor);
+    history.push(`/detail-doctor/${doctor.id}`);
+  };
 
   return (
     <div className="section-share section-outstanding-doctor">
@@ -49,7 +57,11 @@ const OutstandingDoctor = (props) => {
                   let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
                   let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
                   return (
-                    <div className="section-custom" key={`top-doctor-${index}`}>
+                    <div
+                      className="section-custom"
+                      key={`top-doctor-${index}`}
+                      onClick={() => handleViewDetailDoctor(item)}
+                    >
                       <div className="custom-border">
                         <div className="outer-bg">
                           <div
