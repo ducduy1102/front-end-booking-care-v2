@@ -37,8 +37,11 @@ const Login = () => {
     }
   };
 
-  const btnLogin = useRef(null);
-  const lang = useSelector((state) => state.app.language);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" || event.keyCode === 13) {
+      handleUserLogin();
+    }
+  };
 
   return (
     <div className="login-background">
@@ -66,6 +69,7 @@ const Login = () => {
                 className="form-control"
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e)}
               />
               <span onClick={() => setIsShowPassword(!isShowPassword)}>
                 <i
