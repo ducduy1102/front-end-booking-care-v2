@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { FormattedMessage } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import "./ManageDoctor.scss";
 import { fetchAllDoctors, saveDetailDoctor } from "../../../store/actions";
-import { LANGUAGES } from "../../../utils";
+import { CRUD_ACTIONS, LANGUAGES } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import MdEditor from "react-markdown-editor-lite";
 // import style manually
 import "react-markdown-editor-lite/lib/index.css";
 import Select from "react-select";
+import { getDetailInforDoctorService } from "../../../services/userService";
 
 // Register plugins if required
 // MdEditor.use(YOUR_PLUGINS_HERE);
@@ -27,41 +28,46 @@ const ManageDoctor = (props) => {
     contentMarkdown: "",
     contentHTML: "",
     description: "",
-    // listDoctor: [],
-    // selectedDoctor: selectedDoctor,
+    listDoctor: [],
+    // selectedDoctor: null,
   };
   const [valueDoctor, setValueDoctor] = useState(defaultInforDoctor);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [hasOldData, sethasOldData] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllDoctors());
   }, [dispatch]);
 
-  const buildDataInputSelect = (inputData) => {
-    let result = [];
-    if (inputData && inputData.length > 0) {
-      inputData.forEach((item, index) => {
-        let object = {};
-        let labelVi = `${item.lastName} ${item.firstName}`;
-        let labelEn = `${item.firstName} ${item.lastName}`;
+  const buildDataInputSelect = useCallback(
+    (inputData) => {
+      let result = [];
+      if (inputData && inputData.length > 0) {
+        inputData.forEach((item) => {
+          let object = {};
+          let labelVi = `${item.lastName} ${item.firstName}`;
+          let labelEn = `${item.firstName} ${item.lastName}`;
 
-        object.label = language === LANGUAGES.VI ? labelVi : labelEn;
-        object.value = item.id;
-        result.push(object);
-      });
-    }
-    // console.log("inputdata", inputData);
-    return result;
-  };
+          object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+          object.value = item.id;
+          result.push(object);
+        });
+      }
+      return result;
+    },
+    [language]
+  );
 
   useEffect(() => {
-    let dataSelect = buildDataInputSelect(allDoctorsRedux);
-    setValueDoctor({
-      ...valueDoctor,
-      listDoctor: dataSelect,
-      selectedDoctor: selectedDoctor,
-    });
-  }, [allDoctorsRedux, language, selectedDoctor]);
+    if (allDoctorsRedux || language) {
+      const dataSelect = buildDataInputSelect(allDoctorsRedux);
+      setValueDoctor({
+        ...valueDoctor,
+        listDoctor: dataSelect,
+        selectedDoctor: selectedDoctor,
+      });
+    }
+  }, [allDoctorsRedux, language, selectedDoctor, buildDataInputSelect]);
 
   const handleOnChangeDesc = (event) => {
     setValueDoctor({
@@ -79,13 +85,38 @@ const ManageDoctor = (props) => {
   };
 
   const handleSaveContentMarkdown = () => {
-    // console.log("check state", this.state);
     saveDetailDoctorRedux({
       contentHTML: valueDoctor.contentHTML,
       contentMarkdown: valueDoctor.contentMarkdown,
       description: valueDoctor.description,
       doctorId: valueDoctor.selectedDoctor.value,
+      action: hasOldData ? CRUD_ACTIONS.EDIT : CRUD_ACTIONS.CREATE,
     });
+  };
+
+  const handleChangeSelected = async (selectedDoctor) => {
+    setSelectedDoctor(selectedDoctor);
+    const dataSelect = buildDataInputSelect(allDoctorsRedux);
+    let res = await getDetailInforDoctorService(selectedDoctor.value);
+    // console.log(`Option selected:`, res);
+    if (res && res.errCode === 0 && res?.data?.Markdown) {
+      let markdown = res.data.Markdown;
+      setValueDoctor({
+        contentHTML: markdown.contentHTML,
+        contentMarkdown: markdown.contentMarkdown,
+        description: markdown.description,
+        selectedDoctor: selectedDoctor,
+        listDoctor: dataSelect,
+      });
+      sethasOldData(true);
+    } else {
+      setValueDoctor({
+        ...defaultInforDoctor,
+        listDoctor: dataSelect,
+        selectedDoctor: selectedDoctor,
+      });
+      sethasOldData(false);
+    }
   };
 
   return (
@@ -97,7 +128,7 @@ const ManageDoctor = (props) => {
             <label htmlFor="doctor">Chọn bác sĩ</label>
             <Select
               defaultValue={selectedDoctor}
-              onChange={setSelectedDoctor}
+              onChange={handleChangeSelected}
               options={valueDoctor.listDoctor}
             />
           </div>
@@ -118,13 +149,16 @@ const ManageDoctor = (props) => {
             style={{ height: "500px" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={handleEditorChange}
+            value={valueDoctor.contentMarkdown}
           />
         </div>
         <button
-          className="save-content-doctor"
+          className={
+            hasOldData ? "save-content-doctor" : "create-content-doctor"
+          }
           onClick={() => handleSaveContentMarkdown()}
         >
-          Lưu thông tin
+          {hasOldData ? <span>Lưu thông tin</span> : <span>Tạo thông tin</span>}
         </button>
       </div>
     </div>
