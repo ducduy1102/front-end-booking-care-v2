@@ -128,7 +128,6 @@ const Header = (props) => {
     let menu = [];
     if (userInfo && !_.isEmpty(userInfo)) {
       const role = userInfo.roleId;
-      console.log("role", role);
       if (role === USER_ROLE.ADMIN) {
         menu = adminMenu;
       }
@@ -137,7 +136,6 @@ const Header = (props) => {
       }
     }
     setMenuApp(menu);
-    console.log("userInfo", props.userInfo);
   };
 
   useEffect(() => {

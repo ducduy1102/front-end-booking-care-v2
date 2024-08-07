@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./ManageSchedule.scss";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import { fetchAllDoctors, fetchAllScheduleTime } from "../../../store/actions";
-import { LANGUAGES } from "../../../utils";
+import { dateFormat, LANGUAGES } from "../../../utils";
 import { DatePicker } from "../../../components/Input";
 import moment from "moment";
+import { toast } from "react-toastify";
+import _ from "lodash";
 
 const ManageSchedule = () => {
   const dispatch = useDispatch();
@@ -18,11 +21,9 @@ const ManageSchedule = () => {
   );
 
   const [listDoctor, setListDoctor] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState({});
   const [currentDate, setCurrentDate] = useState("");
   const [rangeTime, setRangeTime] = useState([]);
-
-  console.log("scheduleTime", allScheduleTimeRedux);
 
   useEffect(() => {
     dispatch(fetchAllDoctors());
@@ -48,24 +49,101 @@ const ManageSchedule = () => {
     [language]
   );
 
+  // useEffect(() => {
+  //   if (allDoctorsRedux !== listDoctor) {
+  //     let dataSelect = buildDataInputSelect(allDoctorsRedux);
+  //     setListDoctor(dataSelect);
+  //   }
+  //   if (language !== listDoctor) {
+  //     let dataSelect = buildDataInputSelect(allDoctorsRedux);
+  //     setListDoctor(dataSelect);
+  //   }
+  //   if (allScheduleTimeRedux !== rangeTime) {
+  //     let data = allScheduleTimeRedux;
+  //     console.log("check range time", data);
+  //     if (data && data.length > 0) {
+  //       data = data.map((item) => ({ ...item, isSelected: false }));
+  //     }
+  //     console.log("check data after", data);
+  //     setRangeTime(data);
+  //   }
+  // }, [allDoctorsRedux, allScheduleTimeRedux, language, buildDataInputSelect]);
+
   useEffect(() => {
-    if (allDoctorsRedux || language || allScheduleTimeRedux) {
-      const dataSelect = buildDataInputSelect(allDoctorsRedux);
+    if (allDoctorsRedux !== listDoctor) {
+      let dataSelect = buildDataInputSelect(allDoctorsRedux);
       setListDoctor(dataSelect);
-      setRangeTime(allScheduleTimeRedux);
     }
-  }, [allDoctorsRedux, allScheduleTimeRedux, language, buildDataInputSelect]);
+  }, [allDoctorsRedux, buildDataInputSelect]);
+
+  useEffect(() => {
+    if (language !== listDoctor) {
+      let dataSelect = buildDataInputSelect(allDoctorsRedux);
+      setListDoctor(dataSelect);
+    }
+  }, [language, buildDataInputSelect]);
+
+  useEffect(() => {
+    if (allScheduleTimeRedux !== rangeTime) {
+      let data = allScheduleTimeRedux;
+      console.log("check range time", data);
+      if (data && data.length > 0) {
+        data = data.map((item) => ({ ...item, isSelected: false }));
+      }
+      console.log("check data after", data);
+      setRangeTime(data);
+    }
+  }, [allScheduleTimeRedux]);
 
   const handleChangeSelected = async (selectedDoctor) => {
     setSelectedDoctor(selectedDoctor);
     const dataSelect = buildDataInputSelect(allDoctorsRedux);
     setListDoctor(dataSelect);
-    // console.log("doctor", selectedDoctor);
   };
 
   const handleOnChangeDatePicker = (date) => {
     setCurrentDate(date[0]);
-    // console.log("date value", date);
+  };
+
+  const handleClickBtnTime = (time) => {
+    if (rangeTime && rangeTime.length > 0) {
+      const updateRangetime = rangeTime.map((item) => {
+        if (item.id === time.id) item.isSelected = !item.isSelected;
+        return item;
+      });
+      setRangeTime(updateRangetime);
+    }
+  };
+
+  const handleSaveSchedule = () => {
+    let result = [];
+    if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+      toast.error("Please select doctor");
+      return;
+    }
+    if (!currentDate) {
+      toast.error("Invalid date");
+      return;
+    }
+    let formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
+    if (rangeTime && rangeTime.length > 0) {
+      let selectedTime = rangeTime.filter((item) => item.isSelected);
+
+      if (selectedTime && selectedTime.length > 0) {
+        selectedTime.map((schedule) => {
+          let object = {};
+          object.doctorId = selectedDoctor.value;
+          object.date = formattedDate;
+          object.time = schedule.keyMap;
+          result.push(object);
+          return result;
+        });
+      } else {
+        toast.error("Invalid selected time!");
+        return;
+      }
+    }
+    console.log("result", result);
   };
 
   return (
@@ -102,13 +180,24 @@ const ManageSchedule = () => {
             rangeTime.length > 0 &&
             rangeTime.map((item, index) => {
               return (
-                <button key={`time-${index}`} className="btn btn-schedule">
+                <button
+                  key={`time-${index}`}
+                  className={
+                    item.isSelected
+                      ? "btn btn-schedule active"
+                      : "btn btn-schedule"
+                  }
+                  onClick={() => handleClickBtnTime(item)}
+                >
                   {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
                 </button>
               );
             })}
         </div>
-        <button className="btn btn-primary">
+        <button
+          className="btn btn-primary"
+          onClick={() => handleSaveSchedule()}
+        >
           <FormattedMessage id="manage-schedule.save" />
         </button>
       </div>
