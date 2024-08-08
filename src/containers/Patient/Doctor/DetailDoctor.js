@@ -4,8 +4,8 @@ import HomeHeader from "../../Home/HomeHeader";
 import "./DetailDoctor.scss";
 import { getDetailInforDoctorService } from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import DoctorSchedule from "./DoctorSchedule";
 
 const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
@@ -60,7 +60,14 @@ const DetailDoctor = (props) => {
             </div>
           </div>
         </div>
-        <div className="schedule-doctor"></div>
+        <div className="container schedule-doctor">
+          <div className="content-left">
+            <DoctorSchedule
+              doctorIdFromParent={detailDoctor?.id ? detailDoctor.id : -1}
+            />
+          </div>
+          <div className="content-right"></div>
+        </div>
         <div className="detail-info-doctor">
           {detailDoctor?.Markdown?.contentHTML && (
             <div
