@@ -29,7 +29,7 @@ const ManageSchedule = () => {
   useEffect(() => {
     dispatch(fetchAllDoctors());
     dispatch(fetchAllScheduleTime());
-  }, [dispatch]);
+  }, []);
 
   const buildDataInputSelect = useCallback(
     (inputData) => {

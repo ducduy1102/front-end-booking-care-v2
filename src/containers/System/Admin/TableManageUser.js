@@ -31,7 +31,7 @@ const TableManageUser = (props) => {
 
   useEffect(() => {
     dispatch(fetchAllUserStart());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     setArrUsers(usersRedux);

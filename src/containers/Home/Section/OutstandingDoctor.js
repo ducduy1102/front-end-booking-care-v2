@@ -20,7 +20,7 @@ const OutstandingDoctor = (props) => {
 
   useEffect(() => {
     dispatch(fetchTopDoctor());
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     setArrDoctors(topDoctorsRedux);

@@ -37,7 +37,7 @@ const UserRedux = () => {
     dispatch(fetchGenderStart());
     dispatch(fetchPositionStart());
     dispatch(fetchRoleStart());
-  }, [dispatch]);
+  }, []);
 
   // const [genderArr, setGenderArr] = useState([]);
   // useEffect(() => {
