@@ -152,6 +152,12 @@ const ManageSchedule = () => {
       doctorId: selectedDoctor.value,
       formattedDate: formattedDate,
     });
+
+    if (res && res.errCode === 0) {
+      toast.success("Save info successfully!");
+    } else {
+      toast.error(res.message);
+    }
     console.log("res", res);
     // console.log("result", result);
   };
@@ -181,7 +187,7 @@ const ManageSchedule = () => {
               onChange={handleOnChangeDatePicker}
               className="form-control date-picker"
               value={currentDate[0]}
-              minDate={new Date()}
+              minDate={new Date().setHours(0, 0, 0, 0)}
             />
           </div>
         </div>

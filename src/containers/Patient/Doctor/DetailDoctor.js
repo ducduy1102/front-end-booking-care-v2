@@ -11,6 +11,7 @@ const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
 
   const [detailDoctor, setDetailDoctor] = useState({});
+  const [currentDoctorId, setCurrentDoctorId] = useState(-1);
   console.log(props.match.params.id);
 
   let nameVi = "";
@@ -23,11 +24,11 @@ const DetailDoctor = (props) => {
   const getDetailInforDoctor = async () => {
     if (props.match?.params?.id) {
       let id = props.match.params.id;
+      setCurrentDoctorId(id);
       let res = await getDetailInforDoctorService(id);
       if (res && res.errCode === 0) {
         setDetailDoctor(res.data);
       }
-      // console.log(detailDoctor);
     }
   };
 
@@ -62,9 +63,7 @@ const DetailDoctor = (props) => {
         </div>
         <div className="container schedule-doctor">
           <div className="content-left">
-            <DoctorSchedule
-              doctorIdFromParent={detailDoctor?.id ? detailDoctor.id : -1}
-            />
+            <DoctorSchedule doctorIdFromParent={currentDoctorId} />
           </div>
           <div className="content-right"></div>
         </div>
