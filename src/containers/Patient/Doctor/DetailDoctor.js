@@ -6,6 +6,7 @@ import { getDetailInforDoctorService } from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
 import { useEffect, useState } from "react";
 import DoctorSchedule from "./DoctorSchedule";
+import DoctorExtraInfor from "./DoctorExtraInfor";
 
 const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
@@ -65,7 +66,9 @@ const DetailDoctor = (props) => {
           <div className="content-left">
             <DoctorSchedule doctorIdFromParent={currentDoctorId} />
           </div>
-          <div className="content-right"></div>
+          <div className="content-right">
+            <DoctorExtraInfor doctorIdFromParent={currentDoctorId} />
+          </div>
         </div>
         <div className="detail-info-doctor">
           {detailDoctor?.Markdown?.contentHTML && (
