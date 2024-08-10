@@ -13,7 +13,6 @@ const DetailDoctor = (props) => {
 
   const [detailDoctor, setDetailDoctor] = useState({});
   const [currentDoctorId, setCurrentDoctorId] = useState(-1);
-  console.log(props.match.params.id);
 
   let nameVi = "";
   let nameEn = "";
