@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import "./DoctorExtraInfor.scss";
 import { getExtraInforDoctorByIdService } from "../../../services/userService";
-import NumberFormat, { NumericFormat } from "react-number-format";
+import NumberFormat from "react-number-format";
 
 const DoctorExtraInfor = (props) => {
   const language = useSelector((state) => state.app.language);

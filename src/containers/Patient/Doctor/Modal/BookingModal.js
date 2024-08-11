@@ -5,9 +5,16 @@ import { LANGUAGES } from "../../../../utils";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import "./BookingModal.scss";
+import ProfileDoctor from "../ProfileDoctor";
+import _ from "lodash";
 
 const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
   const language = useSelector((state) => state.app.language);
+
+  let doctorId = "";
+  if (dataTime && !_.isEmpty(dataTime)) {
+    doctorId = dataTime.doctorId;
+  }
 
   useEffect(() => {
     // Logic when language changes if needed
@@ -29,8 +36,9 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
         </div>
         <div className="booking-modal-body">
           {/* {JSON.stringify(dataTime)} */}
-          <div className="doctor-infor"></div>
-          <div className="price">Giá khám 500000VND</div>
+          <div className="doctor-infor">
+            <ProfileDoctor doctorId={doctorId} />
+          </div>
           <div className="row g-3">
             <div className="col-6">
               <label className="form-label" htmlFor="">
