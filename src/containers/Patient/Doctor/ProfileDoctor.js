@@ -6,8 +6,11 @@ import { FormattedMessage } from "react-intl";
 import "./ProfileDoctor.scss";
 import { getProfileDoctorByIdService } from "../../../services/userService";
 import NumberFormat from "react-number-format";
+import _ from "lodash";
+import moment from "moment";
+import { CommonUtils } from "../../../utils";
 
-const ProfileDoctor = (props) => {
+const ProfileDoctor = ({ doctorId, isShowDescriptionDoctor, dataTime }) => {
   const language = useSelector((state) => state.app.language);
 
   const [dataProfile, setDataProfile] = useState({});
@@ -18,7 +21,7 @@ const ProfileDoctor = (props) => {
 
   useEffect(() => {
     const fetchDataDoctor = async () => {
-      let data = await getDoctorId(props.doctorId);
+      let data = await getDoctorId(doctorId);
       setDataProfile(data);
     };
     fetchDataDoctor();
@@ -41,6 +44,32 @@ const ProfileDoctor = (props) => {
     nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.firstName} ${dataProfile.lastName}`;
   }
 
+  const renderBookingModal = (dataTime) => {
+    if (dataTime && !_.isEmpty(dataTime)) {
+      let time =
+        language === LANGUAGES.VI
+          ? dataTime.timeTypeData.valueVi
+          : dataTime.timeTypeData.valueEn;
+      let date =
+        language === LANGUAGES.VI
+          ? moment.unix(+dataTime.date / 1000).format("dddd - DD/MM/YYYY")
+          : moment
+              .unix(+dataTime.date / 1000)
+              .locale("en")
+              .format("ddd - MM/DD/YYYY");
+      date = CommonUtils.capitalizeFirstLetter(date);
+      return (
+        <>
+          <div className="">
+            {time} &nbsp; {date}
+          </div>
+          <div className="">Miễn phí đặt lịch</div>
+        </>
+      );
+    }
+    return <></>;
+  };
+
   // console.log("dataProfile", dataProfile);
 
   return (
@@ -59,8 +88,14 @@ const ProfileDoctor = (props) => {
             {language === LANGUAGES.VI ? nameVi : nameEn}
           </div>
           <div className="content-right-desc">
-            {dataProfile?.Markdown?.description && (
-              <span>{dataProfile.Markdown.description}</span>
+            {isShowDescriptionDoctor ? (
+              <>
+                {dataProfile?.Markdown?.description && (
+                  <span>{dataProfile.Markdown.description}</span>
+                )}
+              </>
+            ) : (
+              <>{renderBookingModal(dataTime)}</>
             )}
           </div>
         </div>
