@@ -37,8 +37,6 @@ const DoctorExtraInfor = (props) => {
     fetchData();
   }, [props.doctorIdFromParent]);
 
-  console.log("extrainfo", extraInfor);
-
   return (
     <div className="doctor-extra-infor-container">
       <div className="content-up">

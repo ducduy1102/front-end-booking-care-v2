@@ -63,7 +63,9 @@ const ProfileDoctor = ({ doctorId, isShowDescriptionDoctor, dataTime }) => {
           <div className="">
             {time} &nbsp; {date}
           </div>
-          <div className="">Miễn phí đặt lịch</div>
+          <div className="">
+            <FormattedMessage id="patient.booking-modal.priceBooking" />
+          </div>
         </>
       );
     }
@@ -101,7 +103,7 @@ const ProfileDoctor = ({ doctorId, isShowDescriptionDoctor, dataTime }) => {
         </div>
       </div>
       <div className="price">
-        <FormattedMessage id="patient.extra-infor-doctor.price" />:{" "}
+        <FormattedMessage id="patient.booking-modal.price" />:{" "}
         {dataProfile?.Doctor_Infor && language === LANGUAGES.VI && (
           <NumberFormat
             className="currency"
