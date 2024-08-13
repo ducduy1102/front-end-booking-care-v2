@@ -83,7 +83,6 @@ const DoctorSchedule = (props) => {
   const handleScheduleTime = (time) => {
     setIsOpenModalBooking(true);
     setDataScheduleTimeModal(time);
-    console.log(time);
   };
 
   return (

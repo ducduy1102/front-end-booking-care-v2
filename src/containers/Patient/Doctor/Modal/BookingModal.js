@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { LANGUAGES } from "../../../../utils";
+import { CommonUtils, LANGUAGES } from "../../../../utils";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { FormattedMessage } from "react-intl";
@@ -13,6 +13,7 @@ import { fetchGenderStart } from "../../../../store/actions";
 import Select from "react-select";
 import { postPatientBookAppointment } from "../../../../services/userService";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
   const dispatch = useDispatch();
@@ -96,21 +97,57 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
     setSelectedGender(selectedOptions);
     // setValueBooking({ ...valueBooking, gender: selectedOptions });
   };
+  // console.log("valueBooking", valueBooking);
+
+  const buildTimeBooking = (dataTime) => {
+    if (dataTime && !_.isEmpty(dataTime)) {
+      let time =
+        language === LANGUAGES.VI
+          ? dataTime.timeTypeData.valueVi
+          : dataTime.timeTypeData.valueEn;
+      let date =
+        language === LANGUAGES.VI
+          ? moment.unix(+dataTime.date / 1000).format("dddd - DD/MM/YYYY")
+          : moment
+              .unix(+dataTime.date / 1000)
+              .locale("en")
+              .format("ddd - MM/DD/YYYY");
+      date = CommonUtils.capitalizeFirstLetter(date);
+      return `${time} &nbsp; ${date}`;
+    }
+    return "";
+  };
+
+  const buildDoctorName = (dataTime) => {
+    if (dataTime && !_.isEmpty(dataTime)) {
+      let name =
+        language === LANGUAGES.VI
+          ? `${dataTime.doctorData.lastName} ${dataTime.doctorData.firstName}`
+          : `${dataTime.doctorData.firstName} ${dataTime.doctorData.lastName}`;
+
+      return `${name}`;
+    }
+    return "";
+  };
 
   const handleConfirmBooking = async () => {
     // validate input
     let date = new Date(valueBooking.birthday).getTime();
-    console.log("date", date);
+    let timeString = buildTimeBooking(dataTime);
+    let doctorName = buildDoctorName(dataTime);
     let res = await postPatientBookAppointment({
       fullname: valueBooking.fullname,
       phoneNumber: valueBooking.phoneNumber,
       email: valueBooking.email,
       address: valueBooking.address,
       reason: valueBooking.reason,
-      date: valueBooking.birthday,
+      date: date,
       gender: valueBooking.gender.value,
       doctorId: valueBooking.doctorId,
       timeType: valueBooking.timeType,
+      language: language,
+      timeString: timeString,
+      doctorName: doctorName,
     });
 
     if (res && res.errCode === 0) {
@@ -120,7 +157,6 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
       toast.error(res.message);
     }
   };
-  // console.log("valueBooking", valueBooking);
 
   return (
     <Modal
@@ -131,7 +167,9 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
     >
       <div className="booking-modal-content">
         <div className="booking-modal-header">
-          <span className="header-title">Thông tin đặt lịch khám bệnh</span>
+          <span className="header-title">
+            <FormattedMessage id="patient.booking-modal.title" />
+          </span>
           <span className="header-close" onClick={closeBookingModal}>
             <i className="fas fa-times"></i>
           </span>
@@ -147,7 +185,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
           <div className="row g-3">
             <div className="col-6">
               <label className="form-label" htmlFor="fullname">
-                Họ tên
+                <FormattedMessage id="patient.booking-modal.fullname" />
               </label>
               <input
                 type="text"
@@ -159,7 +197,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="col-6">
               <label className="form-label" htmlFor="phoneNumber">
-                Số điện thoại
+                <FormattedMessage id="patient.booking-modal.phoneNumber" />
               </label>
               <input
                 type="text"
@@ -171,7 +209,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="col-6">
               <label className="form-label" htmlFor="">
-                Email
+                <FormattedMessage id="patient.booking-modal.email" />
               </label>
               <input
                 type="email"
@@ -183,7 +221,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="col-6">
               <label className="form-label" htmlFor="">
-                Địa chỉ liên hệ
+                <FormattedMessage id="patient.booking-modal.address" />
               </label>
               <input
                 type="text"
@@ -195,7 +233,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="">
               <label className="form-label" htmlFor="">
-                Lý do khám
+                <FormattedMessage id="patient.booking-modal.reason" />
               </label>
               <input
                 type="text"
@@ -207,7 +245,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="col-6">
               <label className="form-label" htmlFor="">
-                Ngày sinh
+                <FormattedMessage id="patient.booking-modal.birthday" />
               </label>
               <DatePicker
                 onChange={handleOnChangeDatePicker}
@@ -217,7 +255,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             </div>
             <div className="col-6">
               <label className="form-label" htmlFor="">
-                Giới tính
+                <FormattedMessage id="patient.booking-modal.gender" />
               </label>
               <Select
                 placeholder={
@@ -236,10 +274,10 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
             className="btn-booking-confirm"
             onClick={() => handleConfirmBooking()}
           >
-            Xác nhận
+            <FormattedMessage id="patient.booking-modal.btnConfirm" />
           </button>
           <button className="btn-booking-cancel" onClick={closeBookingModal}>
-            Hủy
+            <FormattedMessage id="patient.booking-modal.btnCancel" />
           </button>
         </div>
       </div>
