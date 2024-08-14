@@ -174,6 +174,9 @@ const ManageSchedule = () => {
               <FormattedMessage id="manage-schedule.choose-doctor" />
             </label>
             <Select
+              placeholder={
+                <FormattedMessage id="manage-schedule.selectDoctor" />
+              }
               defaultValue={selectedDoctor}
               onChange={handleChangeSelected}
               options={listDoctor}

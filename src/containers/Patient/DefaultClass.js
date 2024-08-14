@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES } from "../../utils";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 

@@ -20,6 +20,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import HomePage from "./Home/HomePage";
 import CustomScrollbars from "../components/CustomScrollbars";
 import DetailDoctor from "./Patient/Doctor/DetailDoctor";
+import VerifyEmail from "./Patient/VerifyEmail";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -67,6 +68,10 @@ const App = (props) => {
 
                 <Route path={path.HOME_PAGE} component={HomePage} />
                 <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
+                <Route
+                  path={path.VERIFY_EMAIL_BOOKING}
+                  component={VerifyEmail}
+                />
               </Switch>
             </CustomScrollbars>
           </div>

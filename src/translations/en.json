@@ -45,7 +45,8 @@
       "manage-handbook": "Manage Handbook"
     },
     "doctor": {
-      "manage-schedule": "Manage Doctor's schedule"
+      "manage-schedule": "Manage Doctor's schedule",
+      "selectDoctor": "------Select------"
     }
   },
 
@@ -107,6 +108,11 @@
       "btnCancel": "Cancel",
       "priceBooking": "Free appointment!",
       "price": "Price"
+    },
+
+    "verify-email": {
+      "success": "Appointment confirmed successfully!",
+      "failed": "Appointment schedule does not exist or has been confirmed!"
     }
   },
 
