@@ -251,6 +251,10 @@ const ManageDoctor = (props) => {
       });
       setValueInforDoctor({
         ...defaultInforDoctor,
+        selectedPrice: "",
+        selectedPayment: "",
+        selectedProvince: "",
+        selectedSpecialty: "",
       });
       sethasOldData(false);
     }
