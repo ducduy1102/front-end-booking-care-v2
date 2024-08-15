@@ -1,46 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
+import { getAllSpecialtyService } from "../../../services/userService";
+import "./Specialty.scss";
 
 const Specialty = (props) => {
   const { settings } = props;
+  const [dataSpecialty, setDataSpecialty] = useState([]);
+
+  useEffect(() => {
+    fetchAllSpecialty();
+  }, []);
+  const fetchAllSpecialty = async () => {
+    let res = await getAllSpecialtyService();
+    if (res && res.errCode === 0) {
+      setDataSpecialty(res.data ? res.data : []);
+    }
+  };
+
+  console.log("data", dataSpecialty);
 
   return (
     <div className="section-share section-specialty">
       <div className="container">
         <div className="section-container">
           <div className="section-header">
-            <span className="title-section">Chuyên khoa phổ biến</span>
-            <button className="btn-section">Xem thêm</button>
+            <span className="title-section">
+              <FormattedMessage id="homepage.specialty-popular" />
+            </span>
+            <button className="btn-section">
+              <FormattedMessage id="homepage.more-infor" />
+            </button>
           </div>
           <div className="section-body">
             <Slider {...settings}>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
-              <div className="section-custom">
-                <div className="bg-img section-specialty"></div>
-                <div className="section-title">Cơ xương khớp</div>
-              </div>
+              {dataSpecialty &&
+                dataSpecialty.length > 0 &&
+                dataSpecialty.map((item, index) => {
+                  return (
+                    <div
+                      className="section-custom specialty-child"
+                      key={`specialty-${index}`}
+                    >
+                      <div
+                        className="bg-img section-specialty"
+                        style={{ backgroundImage: `url(${item.image})` }}
+                      ></div>
+                      <div className="section-title specialty-name">
+                        {item.name}
+                      </div>
+                    </div>
+                  );
+                })}
             </Slider>
           </div>
         </div>

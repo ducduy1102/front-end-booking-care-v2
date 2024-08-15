@@ -62,6 +62,7 @@ const ManageSpecialty = () => {
     let res = await createNewSpecialtyService(valueSpecialty);
     if (res && res.errCode === 0) {
       toast.success(res.message);
+      setValueSpecialty(defaultValueSpecialty);
     } else {
       toast.error(res.message);
     }
@@ -69,11 +70,13 @@ const ManageSpecialty = () => {
 
   return (
     <div className="container manage-specialty-container">
-      <div className="manage-specialty-title">Manage Specialty</div>
+      <div className="manage-specialty-title">
+        <FormattedMessage id="manage-specialty.title" />
+      </div>
       <div className="add-new-specialty row g-3">
         <div className="col-6">
           <label htmlFor="name" className="form-label">
-            Tên chuyên khoa
+            <FormattedMessage id="manage-specialty.name" />
           </label>
           <input
             type="text"
@@ -85,7 +88,7 @@ const ManageSpecialty = () => {
         </div>
         <div className="col-6">
           <label htmlFor="" className="form-label">
-            Tên chuyên khoa
+            <FormattedMessage id="manage-specialty.image" />
           </label>
           <input
             type="file"
@@ -106,7 +109,7 @@ const ManageSpecialty = () => {
             className="btn-save-specialty"
             onClick={() => handleSaveNewSpecialty()}
           >
-            Save
+            <FormattedMessage id="manage-specialty.btn-save" />
           </button>
         </div>
       </div>

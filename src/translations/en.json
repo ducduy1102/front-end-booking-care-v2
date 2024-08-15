@@ -70,7 +70,8 @@
 
   "homepage": {
     "outstanding-doctor": "Doctor featured last week",
-    "more-info": "See more"
+    "more-infor": "See more",
+    "specialty-popular": "Popular specialties"
   },
 
   "manage-schedule": {
@@ -130,5 +131,12 @@
       "address-clinic": "Clinic's address",
       "note": "Note"
     }
+  },
+
+  "manage-specialty": {
+    "title": "Manage Specialty",
+    "name": "Name of specialty",
+    "image": "Image",
+    "btn-save": "Save"
   }
 }
