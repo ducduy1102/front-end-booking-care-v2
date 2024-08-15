@@ -14,6 +14,7 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import Select from "react-select";
 import { getDetailInforDoctorService } from "../../../services/userService";
+import _ from "lodash";
 
 const ManageDoctor = (props) => {
   // Initialize a markdown parser
@@ -47,10 +48,15 @@ const ManageDoctor = (props) => {
   const [listPrices, setListPrices] = useState([]);
   const [listPayments, setListPayments] = useState([]);
   const [listProvinces, setListProvinces] = useState([]);
+  const [listClinics, setListClinics] = useState([]);
+  const [listSpecialties, setListSpecialties] = useState([]);
+
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedPayment, setSelectedPayment] = useState("");
   const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedClinic, setSelectedClinic] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
 
   const [hasOldData, sethasOldData] = useState(false);
 
@@ -100,6 +106,14 @@ const ManageDoctor = (props) => {
             result.push(object);
           });
         }
+        if (type === "SPECIALTY") {
+          inputData.forEach((item, index) => {
+            let object = {};
+            object.label = item.name;
+            object.value = item.id;
+            result.push(object);
+          });
+        }
       }
       return result;
     },
@@ -120,19 +134,24 @@ const ManageDoctor = (props) => {
 
   useEffect(() => {
     if (allRequiredDoctorInforRedux || language) {
-      let { resPayment, resPrice, resProvince } = allRequiredDoctorInforRedux;
+      let { resPayment, resPrice, resProvince, resSpecialty } =
+        allRequiredDoctorInforRedux;
       let dataSelectPrice = buildDataInputSelect(resPrice, "PRICE");
       let dataSelectPayment = buildDataInputSelect(resPayment, "PAYMENT");
       let dataSelectProvince = buildDataInputSelect(resProvince, "PROVINCE");
+      let dataSelectSpecialty = buildDataInputSelect(resSpecialty, "SPECIALTY");
+
       setValueInforDoctor({
         ...valueInforDoctor,
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
+        selectedSpecialty: selectedSpecialty,
       });
       setListPrices(dataSelectPrice);
       setListPayments(dataSelectPayment);
       setListProvinces(dataSelectProvince);
+      setListSpecialties(dataSelectSpecialty);
     }
   }, [allRequiredDoctorInforRedux, language]);
 
@@ -150,6 +169,7 @@ const ManageDoctor = (props) => {
       selectedPrice: selectedPrice.value,
       selectedPayment: selectedPayment.value,
       selectedProvince: selectedProvince.value,
+      selectedSpecialty: selectedSpecialty.value,
     });
     console.log("valueMarkdownCopy", valueMarkdownCopy);
     console.log("valueInforDoctorCopy", valueInforDoctorCopy);
@@ -175,9 +195,11 @@ const ManageDoctor = (props) => {
         priceId = "",
         provinceId = "",
         paymentId = "",
+        specialtyId = "",
         selectedPayment = "",
         selectedPrice = "",
-        selectedProvince = "";
+        selectedProvince = "",
+        selectedSpecialty = "";
 
       if (res?.data?.Doctor_Infor) {
         let doctor_infor = res.data.Doctor_Infor;
@@ -187,11 +209,15 @@ const ManageDoctor = (props) => {
         priceId = doctor_infor.priceId;
         paymentId = doctor_infor.paymentId;
         provinceId = doctor_infor.provinceId;
+        specialtyId = doctor_infor.specialtyId;
 
         selectedPrice = listPrices.find((item) => item.value === priceId);
         selectedPayment = listPayments.find((item) => item.value === paymentId);
         selectedProvince = listProvinces.find(
           (item) => item.value === provinceId
+        );
+        selectedSpecialty = listSpecialties.find(
+          (item) => item.value === specialtyId
         );
       }
 
@@ -208,6 +234,7 @@ const ManageDoctor = (props) => {
         selectedPrice: selectedPrice,
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
+        selectedSpecialty: selectedSpecialty,
       });
       // console.log(valueMarkdown);
       // console.log(valueInforDoctor);
@@ -244,16 +271,28 @@ const ManageDoctor = (props) => {
     // stateCopy[name] = selectedOption;
     // setValueInforDoctor({ ...stateCopy });
 
+    // console.log(valueInforDoctor);
+
+    // let _userDoctorInfor = _.cloneDeep(valueInforDoctor);
+    // _userDoctorInfor[name] = selectedOption;
+
+    // setValueInforDoctor(_userDoctorInfor);
+    // console.log(valueInforDoctor);
+    // console.log(_userDoctorInfor[name]);
+    // console.log(selectedOption);
+
     const setterMap = {
       selectedPrice: setSelectedPrice,
       selectedPayment: setSelectedPayment,
       selectedProvince: setSelectedProvince,
+      selectedSpecialty: setSelectedSpecialty,
     };
 
     const setter = setterMap[name];
     if (setter) {
       setter(selectedOption);
     }
+    console.log(valueInforDoctor);
 
     // switch (name) {
     //   case "selectedPrice":
@@ -293,6 +332,8 @@ const ManageDoctor = (props) => {
       nameClinic: valueInforDoctor.nameClinic || "",
       addressClinic: valueInforDoctor.addressClinic || "",
       note: valueInforDoctor.note || "",
+      clinicId: selectedClinic?.value ? selectedClinic.value : "",
+      specialtyId: selectedSpecialty.value,
     });
   };
 
@@ -304,7 +345,7 @@ const ManageDoctor = (props) => {
         </div>
         <div className="intro-infor">
           <div className="content-left">
-            <label className="label">
+            <label className="form-label">
               <FormattedMessage id="admin.manage-doctor.select-doctor" />
             </label>
             <Select
@@ -317,7 +358,7 @@ const ManageDoctor = (props) => {
             />
           </div>
           <div className="content-right">
-            <label className="label" htmlFor="description">
+            <label className="form-label" htmlFor="description">
               <FormattedMessage id="admin.manage-doctor.intro" />
             </label>
             <textarea
@@ -330,9 +371,9 @@ const ManageDoctor = (props) => {
           </div>
         </div>
         <div className="more-infor-extra">
-          <div className="row">
-            <div className="col-4 infor-child-block">
-              <label className="label">
+          <div className="row g-3">
+            <div className="col-4">
+              <label className="form-label">
                 <FormattedMessage id="admin.manage-doctor.price" />
               </label>
               <Select
@@ -345,8 +386,8 @@ const ManageDoctor = (props) => {
                 name="selectedPrice"
               />
             </div>
-            <div className="col-4 infor-child-block">
-              <label className="label">
+            <div className="col-4">
+              <label className="form-label">
                 <FormattedMessage id="admin.manage-doctor.payment" />
               </label>
               <Select
@@ -359,8 +400,8 @@ const ManageDoctor = (props) => {
                 name="selectedPayment"
               />
             </div>
-            <div className="col-4 infor-child-block">
-              <label className="label">
+            <div className="col-4">
+              <label className="form-label">
                 <FormattedMessage id="admin.manage-doctor.province" />
               </label>
               <Select
@@ -373,8 +414,8 @@ const ManageDoctor = (props) => {
                 name="selectedProvince"
               />
             </div>
-            <div className="col-4 infor-child-block">
-              <label className="label" htmlFor="nameClinic">
+            <div className="col-4">
+              <label className="form-label" htmlFor="nameClinic">
                 <FormattedMessage id="admin.manage-doctor.name-clinic" />
               </label>
               <input
@@ -385,8 +426,8 @@ const ManageDoctor = (props) => {
                 value={valueInforDoctor.nameClinic}
               />
             </div>
-            <div className="col-4 infor-child-block">
-              <label className="label" htmlFor="addressClinic">
+            <div className="col-4">
+              <label className="form-label" htmlFor="addressClinic">
                 <FormattedMessage id="admin.manage-doctor.address-clinic" />
               </label>
               <input
@@ -397,8 +438,8 @@ const ManageDoctor = (props) => {
                 value={valueInforDoctor.addressClinic}
               />
             </div>
-            <div className="col-4 infor-child-block">
-              <label className="label" htmlFor="note">
+            <div className="col-4">
+              <label className="form-label" htmlFor="note">
                 <FormattedMessage id="admin.manage-doctor.note" />
               </label>
               <input
@@ -409,11 +450,39 @@ const ManageDoctor = (props) => {
                 value={valueInforDoctor.note}
               />
             </div>
+            <div className="col-4">
+              <label className="form-label">
+                <FormattedMessage id="admin.manage-doctor.select-specialty" />
+              </label>
+              <Select
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select-specialty" />
+                }
+                value={selectedSpecialty}
+                onChange={handleChangeSelectDoctorInfor}
+                options={listSpecialties}
+                name="selectedSpecialty"
+              />
+            </div>
+            <div className="col-4">
+              <label className="form-label">
+                <FormattedMessage id="admin.manage-doctor.select-clinic" />
+              </label>
+              <Select
+                placeholder={
+                  <FormattedMessage id="admin.manage-doctor.select-clinic" />
+                }
+                value={selectedClinic}
+                onChange={handleChangeSelectDoctorInfor}
+                options={listClinics}
+                name="selectedClinic"
+              />
+            </div>
           </div>
         </div>
         <div className="manage-doctor-editor">
           <MdEditor
-            style={{ height: "500px" }}
+            style={{ height: "300px" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={handleEditorChange}
             value={valueMarkdown.contentMarkdown}

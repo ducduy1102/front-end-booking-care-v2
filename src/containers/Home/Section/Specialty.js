@@ -5,14 +5,17 @@ import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 import { getAllSpecialtyService } from "../../../services/userService";
 import "./Specialty.scss";
+import { useHistory } from "react-router-dom";
 
 const Specialty = (props) => {
   const { settings } = props;
+  const history = useHistory();
   const [dataSpecialty, setDataSpecialty] = useState([]);
 
   useEffect(() => {
     fetchAllSpecialty();
   }, []);
+
   const fetchAllSpecialty = async () => {
     let res = await getAllSpecialtyService();
     if (res && res.errCode === 0) {
@@ -20,7 +23,9 @@ const Specialty = (props) => {
     }
   };
 
-  console.log("data", dataSpecialty);
+  const handleViewDetailSpecialty = (specialty) => {
+    history.push(`/detail-specialty/${specialty.id}`);
+  };
 
   return (
     <div className="section-share section-specialty">
@@ -43,6 +48,7 @@ const Specialty = (props) => {
                     <div
                       className="section-custom specialty-child"
                       key={`specialty-${index}`}
+                      onClick={() => handleViewDetailSpecialty(item)}
                     >
                       <div
                         className="bg-img section-specialty"
