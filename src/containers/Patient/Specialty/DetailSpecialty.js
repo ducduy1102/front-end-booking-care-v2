@@ -33,12 +33,7 @@ const DetailSpecialty = (props) => {
       });
       let resProvince = await getAllCodeService("PROVINCE");
 
-      if (
-        res &&
-        res.errCode === 0 &&
-        resProvince &&
-        resProvince.errCode === 0
-      ) {
+      if (res?.errCode === 0 && resProvince?.errCode === 0) {
         let data = res.data;
         let arrDoctorId = [];
         if (data && !_.isEmpty(res.data)) {
@@ -49,15 +44,51 @@ const DetailSpecialty = (props) => {
             });
           }
         }
+
+        let dataProvince = resProvince.data;
+        if (dataProvince && dataProvince.length > 0) {
+          dataProvince.unshift({
+            createdAt: null,
+            keyMap: "ALL",
+            type: "PROVINCE",
+            valueEn: "All",
+            valueVi: "Toàn quốc",
+          });
+        }
+
         setDataDetailSpecialty(res.data);
         setArrDoctorId(arrDoctorId);
-        setListProvince(resProvince.data);
+        setListProvince(dataProvince ? dataProvince : []);
       }
     }
   };
 
-  const handleOnChangeSelectedProvince = (event) => {
-    console.log("select", event.target.value);
+  const handleOnChangeSelectedProvince = async (event) => {
+    if (props.match?.params?.id) {
+      let id = props.match.params.id;
+      let location = event.target.value;
+      let res = await getDetailSpecialtyByIdService({
+        id: id,
+        location: location,
+      });
+
+      // console.log("res", res);
+      if (res && res.errCode === 0) {
+        let data = res.data;
+        let arrDoctorId = [];
+        if (data && !_.isEmpty(res.data)) {
+          let arr = data.doctorSpecialty;
+          if (arr && arr.length > 0) {
+            arr.forEach((item) => {
+              arrDoctorId.push(item.doctorId);
+            });
+          }
+        }
+
+        setDataDetailSpecialty(res.data);
+        setArrDoctorId(arrDoctorId);
+      }
+    }
   };
 
   return (
@@ -100,6 +131,8 @@ const DetailSpecialty = (props) => {
                       <ProfileDoctor
                         doctorId={item}
                         isShowDescriptionDoctor={true}
+                        isShowLinkDetail={true}
+                        isShowPrice={false}
                         // dataTime={dataTime}
                       />
                     </div>
