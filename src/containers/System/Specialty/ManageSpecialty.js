@@ -33,10 +33,10 @@ const ManageSpecialty = () => {
   }, []);
 
   const handleOnChangeInput = (event, name) => {
-    let _userData = _.cloneDeep(valueSpecialty);
-    _userData[name] = event.target.value;
+    let _specialtyData = _.cloneDeep(valueSpecialty);
+    _specialtyData[name] = event.target.value;
 
-    setValueSpecialty(_userData);
+    setValueSpecialty(_specialtyData);
   };
 
   const handleEditorChange = ({ html, text }) => {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import "./ManageClinic.scss";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
@@ -9,13 +9,13 @@ import { CommonUtils } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import { useState } from "react";
 import _ from "lodash";
-import { createNewClinicService } from "../../../services/userService";
+import { createNewSpecialtyService } from "../../../services/userService";
 import { toast } from "react-toastify";
 
 // Initialize a markdown parser
 const mdParser = new MarkdownIt();
 
-const ManageClinic = () => {
+const ManageClinicV2 = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state); // Adjust according to your state structure
 
@@ -23,8 +23,16 @@ const ManageClinic = () => {
     name: "",
     address: "",
     imageBase64: "",
-    descriptionHTML: "",
-    descriptionMarkdown: "",
+    descIntroductionHTML: "",
+    descIntroduction: "",
+    descProfessionalStrengthsHTML: "",
+    descProfessionalStrengths: "",
+    descEquipmentHTML: "",
+    descEquipment: "",
+    descLocationHTML: "",
+    descLocation: "",
+    descProcessHTML: "",
+    descProcess: "",
   };
 
   const [valueClinic, setValueClinic] = useState(defaultValueClinic);
@@ -42,11 +50,11 @@ const ManageClinic = () => {
 
   // Sửa lại tương tự như hàm handleOnChangeInput, thêm 1 cái name vào
   const handleEditorChange = ({ html, text }) => {
-    setValueClinic({
-      ...valueClinic,
-      descriptionHTML: html,
-      descriptionMarkdown: text,
-    });
+    // setValueClinic({
+    //   ...valueClinic,
+    //   descriptionHTML: html,
+    //   descriptionMarkdown: text,
+    // });
   };
 
   const handleOnChangeImage = async (e) => {
@@ -61,13 +69,13 @@ const ManageClinic = () => {
   };
 
   const handleSaveNewClinic = async () => {
-    let res = await createNewClinicService(valueClinic);
-    if (res && res.errCode === 0) {
-      toast.success(res.message);
-      setValueClinic(defaultValueClinic);
-    } else {
-      toast.error(res.message);
-    }
+    // let res = await createNewSpecialtyService(valueClinic);
+    // if (res && res.errCode === 0) {
+    //   toast.success(res.message);
+    //   setValueClinic(defaultValueClinic);
+    // } else {
+    //   toast.error(res.message);
+    // }
   };
 
   return (
@@ -110,15 +118,63 @@ const ManageClinic = () => {
             onChange={(e) => handleOnChangeInput(e, "address")}
           />
         </div>
+        <div className="md-editor-container">
+          <div className="md-editor-child">
+            <label className="form-label">
+              <FormattedMessage id="manage-clinic.introduction" />
+            </label>
+            <MdEditor
+              style={{ height: "300px", width: "100%" }}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
+              value={valueClinic.descIntroduction}
+            />
+          </div>
+          <div className="md-editor-child">
+            <label className="form-label">
+              <FormattedMessage id="manage-clinic.professional-strengths" />
+            </label>
+            <MdEditor
+              style={{ height: "300px", width: "100%" }}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
+              value={valueClinic.descProfessionalStrengths}
+            />
+          </div>
+        </div>
+        <div className="md-editor-container">
+          <div className="md-editor-child">
+            <label className="form-label">
+              <FormattedMessage id="manage-clinic.equipment" />
+            </label>
+            <MdEditor
+              style={{ height: "300px", width: "100%" }}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
+              value={valueClinic.descEquipment}
+            />
+          </div>
+          <div className="md-editor-child">
+            <label className="form-label">
+              <FormattedMessage id="manage-clinic.location" />
+            </label>
+            <MdEditor
+              style={{ height: "300px", width: "100%" }}
+              renderHTML={(text) => mdParser.render(text)}
+              onChange={handleEditorChange}
+              value={valueClinic.descLocation}
+            />
+          </div>
+        </div>
         <div className="md-editor-child">
           <label className="form-label">
-            <FormattedMessage id="manage-clinic.description" />
+            <FormattedMessage id="manage-clinic.process" />
           </label>
           <MdEditor
-            style={{ height: "400px", width: "100%" }}
+            style={{ height: "300px", width: "100%" }}
             renderHTML={(text) => mdParser.render(text)}
             onChange={handleEditorChange}
-            value={valueClinic.descriptionMarkdown}
+            value={valueClinic.descProcess}
           />
         </div>
         <div className="">
@@ -134,4 +190,4 @@ const ManageClinic = () => {
   );
 };
 
-export default ManageClinic;
+export default ManageClinicV2;

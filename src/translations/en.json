@@ -141,5 +141,19 @@
     "name": "Name of specialty",
     "image": "Image",
     "btn-save": "Save"
+  },
+
+  "manage-clinic": {
+    "title": "Manage clinic",
+    "name": "Name of clinic",
+    "address": "Address of clinic",
+    "image": "Image",
+    "btn-save": "Save",
+    "description": "Description",
+    "introduction": "Introduction",
+    "professional-strengths": "Professional strengths",
+    "equipment": "Equipment",
+    "location": "Location",
+    "process": "Medical examination process"
   }
 }
