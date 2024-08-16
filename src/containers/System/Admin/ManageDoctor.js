@@ -114,6 +114,14 @@ const ManageDoctor = (props) => {
             result.push(object);
           });
         }
+        if (type === "CLINIC") {
+          inputData.forEach((item, index) => {
+            let object = {};
+            object.label = item.name;
+            object.value = item.id;
+            result.push(object);
+          });
+        }
       }
       return result;
     },
@@ -134,12 +142,13 @@ const ManageDoctor = (props) => {
 
   useEffect(() => {
     if (allRequiredDoctorInforRedux || language) {
-      let { resPayment, resPrice, resProvince, resSpecialty } =
+      let { resPayment, resPrice, resProvince, resSpecialty, resClinic } =
         allRequiredDoctorInforRedux;
       let dataSelectPrice = buildDataInputSelect(resPrice, "PRICE");
       let dataSelectPayment = buildDataInputSelect(resPayment, "PAYMENT");
       let dataSelectProvince = buildDataInputSelect(resProvince, "PROVINCE");
       let dataSelectSpecialty = buildDataInputSelect(resSpecialty, "SPECIALTY");
+      let dataSelectClinic = buildDataInputSelect(resClinic, "CLINIC");
 
       setValueInforDoctor({
         ...valueInforDoctor,
@@ -147,11 +156,13 @@ const ManageDoctor = (props) => {
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
         selectedSpecialty: selectedSpecialty,
+        selectedClinic: selectedClinic,
       });
       setListPrices(dataSelectPrice);
       setListPayments(dataSelectPayment);
       setListProvinces(dataSelectProvince);
       setListSpecialties(dataSelectSpecialty);
+      setListClinics(dataSelectClinic);
     }
   }, [allRequiredDoctorInforRedux, language]);
 
@@ -170,6 +181,7 @@ const ManageDoctor = (props) => {
       selectedPayment: selectedPayment.value,
       selectedProvince: selectedProvince.value,
       selectedSpecialty: selectedSpecialty.value,
+      selectedClinic: selectedClinic.value,
     });
     console.log("valueMarkdownCopy", valueMarkdownCopy);
     console.log("valueInforDoctorCopy", valueInforDoctorCopy);
@@ -196,10 +208,12 @@ const ManageDoctor = (props) => {
         provinceId = "",
         paymentId = "",
         specialtyId = "",
+        clinicId = "",
         selectedPayment = "",
         selectedPrice = "",
         selectedProvince = "",
-        selectedSpecialty = "";
+        selectedSpecialty = "",
+        selectedClinic = "";
 
       if (res?.data?.Doctor_Infor) {
         let doctor_infor = res.data.Doctor_Infor;
@@ -210,6 +224,7 @@ const ManageDoctor = (props) => {
         paymentId = doctor_infor.paymentId;
         provinceId = doctor_infor.provinceId;
         specialtyId = doctor_infor.specialtyId;
+        clinicId = doctor_infor.clinicId;
 
         selectedPrice = listPrices.find((item) => item.value === priceId);
         selectedPayment = listPayments.find((item) => item.value === paymentId);
@@ -219,6 +234,7 @@ const ManageDoctor = (props) => {
         selectedSpecialty = listSpecialties.find(
           (item) => item.value === specialtyId
         );
+        selectedClinic = listClinics.find((item) => item.value === clinicId);
       }
 
       setValueMarkdown({
@@ -235,6 +251,7 @@ const ManageDoctor = (props) => {
         selectedPayment: selectedPayment,
         selectedProvince: selectedProvince,
         selectedSpecialty: selectedSpecialty,
+        selectedClinic: selectedClinic,
       });
       // console.log(valueMarkdown);
       // console.log(valueInforDoctor);
@@ -255,6 +272,7 @@ const ManageDoctor = (props) => {
         selectedPayment: "",
         selectedProvince: "",
         selectedSpecialty: "",
+        selectedClinic: "",
       });
       sethasOldData(false);
     }
@@ -290,6 +308,7 @@ const ManageDoctor = (props) => {
       selectedPayment: setSelectedPayment,
       selectedProvince: setSelectedProvince,
       selectedSpecialty: setSelectedSpecialty,
+      selectedClinic: setSelectedClinic,
     };
 
     const setter = setterMap[name];

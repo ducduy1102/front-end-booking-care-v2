@@ -90,8 +90,8 @@ button {
         }
 
         &.section-medical-facility {
-          background-image: url("../../assets/medical-facility/bv-xay-dung.jpg");
-          // object-fit: cover;
+          // background-image: url("../../assets/medical-facility/bv-xay-dung.jpg");
+          background-size: contain;
         }
 
         &.section-outstanding-doctor {
