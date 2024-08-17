@@ -5,9 +5,8 @@ import "./ManageSchedule.scss";
 import { FormattedMessage } from "react-intl";
 import Select from "react-select";
 import { fetchAllDoctors, fetchAllScheduleTime } from "../../../store/actions";
-import { dateFormat, LANGUAGES } from "../../../utils";
+import { LANGUAGES } from "../../../utils";
 import { DatePicker } from "../../../components/Input";
-import moment from "moment";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import { saveBulkScheduleDoctorService } from "../../../services/userService";
@@ -50,26 +49,6 @@ const ManageSchedule = () => {
     [language]
   );
 
-  // useEffect(() => {
-  //   if (allDoctorsRedux !== listDoctor) {
-  //     let dataSelect = buildDataInputSelect(allDoctorsRedux);
-  //     setListDoctor(dataSelect);
-  //   }
-  //   if (language !== listDoctor) {
-  //     let dataSelect = buildDataInputSelect(allDoctorsRedux);
-  //     setListDoctor(dataSelect);
-  //   }
-  //   if (allScheduleTimeRedux !== rangeTime) {
-  //     let data = allScheduleTimeRedux;
-  //     console.log("check range time", data);
-  //     if (data && data.length > 0) {
-  //       data = data.map((item) => ({ ...item, isSelected: false }));
-  //     }
-  //     console.log("check data after", data);
-  //     setRangeTime(data);
-  //   }
-  // }, [allDoctorsRedux, allScheduleTimeRedux, language, buildDataInputSelect]);
-
   useEffect(() => {
     if (allDoctorsRedux !== listDoctor) {
       let dataSelect = buildDataInputSelect(allDoctorsRedux);
@@ -87,11 +66,11 @@ const ManageSchedule = () => {
   useEffect(() => {
     if (allScheduleTimeRedux !== rangeTime) {
       let data = allScheduleTimeRedux;
-      console.log("check range time", data);
+
       if (data && data.length > 0) {
         data = data.map((item) => ({ ...item, isSelected: false }));
       }
-      console.log("check data after", data);
+
       setRangeTime(data);
     }
   }, [allScheduleTimeRedux]);
@@ -158,7 +137,6 @@ const ManageSchedule = () => {
     } else {
       toast.error(res.message);
     }
-    console.log("res", res);
     // console.log("result", result);
   };
 

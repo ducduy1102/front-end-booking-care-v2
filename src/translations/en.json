@@ -83,6 +83,10 @@
     "save": "Save information"
   },
 
+  "manage-patient": {
+    "title": "Managing medical examination patients"
+  },
+
   "patient": {
     "detail-doctor": {
       "schedule": "Schedule",

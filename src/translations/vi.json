@@ -83,6 +83,10 @@
     "selectDoctor": "------Chọn------"
   },
 
+  "manage-patient": {
+    "title": "Quản lý bệnh nhân khám bệnh"
+  },
+
   "patient": {
     "detail-doctor": {
       "schedule": "Lịch khám",

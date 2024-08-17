@@ -27,7 +27,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
     address: "",
     reason: "",
     birthday: "",
-    gender: "",
+    selectedGender: "",
     doctorId: "",
   };
 
@@ -46,7 +46,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
       setValueBooking({
         ...valueBooking,
         listGenders: buildDataGender(genderRedux),
-        gender: selectedGender,
+        selectedGender: selectedGender,
       });
     }
   }, [language, genderRedux, selectedGender]);
@@ -95,7 +95,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
 
   const handleChangeSelected = (selectedOptions) => {
     setSelectedGender(selectedOptions);
-    // setValueBooking({ ...valueBooking, gender: selectedOptions });
+    // setValueBooking({ ...valueBooking, selectedGender: selectedOptions });
   };
   // console.log("valueBooking", valueBooking);
 
@@ -142,7 +142,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
       address: valueBooking.address,
       reason: valueBooking.reason,
       date: date,
-      gender: valueBooking.gender.value,
+      selectedGender: valueBooking.selectedGender.value,
       doctorId: valueBooking.doctorId,
       timeType: valueBooking.timeType,
       language: language,
