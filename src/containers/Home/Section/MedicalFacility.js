@@ -38,7 +38,7 @@ const MedicalFacility = (props) => {
               <FormattedMessage id="homepage.outstanding-medical-facilities" />
             </span>
             <button className="btn-section">
-              <FormattedMessage id="homepage.see-more" />
+              <FormattedMessage id="homepage.more-infor" />
             </button>
           </div>
           <div className="section-body">

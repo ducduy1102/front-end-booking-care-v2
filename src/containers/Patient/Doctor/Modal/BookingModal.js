@@ -132,7 +132,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
 
   const handleConfirmBooking = async () => {
     // validate input
-    let date = new Date(valueBooking.birthday).getTime();
+    // let date = new Date(valueBooking.birthday).getTime();
     let timeString = buildTimeBooking(dataTime);
     let doctorName = buildDoctorName(dataTime);
     let res = await postPatientBookAppointment({
@@ -141,7 +141,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
       email: valueBooking.email,
       address: valueBooking.address,
       reason: valueBooking.reason,
-      date: date,
+      date: dataTime.date,
       selectedGender: valueBooking.selectedGender.value,
       doctorId: valueBooking.doctorId,
       timeType: valueBooking.timeType,
