@@ -375,3 +375,31 @@ export const fetchRequiredDoctorInforSuccess = (allRequiredData) => ({
 export const fetchRequiredDoctorInforFailed = () => ({
   type: actionTypes.FETCH_REQUIRED_DOCTOR_INFOR_FAILED,
 });
+
+// Fetch all specialty
+export const fetchAllSpecialty = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllSpecialtyService();
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllSpecialtySuccess(res.data));
+      } else {
+        toast.error("Fetch all Specialty failed!");
+        dispatch(fetchAllSpecialtyFailed());
+      }
+    } catch (error) {
+      toast.error("Fetch all Specialty failed!");
+      dispatch(fetchAllSpecialtyFailed());
+      console.log("Fetch all Specialty failed", error);
+    }
+  };
+};
+
+export const fetchAllSpecialtySuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_SPECIALTY_SUCCESS,
+  dataSpecialty: data,
+});
+
+export const fetchAllSpecialtyFailed = () => ({
+  type: actionTypes.FETCH_ALL_SPECIALTY_FAILED,
+});

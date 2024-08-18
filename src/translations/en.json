@@ -66,7 +66,8 @@
     "avatar": "Avatar",
     "save": "Save User",
     "upload-image": "Upload image",
-    "actions": "Actions"
+    "actions": "Actions",
+    "not-found": "Not found user"
   },
 
   "homepage": {
@@ -159,7 +160,10 @@
     "title": "Manage Specialty",
     "name": "Name of specialty",
     "image": "Image",
-    "btn-save": "Save"
+    "btn-save": "Create",
+    "btn-edit": "Save change",
+    "actions": "Actions",
+    "not-found": "Not found specialty"
   },
 
   "manage-clinic": {

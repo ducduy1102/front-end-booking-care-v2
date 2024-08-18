@@ -65,7 +65,8 @@
     "avatar": "Ảnh đại diện",
     "save": "Lưu user",
     "upload-image": "Tải ảnh",
-    "actions": "Chức năng"
+    "actions": "Chức năng",
+    "not-found": "Không tìm thấy user"
   },
 
   "homepage": {
@@ -159,7 +160,10 @@
     "title": "Quản lý chuyên khoa",
     "name": "Tên chuyên khoa",
     "image": "Ảnh chuyên khoa",
-    "btn-save": "Tạo mới"
+    "btn-save": "Tạo mới",
+    "btn-edit": "Lưu thay đổi",
+    "actions": "Chức năng",
+    "not-found": "Không tìm thấy chuyên khoa"
   },
 
   "manage-clinic": {

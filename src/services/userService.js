@@ -4,6 +4,7 @@ const handleLogin = (email, password) => {
   return axios.post("/api/login", { email, password });
 };
 
+// users
 const getAllUsers = (inputId) => {
   return axios.get(`/api/get-all-users?id=${inputId}`);
 };
@@ -26,6 +27,7 @@ const getAllCodeService = (type) => {
   return axios.get(`/api/allcode?type=${type}`);
 };
 
+// doctors
 const getTopDoctorHomeService = (limit) => {
   return axios.get(`/api/top-doctor-home?limit=${limit}`);
 };
@@ -60,6 +62,7 @@ const getProfileDoctorByIdService = (doctorId) => {
   return axios.get(`/api/get-profile-doctor-by-id?doctorId=${doctorId}`);
 };
 
+// post email
 const postPatientBookAppointment = (data) => {
   return axios.post("/api/patient-book-appointment", data);
 };
@@ -68,6 +71,7 @@ const postVerifyBookAppointment = (data) => {
   return axios.post("/api/verify-book-appointment", data);
 };
 
+// specialties
 const createNewSpecialtyService = (data) => {
   return axios.post("/api/create-new-specialty", data);
 };
@@ -82,6 +86,15 @@ const getDetailSpecialtyByIdService = (data) => {
   );
 };
 
+const deleteSpecialtyService = (specialtyId) => {
+  return axios.delete("/api/delete-specialty", { data: { id: specialtyId } });
+};
+
+const editSpecialtyService = (specialtyData) => {
+  return axios.put("/api/edit-specialty", specialtyData);
+};
+
+// clinics
 const createNewClinicService = (data) => {
   return axios.post("/api/create-new-clinic", data);
 };
@@ -100,17 +113,20 @@ const getAllPatientForDoctorService = (data) => {
   );
 };
 
+// send remedy
 const postSendRemedyService = (data) => {
   return axios.post(`/api/send-remedy`, data);
 };
 
 export {
+  // users
   handleLogin,
   getAllUsers,
   createNewUser,
   deleteUser,
   editUser,
   getAllCodeService,
+  // doctors
   getTopDoctorHomeService,
   getAllDoctorsService,
   saveDetailDoctorService,
@@ -119,14 +135,20 @@ export {
   getScheduleDoctorByDateService,
   getExtraInforDoctorByIdService,
   getProfileDoctorByIdService,
+  // post email
   postPatientBookAppointment,
   postVerifyBookAppointment,
+  // specialties
   createNewSpecialtyService,
   getAllSpecialtyService,
   getDetailSpecialtyByIdService,
+  deleteSpecialtyService,
+  editSpecialtyService,
+  // clinics
   createNewClinicService,
   getAllClinicService,
   getDetailClinicByIdService,
   getAllPatientForDoctorService,
+  // send remedy
   postSendRemedyService,
 };

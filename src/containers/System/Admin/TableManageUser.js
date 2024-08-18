@@ -123,7 +123,7 @@ const TableManageUser = (props) => {
                   <>
                     <tr>
                       <td colSpan={9} className="text-center">
-                        Not found users
+                        <FormattedMessage id="manage-user.not-found" />
                       </td>
                     </tr>
                   </>

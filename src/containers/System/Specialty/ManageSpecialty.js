@@ -1,23 +1,30 @@
 import React, { useEffect } from "react";
 import { FormattedMessage } from "react-intl";
-import { connect, useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./ManageSpecialty.scss";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
-import Select from "react-select";
-import { CommonUtils } from "../../../utils";
+import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import { useState } from "react";
 import _ from "lodash";
-import { createNewSpecialtyService } from "../../../services/userService";
+import {
+  createNewSpecialtyService,
+  editSpecialtyService,
+} from "../../../services/userService";
 import { toast } from "react-toastify";
+import { fetchAllSpecialty } from "../../../store/actions";
+import Lightbox from "react-image-lightbox";
+import TableManageSpecialty from "./TableManageSpecialty";
 
 // Initialize a markdown parser
 const mdParser = new MarkdownIt();
 
 const ManageSpecialty = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state); // Adjust according to your state structure
+  const specialtyRedux = useSelector((state) => state.admin.allSpecialties);
+
+  // console.log(specialtyRedux);
 
   const defaultValueSpecialty = {
     name: "",
@@ -27,10 +34,22 @@ const ManageSpecialty = () => {
   };
 
   const [valueSpecialty, setValueSpecialty] = useState(defaultValueSpecialty);
+  const [action, setAction] = useState("");
+  const [previewImgURL, setPreviewImgURL] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     // componentDidMount equivalent
+    dispatch(fetchAllSpecialty());
   }, []);
+
+  useEffect(() => {
+    if (specialtyRedux) {
+      setAction(CRUD_ACTIONS.CREATE);
+      setPreviewImgURL("");
+      setValueSpecialty(defaultValueSpecialty);
+    }
+  }, [specialtyRedux]);
 
   const handleOnChangeInput = (event, name) => {
     let _specialtyData = _.cloneDeep(valueSpecialty);
@@ -52,20 +71,44 @@ const ManageSpecialty = () => {
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
       // console.log("base64 file image: ", base64);
-      // let objectUrl = URL.createObjectURL(file);
-      // setPreviewImgURL(objectUrl);
+      let objectUrl = URL.createObjectURL(file);
+      setPreviewImgURL(objectUrl);
       setValueSpecialty({ ...valueSpecialty, imageBase64: base64 });
     }
   };
 
+  const openPreviewImage = () => {
+    if (!previewImgURL) return;
+    setIsOpen(true);
+  };
+
+  const handleEditSpecialtyFromParent = async (specialty) => {
+    setValueSpecialty({
+      id: specialty.id,
+      name: specialty.name,
+      imageBase64: specialty.image,
+      descriptionHTML: specialty.descriptionHTML,
+      descriptionMarkdown: specialty.descriptionMarkdown,
+    });
+    setPreviewImgURL(specialty.image);
+    setAction(CRUD_ACTIONS.EDIT);
+  };
+
   const handleSaveNewSpecialty = async () => {
-    let res = await createNewSpecialtyService(valueSpecialty);
+    let res = "";
+    if (action === CRUD_ACTIONS.CREATE) {
+      res = await createNewSpecialtyService(valueSpecialty);
+    }
+    if (action === CRUD_ACTIONS.EDIT) {
+      res = await editSpecialtyService(valueSpecialty);
+    }
     if (res && res.errCode === 0) {
       toast.success(res.message);
-      setValueSpecialty(defaultValueSpecialty);
     } else {
       toast.error(res.message);
     }
+    dispatch(fetchAllSpecialty());
+    setValueSpecialty(defaultValueSpecialty);
   };
 
   return (
@@ -86,15 +129,30 @@ const ManageSpecialty = () => {
             onChange={(e) => handleOnChangeInput(e, "name")}
           />
         </div>
-        <div className="col-6">
-          <label htmlFor="" className="form-label">
+        <div className="col-md-3">
+          <label htmlFor="avatar" className="form-label">
             <FormattedMessage id="manage-specialty.image" />
           </label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={(e) => handleOnChangeImage(e)}
-          />
+          <div className="preview-img-container">
+            <input
+              type="file"
+              name="avatar"
+              id="preview-img"
+              onChange={(e) => handleOnChangeImage(e)}
+              hidden
+            />
+            <label className="label-upload" htmlFor="preview-img">
+              <FormattedMessage id="manage-user.upload-image" />{" "}
+              <i className="fas fa-cloud-upload-alt"></i>
+            </label>
+            <div
+              className="preview-img"
+              style={{
+                backgroundImage: `url(${previewImgURL})`,
+              }}
+              onClick={() => openPreviewImage()}
+            ></div>
+          </div>
         </div>
         <div className="md-editor-container">
           <MdEditor
@@ -106,13 +164,31 @@ const ManageSpecialty = () => {
         </div>
         <div className="">
           <button
-            className="btn-save-specialty"
+            type="button"
+            className={
+              action === CRUD_ACTIONS.EDIT
+                ? "btn btn-warning"
+                : "btn btn-primary"
+            }
             onClick={() => handleSaveNewSpecialty()}
           >
-            <FormattedMessage id="manage-specialty.btn-save" />
+            {action === CRUD_ACTIONS.EDIT ? (
+              <FormattedMessage id="manage-specialty.btn-edit" />
+            ) : (
+              <FormattedMessage id="manage-specialty.btn-save" />
+            )}
           </button>
         </div>
       </div>
+      <TableManageSpecialty
+        handleEditSpecialtyFromParentKey={handleEditSpecialtyFromParent}
+      />
+      {isOpen === true && (
+        <Lightbox
+          mainSrc={previewImgURL}
+          onCloseRequest={() => setIsOpen(false)}
+        />
+      )}
     </div>
   );
 };
