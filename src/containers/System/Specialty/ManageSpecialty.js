@@ -24,8 +24,6 @@ const ManageSpecialty = () => {
   const dispatch = useDispatch();
   const specialtyRedux = useSelector((state) => state.admin.allSpecialties);
 
-  // console.log(specialtyRedux);
-
   const defaultValueSpecialty = {
     name: "",
     imageBase64: "",
@@ -46,8 +44,8 @@ const ManageSpecialty = () => {
   useEffect(() => {
     if (specialtyRedux) {
       setAction(CRUD_ACTIONS.CREATE);
-      setPreviewImgURL("");
-      setValueSpecialty(defaultValueSpecialty);
+      // setPreviewImgURL("");
+      // setValueSpecialty(defaultValueSpecialty);
     }
   }, [specialtyRedux]);
 
@@ -104,11 +102,12 @@ const ManageSpecialty = () => {
     }
     if (res && res.errCode === 0) {
       toast.success(res.message);
+      setPreviewImgURL("");
+      setValueSpecialty(defaultValueSpecialty);
     } else {
       toast.error(res.message);
     }
     dispatch(fetchAllSpecialty());
-    setValueSpecialty(defaultValueSpecialty);
   };
 
   return (
@@ -179,10 +178,11 @@ const ManageSpecialty = () => {
             )}
           </button>
         </div>
+        <TableManageSpecialty
+          handleEditSpecialtyFromParentKey={handleEditSpecialtyFromParent}
+        />
       </div>
-      <TableManageSpecialty
-        handleEditSpecialtyFromParentKey={handleEditSpecialtyFromParent}
-      />
+
       {isOpen === true && (
         <Lightbox
           mainSrc={previewImgURL}

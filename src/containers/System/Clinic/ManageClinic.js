@@ -4,20 +4,25 @@ import { useSelector, useDispatch } from "react-redux";
 import "./ManageClinic.scss";
 import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
-import Select from "react-select";
-import { CommonUtils } from "../../../utils";
+import { CommonUtils, CRUD_ACTIONS } from "../../../utils";
 import MarkdownIt from "markdown-it";
 import { useState } from "react";
 import _ from "lodash";
-import { createNewClinicService } from "../../../services/userService";
+import {
+  createNewClinicService,
+  editClinicService,
+} from "../../../services/userService";
 import { toast } from "react-toastify";
+import { fetchAllClinic } from "../../../store/actions";
+import TableManageClinic from "./TableManageClinic";
+import Lightbox from "react-image-lightbox";
 
 // Initialize a markdown parser
 const mdParser = new MarkdownIt();
 
 const ManageClinic = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state); // Adjust according to your state structure
+  const clinicRedux = useSelector((state) => state.admin.allClinics);
 
   const defaultValueClinic = {
     name: "",
@@ -28,10 +33,22 @@ const ManageClinic = () => {
   };
 
   const [valueClinic, setValueClinic] = useState(defaultValueClinic);
+  const [action, setAction] = useState("");
+  const [previewImgURL, setPreviewImgURL] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     // componentDidMount equivalent
+    dispatch(fetchAllClinic());
   }, []);
+
+  useEffect(() => {
+    if (clinicRedux) {
+      setAction(CRUD_ACTIONS.CREATE);
+      // setPreviewImgURL("");
+      // setValueClinic(defaultValueClinic);
+    }
+  }, [clinicRedux]);
 
   const handleOnChangeInput = (event, name) => {
     let _clinicData = _.cloneDeep(valueClinic);
@@ -54,20 +71,46 @@ const ManageClinic = () => {
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
       // console.log("base64 file image: ", base64);
-      // let objectUrl = URL.createObjectURL(file);
-      // setPreviewImgURL(objectUrl);
+      let objectUrl = URL.createObjectURL(file);
+      setPreviewImgURL(objectUrl);
       setValueClinic({ ...valueClinic, imageBase64: base64 });
     }
   };
 
+  const openPreviewImage = () => {
+    if (!previewImgURL) return;
+    setIsOpen(true);
+  };
+
   const handleSaveNewClinic = async () => {
-    let res = await createNewClinicService(valueClinic);
+    let res = "";
+    if (action === CRUD_ACTIONS.CREATE) {
+      res = await createNewClinicService(valueClinic);
+    }
+    if (action === CRUD_ACTIONS.EDIT) {
+      res = await editClinicService(valueClinic);
+    }
     if (res && res.errCode === 0) {
       toast.success(res.message);
+      setPreviewImgURL("");
       setValueClinic(defaultValueClinic);
     } else {
       toast.error(res.message);
     }
+    dispatch(fetchAllClinic());
+  };
+
+  const handleEditClinicFromParent = async (clinic) => {
+    setValueClinic({
+      id: clinic.id,
+      name: clinic.name,
+      address: clinic.address,
+      imageBase64: clinic.image,
+      descriptionHTML: clinic.descriptionHTML,
+      descriptionMarkdown: clinic.descriptionMarkdown,
+    });
+    setPreviewImgURL(clinic.image);
+    setAction(CRUD_ACTIONS.EDIT);
   };
 
   return (
@@ -88,16 +131,6 @@ const ManageClinic = () => {
             onChange={(e) => handleOnChangeInput(e, "name")}
           />
         </div>
-        <div className="col-6">
-          <label htmlFor="" className="form-label">
-            <FormattedMessage id="manage-clinic.image" />
-          </label>
-          <input
-            type="file"
-            className="form-control"
-            onChange={(e) => handleOnChangeImage(e)}
-          />
-        </div>
         <div className="address-clinic col-6">
           <label htmlFor="address" className="form-label">
             <FormattedMessage id="manage-clinic.address" />
@@ -110,6 +143,31 @@ const ManageClinic = () => {
             onChange={(e) => handleOnChangeInput(e, "address")}
           />
         </div>
+        <div className="col-md-4">
+          <label htmlFor="avatar" className="form-label">
+            <FormattedMessage id="manage-clinic.image" />
+          </label>
+          <div className="preview-img-container">
+            <input
+              type="file"
+              name="avatar"
+              id="preview-img"
+              onChange={(e) => handleOnChangeImage(e)}
+              hidden
+            />
+            <label className="label-upload" htmlFor="preview-img">
+              <FormattedMessage id="manage-user.upload-image" />{" "}
+              <i className="fas fa-cloud-upload-alt"></i>
+            </label>
+            <div
+              className="preview-img"
+              style={{
+                backgroundImage: `url(${previewImgURL})`,
+              }}
+              onClick={() => openPreviewImage()}
+            ></div>
+          </div>
+        </div>
         <div className="md-editor-child">
           <label className="form-label">
             <FormattedMessage id="manage-clinic.description" />
@@ -121,15 +179,33 @@ const ManageClinic = () => {
             value={valueClinic.descriptionMarkdown}
           />
         </div>
-        <div className="">
+        <div className="col-3">
           <button
-            className="btn-save-clinic"
+            type="button"
+            className={
+              action === CRUD_ACTIONS.EDIT
+                ? "btn btn-warning"
+                : "btn btn-primary"
+            }
             onClick={() => handleSaveNewClinic()}
           >
-            <FormattedMessage id="manage-clinic.btn-save" />
+            {action === CRUD_ACTIONS.EDIT ? (
+              <FormattedMessage id="manage-clinic.btn-edit" />
+            ) : (
+              <FormattedMessage id="manage-clinic.btn-save" />
+            )}
           </button>
         </div>
+        <TableManageClinic
+          handleEditClinicFromParentKey={handleEditClinicFromParent}
+        />
       </div>
+      {isOpen === true && (
+        <Lightbox
+          mainSrc={previewImgURL}
+          onCloseRequest={() => setIsOpen(false)}
+        />
+      )}
     </div>
   );
 };

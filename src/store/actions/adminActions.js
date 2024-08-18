@@ -403,3 +403,31 @@ export const fetchAllSpecialtySuccess = (data) => ({
 export const fetchAllSpecialtyFailed = () => ({
   type: actionTypes.FETCH_ALL_SPECIALTY_FAILED,
 });
+
+// Fetch all clinics
+export const fetchAllClinic = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllClinicService();
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllClinicSuccess(res.data));
+      } else {
+        toast.error("Fetch all clinic failed!");
+        dispatch(fetchAllClinicFailed());
+      }
+    } catch (error) {
+      toast.error("Fetch all clinic failed!");
+      dispatch(fetchAllClinicFailed());
+      console.log("Fetch all clinic failed", error);
+    }
+  };
+};
+
+export const fetchAllClinicSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_CLINIC_SUCCESS,
+  dataClinic: data,
+});
+
+export const fetchAllClinicFailed = () => ({
+  type: actionTypes.FETCH_ALL_CLINIC_FAILED,
+});

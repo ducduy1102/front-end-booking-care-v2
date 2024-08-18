@@ -113,6 +113,14 @@ const getAllPatientForDoctorService = (data) => {
   );
 };
 
+const deleteClinicService = (clinicId) => {
+  return axios.delete("/api/delete-clinic", { data: { id: clinicId } });
+};
+
+const editClinicService = (clinicData) => {
+  return axios.put("/api/edit-clinic", clinicData);
+};
+
 // send remedy
 const postSendRemedyService = (data) => {
   return axios.post(`/api/send-remedy`, data);
@@ -149,6 +157,8 @@ export {
   getAllClinicService,
   getDetailClinicByIdService,
   getAllPatientForDoctorService,
+  deleteClinicService,
+  editClinicService,
   // send remedy
   postSendRemedyService,
 };

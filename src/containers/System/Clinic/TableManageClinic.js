@@ -3,71 +3,75 @@ import { useDispatch, useSelector } from "react-redux";
 import { LANGUAGES } from "../../../utils";
 import { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
-import { fetchAllSpecialty } from "../../../store/actions";
-import { deleteSpecialtyService } from "../../../services/userService";
+import { fetchAllClinic } from "../../../store/actions";
+import { deleteClinicService } from "../../../services/userService";
 import { toast } from "react-toastify";
-import "./TableManageSpecialty.scss";
+import "./TableManageClinic.scss";
 
-const TableManageSpecialty = (props) => {
+const TableManageClinic = (props) => {
   const dispatch = useDispatch();
-  const [arrSpecialties, setSpecialties] = useState([]);
-  const specialtyRedux = useSelector((state) => state.admin.allSpecialties);
+  const [arrClinics, setClinics] = useState([]);
+  const clinicRedux = useSelector((state) => state.admin.allClinics);
 
   useEffect(() => {
-    dispatch(fetchAllSpecialty());
+    dispatch(fetchAllClinic());
   }, []);
 
   useEffect(() => {
-    setSpecialties(specialtyRedux);
-  }, [specialtyRedux]);
+    setClinics(clinicRedux);
+  }, [clinicRedux]);
 
-  const handleEditSpecialty = (specialty) => {
-    props.handleEditSpecialtyFromParentKey(specialty);
+  const handleEditClinic = (clinic) => {
+    props.handleEditClinicFromParentKey(clinic);
   };
 
-  const handleDeleteSpecialty = async (specialty) => {
+  const handleDeleteClinic = async (clinic) => {
     // console.log(specialty);
-    let res = await deleteSpecialtyService(specialty.id);
+    let res = await deleteClinicService(clinic.id);
     if (res && res.errCode === 0) {
       toast.success(res.message);
-      dispatch(fetchAllSpecialty());
+      dispatch(fetchAllClinic());
     } else {
       toast.error(res.message);
     }
   };
 
   return (
-    <div className="mt-3 mb-5 table-specialty">
+    <div className="mt-3 mb-5 table-clinic">
       <table className="table table-hover table-bordered">
         <thead>
           <tr>
-            <th scope="col">ID</th>
+            <th scope="col">Id</th>
             <th>
-              <FormattedMessage id="manage-specialty.name" />
+              <FormattedMessage id="manage-clinic.name" />
             </th>
             <th>
-              <FormattedMessage id="manage-specialty.actions" />
+              <FormattedMessage id="manage-clinic.address" />
+            </th>
+            <th>
+              <FormattedMessage id="manage-clinic.actions" />
             </th>
           </tr>
         </thead>
         <tbody>
-          {arrSpecialties && arrSpecialties.length > 0 ? (
-            arrSpecialties.map((item, index) => {
+          {arrClinics && arrClinics.length > 0 ? (
+            arrClinics.map((item, index) => {
               return (
-                <tr key={`specialty-${index}`}>
+                <tr key={`clinic-${index}`}>
                   <th scope="row">{item.id}</th>
                   <td>{item.name}</td>
+                  <td>{item.address}</td>
                   <td>
                     <button
                       className="btn-edit"
-                      onClick={() => handleEditSpecialty(item)}
+                      onClick={() => handleEditClinic(item)}
                     >
                       <i className="fas fa-edit"></i>
                     </button>
                     <button
                       type="submit"
                       className="btn-delete"
-                      onClick={() => handleDeleteSpecialty(item)}
+                      onClick={() => handleDeleteClinic(item)}
                       disabled
                     >
                       <i className="fas fa-trash-alt"></i>
@@ -79,8 +83,8 @@ const TableManageSpecialty = (props) => {
           ) : (
             <>
               <tr>
-                <td colSpan={3} className="text-center">
-                  <FormattedMessage id="manage-specialty.not-found" />
+                <td colSpan={4} className="text-center">
+                  <FormattedMessage id="manage-clinic.not-found" />
                 </td>
               </tr>
             </>
@@ -91,4 +95,4 @@ const TableManageSpecialty = (props) => {
   );
 };
 
-export default TableManageSpecialty;
+export default TableManageClinic;

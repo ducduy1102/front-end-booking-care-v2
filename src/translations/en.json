@@ -171,12 +171,15 @@
     "name": "Name of clinic",
     "address": "Address of clinic",
     "image": "Image",
-    "btn-save": "Save",
+    "btn-save": "Create",
+    "btn-edit": "Save change",
     "description": "Description",
     "introduction": "Introduction",
     "professional-strengths": "Professional strengths",
     "equipment": "Equipment",
     "location": "Location",
-    "process": "Medical examination process"
+    "process": "Medical examination process",
+    "actions": "Actions",
+    "not-found": "Not found clinic / hospital"
   }
 }

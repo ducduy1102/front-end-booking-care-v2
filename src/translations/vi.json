@@ -172,11 +172,14 @@
     "address": "Địa chỉ phòng khám",
     "image": "Ảnh phòng khám",
     "btn-save": "Tạo mới",
+    "btn-edit": "Lưu thay đổi",
     "description": "Mô tả",
     "introduction": "Giới thiệu",
     "professional-strengths": "Thế mạnh chuyên môn",
     "equipment": "Trang thiết bị",
     "location": "Vị trí",
-    "process": "Quy trình khám bệnh"
+    "process": "Quy trình khám bệnh",
+    "actions": "Chức năng",
+    "not-found": "Không tìm thấy phòng khám / bệnh viện"
   }
 }
