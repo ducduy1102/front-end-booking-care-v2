@@ -7,12 +7,19 @@ import { LANGUAGES } from "../../../utils";
 import { useEffect, useState } from "react";
 import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor";
+import Comment from "../SocialPlugin/Comment";
+import LikeAndShare from "../SocialPlugin/LikeAndShare";
 
 const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
 
   const [detailDoctor, setDetailDoctor] = useState({});
   const [currentDoctorId, setCurrentDoctorId] = useState(-1);
+
+  let currentURL =
+    +process.env.REACT_APP_IS_LOCALHOST === 1
+      ? "https://monkey-blogging-sooty.vercel.app/"
+      : window.location.href;
 
   let nameVi = "";
   let nameEn = "";
@@ -58,6 +65,9 @@ const DetailDoctor = (props) => {
               {detailDoctor?.Markdown?.description && (
                 <span>{detailDoctor.Markdown.description}</span>
               )}
+              <div className="like-share-plugin">
+                <LikeAndShare dataHref={currentURL} />
+              </div>
             </div>
           </div>
         </div>
@@ -79,7 +89,9 @@ const DetailDoctor = (props) => {
             ></div>
           )}
         </div>
-        <div className="comment-doctor"></div>
+        <div className="comment-doctor">
+          <Comment dataHref={currentURL} width={"100%"} />
+        </div>
       </div>
     </>
   );
