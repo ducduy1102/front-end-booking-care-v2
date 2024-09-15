@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
-
 import { FormattedMessage } from "react-intl";
 
 const About = () => {
@@ -8,7 +7,7 @@ const About = () => {
     <div className="section-share section-about">
       <div className="container">
         <div className="section-about-header">
-          Truyền thông nói gì về Đức Duy?
+          <FormattedMessage id="about.title" />
         </div>
         <div className="section-about-content">
           <div className="content-left">

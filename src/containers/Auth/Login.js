@@ -3,14 +3,29 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLogin } from "../../services/userService";
+import { FormattedMessage } from "react-intl";
+import { connect } from "react-redux";
+import { LANGUAGES, USER_ROLE } from "../../utils";
+import viFlag from "../../assets/images/vietnam-flag.svg";
+import enFlag from "../../assets/images/en-flag.svg";
+import { changeLanguageApp } from "../../store/actions";
 
-const Login = () => {
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const language = useSelector((state) => state.app.language);
+
+  useEffect(() => {
+    if (language) {
+    }
+  }, [language]);
   const dispatch = useDispatch();
+  const changeLanguage = (language) => {
+    props.changeLanguageAppRedux(language);
+  };
   // C1
   // const userLoginSuccess = (userInfo) =>
   //   dispatch(actions.userLoginSuccess(userInfo));
@@ -47,9 +62,51 @@ const Login = () => {
     <div className="login-background">
       <div className="login-container">
         <div className="login-content row">
-          <div className="text-login">Login</div>
+          <div className="languages">
+            <div
+              className={
+                language === "vi" ? "language-vi active" : "language-vi"
+              }
+            >
+              <img
+                src={viFlag}
+                alt=""
+                className="img-vi"
+                onClick={() => changeLanguage(LANGUAGES.VI)}
+              />
+              <span
+                className="text-vi"
+                onClick={() => changeLanguage(LANGUAGES.VI)}
+              >
+                VN
+              </span>
+            </div>
+            <div
+              className={
+                language === "en" ? "language-en active" : "language-en"
+              }
+            >
+              <img
+                src={enFlag}
+                alt=""
+                className="img-en"
+                onClick={() => changeLanguage(LANGUAGES.EN)}
+              />
+              <span
+                className="text-en"
+                onClick={() => changeLanguage(LANGUAGES.EN)}
+              >
+                EN
+              </span>
+            </div>
+          </div>
+          <div className="text-login">
+            <FormattedMessage id="login.login" />
+          </div>
           <div className="form-group login-input">
-            <label className="text-label">Username</label>
+            <label className="text-label">
+              <FormattedMessage id="login.username" />
+            </label>
             <input
               type="text"
               name="username"
@@ -60,7 +117,9 @@ const Login = () => {
             />
           </div>
           <div className="form-group login-input">
-            <label className="text-label">Password</label>
+            <label className="text-label">
+              <FormattedMessage id="login.password" />
+            </label>
             <div className="custom-input-password">
               <input
                 type={isShowPassword ? "text" : "password"}
@@ -83,14 +142,18 @@ const Login = () => {
           </div>
           <div className="">
             <button className="btn-login" onClick={() => handleUserLogin()}>
-              Login
+              <FormattedMessage id="login.login" />
             </button>
           </div>
           <div className="">
-            <span className="forgot-password">Forgot your password</span>
+            <span className="forgot-password">
+              <FormattedMessage id="login.forgot-password" />
+            </span>
           </div>
           <div className="mt-3 text-center">
-            <span className="text-other-login">Or Login With</span>
+            <span className="text-other-login">
+              <FormattedMessage id="login.or-login-with" />
+            </span>
           </div>
           <div className="social-login">
             <i className="fab fa-google-plus-g google"></i>
@@ -102,4 +165,20 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.user.isLoggedIn,
+    userInfo: state.user.userInfo,
+    language: state.app.language,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeLanguageAppRedux: (language) => dispatch(changeLanguageApp(language)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+// export default Login;

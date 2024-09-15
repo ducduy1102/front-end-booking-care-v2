@@ -27,7 +27,9 @@
     "login": "Login",
     "username": "Username",
     "password": "Password",
-    "userpass-wrong": "Invalid username or password!"
+    "userpass-wrong": "Invalid username or password!",
+    "forgot-password": "Forgot your password",
+    "or-login-with": "Or Login With"
   },
 
   "menu": {
@@ -181,5 +183,9 @@
     "process": "Medical examination process",
     "actions": "Actions",
     "not-found": "Not found clinic / hospital"
+  },
+
+  "about": {
+    "title": "What does the media say about BookingCare?"
   }
 }

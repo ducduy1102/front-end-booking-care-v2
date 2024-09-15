@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(
     135deg,
     rgb(24, 193, 195) 0%,
@@ -15,12 +15,64 @@
     }
 
     width: 300px;
-    height: 420px;
+    min-height: 440px;
     background-color: #fff;
     border-radius: 12px;
 
     .login-content {
       padding: 16px;
+
+      .languages {
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        .welcome {
+          margin-right: 10px;
+        }
+
+        .language-vi,
+        .language-en {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          opacity: 0.5;
+          padding: 5px;
+
+          &.active {
+            opacity: 1;
+          }
+
+          &:hover {
+            opacity: 0.8;
+          }
+          .img-vi,
+          .img-en {
+            width: 20px;
+            height: 20px;
+          }
+
+          .text-vi,
+          .text-en {
+            padding: 0 3px;
+          }
+        }
+
+        .language-vi {
+          &.active,
+          &:hover {
+            color: red;
+          }
+        }
+
+        .language-en {
+          margin: 0 10px;
+          &.active,
+          &:hover {
+            color: #49bce2;
+          }
+        }
+      }
 
       .text-login {
         font-weight: 600;

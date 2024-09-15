@@ -27,7 +27,9 @@
     "login": "Đăng nhập",
     "username": "Tên đăng nhập",
     "password": "Mật khẩu",
-    "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!"
+    "userpass-wrong": "Sai tên đăng nhập hoặc mật khẩu!",
+    "forgot-password": "Quên mật khẩu",
+    "or-login-with": "Hoặc đăng nhập bằng"
   },
 
   "menu": {
@@ -181,5 +183,9 @@
     "process": "Quy trình khám bệnh",
     "actions": "Chức năng",
     "not-found": "Không tìm thấy phòng khám / bệnh viện"
+  },
+
+  "about": {
+    "title": "Truyển thông nói gì về BookingCare?"
   }
 }
