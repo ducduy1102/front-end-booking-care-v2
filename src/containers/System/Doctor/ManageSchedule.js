@@ -134,6 +134,10 @@ const ManageSchedule = () => {
 
     if (res && res.errCode === 0) {
       toast.success("Save info successfully!");
+      const scheduleItem = document.querySelectorAll(".active");
+      scheduleItem.forEach((item) => {
+        item.classList.remove("active");
+      });
     } else {
       toast.error(res.message);
     }
