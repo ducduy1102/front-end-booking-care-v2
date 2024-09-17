@@ -135,7 +135,6 @@ const ManageDoctor = (props) => {
         ...valueMarkdown,
         selectedDoctor: selectedDoctor,
       });
-      // setSelectedDoctor(selectedDoctor);
       setListDoctors(dataSelect);
     }
   }, [allDoctorsRedux, language]);
@@ -183,8 +182,6 @@ const ManageDoctor = (props) => {
       selectedSpecialty: selectedSpecialty.value,
       selectedClinic: selectedClinic.value,
     });
-    console.log("valueMarkdownCopy", valueMarkdownCopy);
-    console.log("valueInforDoctorCopy", valueInforDoctorCopy);
   };
 
   const handleEditorChange = ({ html, text }) => {
@@ -197,8 +194,9 @@ const ManageDoctor = (props) => {
 
   const handleChangeSelected = async (selectedDoctor) => {
     setSelectedDoctor(selectedDoctor);
-    // const dataSelect = buildDataInputSelect(allDoctorsRedux, "USERS");
+
     let res = await getDetailInforDoctorService(selectedDoctor.value);
+    console.log("res", res);
     if (res && res.errCode === 0 && res?.data?.Markdown) {
       let markdown = res.data.Markdown;
       let addressClinic = "",
@@ -237,6 +235,12 @@ const ManageDoctor = (props) => {
         selectedClinic = listClinics.find((item) => item.value === clinicId);
       }
 
+      setSelectedPrice(selectedPrice);
+      setSelectedPayment(selectedPayment);
+      setSelectedProvince(selectedProvince);
+      setSelectedSpecialty(selectedSpecialty);
+      setSelectedClinic(selectedClinic);
+
       setValueMarkdown({
         contentHTML: markdown.contentHTML,
         contentMarkdown: markdown.contentMarkdown,
@@ -253,12 +257,6 @@ const ManageDoctor = (props) => {
         selectedSpecialty: selectedSpecialty,
         selectedClinic: selectedClinic,
       });
-      // console.log(valueMarkdown);
-      // console.log(valueInforDoctor);
-      // console.log("selecteddoctor1", selectedDoctor);
-      // console.log("selectedPrice1", selectedPrice);
-      // console.log("selectedPayment1", selectedPayment);
-      // console.log("selectedProvince1", selectedProvince);
       sethasOldData(true);
     } else {
       setValueMarkdown({
@@ -277,11 +275,6 @@ const ManageDoctor = (props) => {
       sethasOldData(false);
     }
   };
-
-  // console.log("selecteddoctor3", selectedDoctor);
-  // console.log("selectedPrice3", selectedPrice);
-  // console.log("selectedPayment3", selectedPayment);
-  // console.log("selectedProvince3", selectedProvince);
 
   const handleChangeSelectDoctorInfor = (selectedOption, { name }) => {
     // let stateCopy = {
@@ -403,7 +396,7 @@ const ManageDoctor = (props) => {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.price" />
                 }
-                defaultValue={selectedPrice}
+                value={selectedPrice}
                 onChange={handleChangeSelectDoctorInfor}
                 options={listPrices}
                 name="selectedPrice"
@@ -417,7 +410,7 @@ const ManageDoctor = (props) => {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.payment" />
                 }
-                defaultValue={selectedPayment}
+                value={selectedPayment}
                 onChange={handleChangeSelectDoctorInfor}
                 options={listPayments}
                 name="selectedPayment"
@@ -431,7 +424,7 @@ const ManageDoctor = (props) => {
                 placeholder={
                   <FormattedMessage id="admin.manage-doctor.province" />
                 }
-                defaultValue={selectedProvince}
+                value={selectedProvince}
                 onChange={handleChangeSelectDoctorInfor}
                 options={listProvinces}
                 name="selectedProvince"
