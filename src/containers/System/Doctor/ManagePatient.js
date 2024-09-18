@@ -125,6 +125,9 @@ const ManagePatient = (props) => {
                         <FormattedMessage id="manage-patient.fullname" />
                       </th>
                       <th>
+                        <FormattedMessage id="manage-user.date-of-birth" />
+                      </th>
+                      <th>
                         <FormattedMessage id="manage-user.address" />
                       </th>
                       <th>
@@ -134,6 +137,9 @@ const ManagePatient = (props) => {
                         <FormattedMessage id="manage-user.phone-number" />
                       </th>
                       <th>
+                        <FormattedMessage id="manage-user.reason" />
+                      </th>
+                      <th>
                         <FormattedMessage id="manage-user.actions" />
                       </th>
                     </tr>
@@ -141,6 +147,18 @@ const ManagePatient = (props) => {
                   <tbody>
                     {dataPatient && dataPatient.length > 0 ? (
                       dataPatient.map((item, index) => {
+                        let birthday = +item?.patientData.birthday;
+                        const dateObj = new Date(birthday * 1000);
+
+                        const locale =
+                          language === LANGUAGES.VI ? "vi-VI" : "en-US";
+
+                        const formattedDate = new Intl.DateTimeFormat(locale, {
+                          month: "2-digit",
+                          day: "2-digit",
+                          year: "numeric",
+                        }).format(dateObj);
+
                         return (
                           <tr key={`patient-${index}`}>
                             <th scope="row">{item.id}</th>
@@ -151,6 +169,7 @@ const ManagePatient = (props) => {
                                 : item?.timeTypeDataPatient.valueEn}
                             </td>
                             <td>{item?.patientData.firstName}</td>
+                            <td>{formattedDate}</td>
                             <td>{item?.patientData.address}</td>
                             <td>
                               {language === LANGUAGES.VI
@@ -158,6 +177,7 @@ const ManagePatient = (props) => {
                                 : item?.patientData.genderData.valueEn}
                             </td>
                             <td>{item?.patientData.phoneNumber}</td>
+                            <td>{item?.reason}</td>
                             <td>
                               <button
                                 className="btn-confirm"

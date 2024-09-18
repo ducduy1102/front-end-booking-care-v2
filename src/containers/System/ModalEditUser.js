@@ -65,6 +65,7 @@ const ModalEditUser = (props) => {
       "address",
       "phoneNumber",
       "gender",
+      "positionId",
       "roleId",
     ];
     let isValid = true;

@@ -16,6 +16,7 @@ import "react-image-lightbox/style.css";
 import Lightbox from "react-image-lightbox";
 import _ from "lodash";
 import TableManageUser from "./TableManageUser";
+import { DatePicker } from "../../../components/Input";
 
 const UserRedux = () => {
   const dispatch = useDispatch();
@@ -51,6 +52,7 @@ const UserRedux = () => {
     lastName: "",
     address: "",
     phoneNumber: "",
+    birthday: "",
     gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].keyMap : "",
     positionId:
       positionRedux && positionRedux.length > 0 ? positionRedux[0].keyMap : "",
@@ -65,6 +67,7 @@ const UserRedux = () => {
     lastName: true,
     address: true,
     phoneNumber: true,
+    birthday: true,
   };
 
   useEffect(() => {
@@ -133,6 +136,10 @@ const UserRedux = () => {
     setUserData(_userData);
   };
 
+  const handleOnChangeDatePicker = (date) => {
+    setUserData({ ...userData, birthday: +date[0] });
+  };
+
   const checkValidateInputs = () => {
     let arrInput = [
       "email",
@@ -140,6 +147,7 @@ const UserRedux = () => {
       "firstName",
       "lastName",
       "address",
+      "birthday",
       "phoneNumber",
     ];
     let isValid = true;
@@ -166,31 +174,40 @@ const UserRedux = () => {
       createNewUser(userData);
     }
     if (action === CRUD_ACTIONS.EDIT) {
+      // convert date to unix timestamp
+      let birthday = Math.floor(
+        new Date(+userData.birthday).getTime() / 1000
+      ).toString();
       editUserRedux({
         id: userData.id,
         firstName: userData.firstName,
         lastName: userData.lastName,
+        birthday: birthday,
         address: userData.address,
         phoneNumber: userData.phoneNumber,
         gender: userData.gender,
         roleId: userData.roleId,
-        positionId: userData.positionId,
+        positionId: userData.positionId === null ? "P5" : userData.positionId,
         avatar: userData.avatar,
       });
     }
     setUserData(defaulUserData);
   };
   const handleEditUserFromParent = (user) => {
+    console.log("user", user);
     let imageBase64 = "";
     if (user.image) {
       imageBase64 = new Buffer(user.image, "base64").toString("binary");
     }
-    // console.log("check handle Edit User From Parent", user);
+
+    // convert unix timestamp to date to get value in DatePicker
+    const birthdayFormated = new Date(user.birthday * 1000);
     setUserData({
       email: user.email,
       password: "HARDCODE",
       firstName: user.firstName,
       lastName: user.lastName,
+      birthday: birthdayFormated,
       address: user.address,
       phoneNumber: user.phoneNumber,
       gender: user.gender,
@@ -205,7 +222,9 @@ const UserRedux = () => {
 
   return (
     <div className="container user-redux-container">
-      <div className="title">User Manage Redux</div>
+      <div className="title">
+        <FormattedMessage id="manage-user.title" />
+      </div>
       {isLoading === true ? (
         <div className="loader-container">
           <div className="loader"></div>
@@ -300,7 +319,7 @@ const UserRedux = () => {
                     }
                   />
                 </div>
-                <div className="col-md-9">
+                <div className="col-md-6">
                   <label htmlFor="address" className="form-label">
                     <FormattedMessage id="manage-user.address" />
                   </label>
@@ -314,6 +333,16 @@ const UserRedux = () => {
                     onChange={(e) =>
                       handleOnChangeInput(e.target.value, "address")
                     }
+                  />
+                </div>
+                <div className="col-md-3">
+                  <label htmlFor="" className="form-label">
+                    <FormattedMessage id="manage-patient.select-date" />
+                  </label>
+                  <DatePicker
+                    onChange={handleOnChangeDatePicker}
+                    className="form-control date-picker"
+                    value={userData.birthday}
                   />
                 </div>
                 <div className="col-md-3">

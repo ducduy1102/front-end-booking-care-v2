@@ -24,7 +24,6 @@ const TableManageUser = (props) => {
 
   const handleEditUser = (user) => {
     // setUserDataEdit(user);
-    // console.log("edit user", user);
     props.handleEditUserFromParentKey(user);
   };
 
@@ -49,6 +48,9 @@ const TableManageUser = (props) => {
                   </th>
                   <th>
                     <FormattedMessage id="manage-user.last-name" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="manage-user.date-of-birth" />
                   </th>
                   <th>
                     <FormattedMessage id="manage-user.address" />
@@ -90,12 +92,25 @@ const TableManageUser = (props) => {
                           : obj.valueEn
                         : "";
 
+                    let birthday = +item?.birthday;
+                    const dateObj = new Date(birthday * 1000);
+
+                    const locale =
+                      language === LANGUAGES.VI ? "vi-VI" : "en-US";
+
+                    const formattedDate = new Intl.DateTimeFormat(locale, {
+                      month: "2-digit",
+                      day: "2-digit",
+                      year: "numeric",
+                    }).format(dateObj);
+
                     return (
                       <tr key={`user-${index}`}>
                         <th scope="row">{item.id}</th>
                         <td>{item.email}</td>
                         <td>{item.firstName}</td>
                         <td>{item.lastName}</td>
+                        <td>{formattedDate}</td>
                         <td>{item.address}</td>
                         <td>{getValue(gender)}</td>
                         <td>{item.phoneNumber}</td>
