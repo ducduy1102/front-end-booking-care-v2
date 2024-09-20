@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "./TableManageSpecialty.scss";
 import ReactPaginate from "react-paginate";
 import { getAllSpecialtiesPagination } from "../../../services/userService";
+import ModalDelete from "../../../components/Modal/ModalDelete";
 
 const TableManageSpecialty = (props) => {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ const TableManageSpecialty = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(4);
   const [totalPages, setTotalPages] = useState(0);
+
+  // Modal Delete
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [dataModal, setDataModal] = useState({});
 
   // useEffect(() => {
   //   dispatch(fetchAllSpecialty());
@@ -47,14 +52,24 @@ const TableManageSpecialty = (props) => {
   };
 
   const handleDeleteSpecialty = async (specialty) => {
-    // console.log(specialty);
-    let res = await deleteSpecialtyService(specialty.id);
+    setDataModal(specialty);
+    setIsShowModalDelete(true);
+  };
+
+  const handleClose = () => {
+    setIsShowModalDelete(false);
+    setDataModal({});
+  };
+
+  const confirmDeleteSpecialty = async () => {
+    let res = await deleteSpecialtyService(dataModal.id);
     if (res && res.errCode === 0) {
       toast.success(res.message);
       dispatch(fetchAllSpecialty());
     } else {
       toast.error(res.message);
     }
+    setIsShowModalDelete(false);
   };
 
   return (
@@ -132,6 +147,15 @@ const TableManageSpecialty = (props) => {
           />
         )}
       </div>
+      <ModalDelete
+        type="specialty"
+        title={<FormattedMessage id="modal.title-delete-specialty" />}
+        question={<FormattedMessage id="modal.question-delete-specialty" />}
+        show={isShowModalDelete}
+        handleClose={handleClose}
+        confirmDelete={confirmDeleteSpecialty}
+        dataModal={dataModal}
+      />
     </>
   );
 };

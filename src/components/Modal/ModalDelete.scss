@@ -1,0 +1,12 @@
+.modal-dialog {
+  .modal-content {
+    .modal-header {
+      flex-direction: row-reverse;
+      background-color: #0d6efd !important;
+      .header-close {
+        padding: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+}

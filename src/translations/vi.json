@@ -190,5 +190,16 @@
 
   "about": {
     "title": "Truyển thông nói gì về BookingCare?"
+  },
+
+  "modal": {
+    "close": "Đóng",
+    "delete": "Xóa",
+    "title-delete-user": "Xóa email/user",
+    "question-delete-user": "Bạn có chắc chắn xóa email/user: ",
+    "title-delete-clinic": "Xóa bệnh viện/phòng khám",
+    "question-delete-clinic": "Bạn có chắc chắn xóa bệnh viện/phòng khám ",
+    "title-delete-specialty": "Xóa chuyên khoa",
+    "question-delete-specialty": "Bạn có chắc chắn xóa chuyên khoa "
   }
 }

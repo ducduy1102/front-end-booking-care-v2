@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "./TableManageClinic.scss";
 import ReactPaginate from "react-paginate";
 import { getAllClinicsPagination } from "../../../services/userService";
+import ModalDelete from "../../../components/Modal/ModalDelete";
 
 const TableManageClinic = (props) => {
   const dispatch = useDispatch();
@@ -19,6 +20,10 @@ const TableManageClinic = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentLimit, setCurrentLimit] = useState(4);
   const [totalPages, setTotalPages] = useState(0);
+
+  // Modal Delete
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [dataModal, setDataModal] = useState({});
 
   useEffect(() => {
     dispatch(fetchAllClinic());
@@ -47,14 +52,24 @@ const TableManageClinic = (props) => {
   };
 
   const handleDeleteClinic = async (clinic) => {
-    // console.log(specialty);
-    let res = await deleteClinicService(clinic.id);
+    setDataModal(clinic);
+    setIsShowModalDelete(true);
+  };
+
+  const handleClose = () => {
+    setIsShowModalDelete(false);
+    setDataModal({});
+  };
+
+  const confirmDeleteClinic = async () => {
+    let res = await deleteClinicService(dataModal.id);
     if (res && res.errCode === 0) {
       toast.success(res.message);
       dispatch(fetchAllClinic());
     } else {
       toast.error(res.message);
     }
+    setIsShowModalDelete(false);
   };
 
   return (
@@ -134,6 +149,15 @@ const TableManageClinic = (props) => {
           renderOnZeroPageCount={null}
         />
       )}
+      <ModalDelete
+        type="clinic"
+        title={<FormattedMessage id="modal.title-delete-clinic" />}
+        question={<FormattedMessage id="modal.question-delete-clinic" />}
+        show={isShowModalDelete}
+        handleClose={handleClose}
+        confirmDelete={confirmDeleteClinic}
+        dataModal={dataModal}
+      />
     </div>
   );
 };

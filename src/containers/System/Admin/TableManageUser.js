@@ -6,6 +6,7 @@ import { fetchAllUserStart, deleteUserStart } from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
 import ReactPaginate from "react-paginate";
 import { getAllUsersPagination } from "../../../services/userService";
+import ModalDelete from "../../../components/Modal/ModalDelete";
 
 const TableManageUser = (props) => {
   const dispatch = useDispatch();
@@ -21,6 +22,10 @@ const TableManageUser = (props) => {
   const [currentLimit, setCurrentLimit] = useState(6);
   const [totalPages, setTotalPages] = useState(0);
 
+  // Modal Delete
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [dataModal, setDataModal] = useState({});
+
   // useEffect(() => {
   //   dispatch(fetchAllUserStart());
   // }, []);
@@ -35,7 +40,18 @@ const TableManageUser = (props) => {
   };
 
   const handleDeleteUser = async (user) => {
-    dispatch(deleteUserStart(user.id));
+    setDataModal(user);
+    setIsShowModalDelete(true);
+  };
+
+  const handleClose = () => {
+    setIsShowModalDelete(false);
+    setDataModal({});
+  };
+
+  const confirmDeleteUser = async () => {
+    dispatch(deleteUserStart(dataModal.id));
+    setIsShowModalDelete(false);
   };
 
   const getUsersPagination = async () => {
@@ -156,7 +172,7 @@ const TableManageUser = (props) => {
                 ) : (
                   <>
                     <tr>
-                      <td colSpan={9} className="text-center">
+                      <td colSpan={11} className="text-center">
                         <FormattedMessage id="manage-user.not-found" />
                       </td>
                     </tr>
@@ -189,6 +205,15 @@ const TableManageUser = (props) => {
           />
         )}
       </div>
+      <ModalDelete
+        type="user"
+        title={<FormattedMessage id="modal.title-delete-user" />}
+        question={<FormattedMessage id="modal.question-delete-user" />}
+        show={isShowModalDelete}
+        handleClose={handleClose}
+        confirmDelete={confirmDeleteUser}
+        dataModal={dataModal}
+      />
     </div>
   );
 };

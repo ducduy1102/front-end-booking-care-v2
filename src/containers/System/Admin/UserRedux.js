@@ -55,8 +55,13 @@ const UserRedux = () => {
     birthday: "",
     gender: genderRedux && genderRedux.length > 0 ? genderRedux[0].keyMap : "",
     positionId:
-      positionRedux && positionRedux.length > 0 ? positionRedux[0].keyMap : "",
-    roleId: roleRedux && roleRedux.length > 0 ? roleRedux[0].keyMap : "",
+      positionRedux && positionRedux.length > 0
+        ? positionRedux[positionRedux.length - 1].keyMap
+        : "",
+    roleId:
+      roleRedux && roleRedux.length > 0
+        ? roleRedux[roleRedux.length - 1].keyMap
+        : "",
     avatar: "",
   };
 
@@ -95,7 +100,7 @@ const UserRedux = () => {
     if (roleRedux && roleRedux.length > 0) {
       setUserData((prevData) => ({
         ...prevData,
-        roleId: roleRedux[0].keyMap,
+        roleId: roleRedux[roleRedux.length - 1].keyMap,
       }));
     } else {
       return;
@@ -106,7 +111,7 @@ const UserRedux = () => {
     if (positionRedux.length > 0) {
       setUserData((prevData) => ({
         ...prevData,
-        positionId: positionRedux[0].keyMap,
+        positionId: positionRedux[positionRedux.length - 1].keyMap,
       }));
     } else {
       return;
@@ -186,7 +191,7 @@ const UserRedux = () => {
         address: userData.address,
         phoneNumber: userData.phoneNumber,
         gender: userData.gender,
-        roleId: userData.roleId,
+        roleId: userData.roleId === null ? "R3" : userData.roleId,
         positionId: userData.positionId === null ? "P5" : userData.positionId,
         avatar: userData.avatar,
       });
@@ -337,7 +342,7 @@ const UserRedux = () => {
                 </div>
                 <div className="col-md-3">
                   <label htmlFor="" className="form-label">
-                    <FormattedMessage id="manage-patient.select-date" />
+                    <FormattedMessage id="manage-user.date-of-birth" />
                   </label>
                   <DatePicker
                     onChange={handleOnChangeDatePicker}
