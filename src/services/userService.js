@@ -9,6 +9,10 @@ const getAllUsers = (inputId) => {
   return axios.get(`/api/get-all-users?id=${inputId}`);
 };
 
+const getAllUsersPagination = (page, limit) => {
+  return axios.get(`/api/get-all-users?page=${page}&limit=${limit}`);
+};
+
 const createNewUser = (userData) => {
   return axios.post("/api/create-new-user", {
     ...userData,
@@ -76,6 +80,10 @@ const createNewSpecialtyService = (data) => {
   return axios.post("/api/create-new-specialty", data);
 };
 
+const getAllSpecialtiesPagination = (page, limit) => {
+  return axios.get(`/api/get-specialty?page=${page}&limit=${limit}`);
+};
+
 const getAllSpecialtyService = () => {
   return axios.get("/api/get-specialty");
 };
@@ -97,6 +105,10 @@ const editSpecialtyService = (specialtyData) => {
 // clinics
 const createNewClinicService = (data) => {
   return axios.post("/api/create-new-clinic", data);
+};
+
+const getAllClinicsPagination = (page, limit) => {
+  return axios.get(`/api/get-clinic?page=${page}&limit=${limit}`);
 };
 
 const getAllClinicService = () => {
@@ -161,4 +173,8 @@ export {
   editClinicService,
   // send remedy
   postSendRemedyService,
+  // pagination
+  getAllUsersPagination,
+  getAllSpecialtiesPagination,
+  getAllClinicsPagination,
 };

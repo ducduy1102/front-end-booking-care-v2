@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "./TableManageUser.scss";
 import { fetchAllUserStart, deleteUserStart } from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
+import ReactPaginate from "react-paginate";
+import { getAllUsersPagination } from "../../../services/userService";
 
 const TableManageUser = (props) => {
   const dispatch = useDispatch();
@@ -14,13 +16,18 @@ const TableManageUser = (props) => {
   const positionRedux = useSelector((state) => state.admin.positions);
   const roleRedux = useSelector((state) => state.admin.roles);
 
-  useEffect(() => {
-    dispatch(fetchAllUserStart());
-  }, []);
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentLimit, setCurrentLimit] = useState(6);
+  const [totalPages, setTotalPages] = useState(0);
+
+  // useEffect(() => {
+  //   dispatch(fetchAllUserStart());
+  // }, []);
 
   useEffect(() => {
-    setArrUsers(usersRedux);
-  }, [usersRedux]);
+    getUsersPagination();
+  }, [currentPage, usersRedux]);
 
   const handleEditUser = (user) => {
     // setUserDataEdit(user);
@@ -31,11 +38,23 @@ const TableManageUser = (props) => {
     dispatch(deleteUserStart(user.id));
   };
 
+  const getUsersPagination = async () => {
+    let res = await getAllUsersPagination(currentPage, currentLimit);
+    if (res && res.errCode === 0) {
+      setTotalPages(res.data.totalPages);
+      setArrUsers(res.data.users);
+    }
+  };
+
+  const handlePageClick = async (event) => {
+    setCurrentPage(Number(event.selected) + 1);
+  };
+
   return (
     <div className="users-container">
       <div className="container">
         <div className="users-content">
-          <div className="mt-3 mb-5 table-user">
+          <div className="mt-3 table-user">
             <table className="table table-hover table-bordered">
               <thead>
                 <tr>
@@ -147,6 +166,28 @@ const TableManageUser = (props) => {
             </table>
           </div>
         </div>
+        {totalPages > 0 && (
+          <ReactPaginate
+            nextLabel="&raquo;"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={3}
+            marginPagesDisplayed={4}
+            pageCount={totalPages}
+            previousLabel="&laquo;"
+            pageClassName="page-item"
+            pageLinkClassName="page-link"
+            previousClassName="page-item"
+            previousLinkClassName="page-link"
+            nextClassName="page-item"
+            nextLinkClassName="page-link"
+            breakLabel="..."
+            breakClassName="page-item"
+            breakLinkClassName="page-link"
+            containerClassName="pagination"
+            activeClassName="active"
+            renderOnZeroPageCount={null}
+          />
+        )}
       </div>
     </div>
   );

@@ -3,22 +3,30 @@
 }
 
 .table-clinic {
-  .btn-edit,
-  .btn-delete {
-    width: 40px;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    background: transparent;
+  .table {
+    margin: 10px 0 24px 0;
+
+    .btn-edit,
+    .btn-delete {
+      width: 40px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .btn-edit {
+      color: orange;
+    }
+
+    .btn-delete {
+      color: red;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 
-  .btn-edit {
-    color: orange;
-  }
-
-  .btn-delete {
-    color: red;
-    cursor: not-allowed;
-    opacity: 0.5;
+  .pagination {
+    margin-bottom: 10px;
   }
 }

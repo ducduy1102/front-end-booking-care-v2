@@ -7,19 +7,40 @@ import { fetchAllClinic } from "../../../store/actions";
 import { deleteClinicService } from "../../../services/userService";
 import { toast } from "react-toastify";
 import "./TableManageClinic.scss";
+import ReactPaginate from "react-paginate";
+import { getAllClinicsPagination } from "../../../services/userService";
 
 const TableManageClinic = (props) => {
   const dispatch = useDispatch();
   const [arrClinics, setClinics] = useState([]);
   const clinicRedux = useSelector((state) => state.admin.allClinics);
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentLimit, setCurrentLimit] = useState(4);
+  const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
     dispatch(fetchAllClinic());
   }, []);
 
   useEffect(() => {
-    setClinics(clinicRedux);
-  }, [clinicRedux]);
+    getClinicsPagination();
+    // setClinics(clinicRedux);
+  }, [currentPage, clinicRedux]);
+
+  const getClinicsPagination = async () => {
+    let res = await getAllClinicsPagination(currentPage, currentLimit);
+
+    if (res && res.errCode === 0) {
+      setTotalPages(res.data.totalPages);
+      setClinics(res.data.clinics);
+    }
+  };
+
+  const handlePageClick = async (event) => {
+    setCurrentPage(Number(event.selected) + 1);
+  };
 
   const handleEditClinic = (clinic) => {
     props.handleEditClinicFromParentKey(clinic);
@@ -37,7 +58,7 @@ const TableManageClinic = (props) => {
   };
 
   return (
-    <div className="mt-3 mb-5 table-clinic">
+    <div className="mt-3 table-clinic">
       <table className="table table-hover table-bordered">
         <thead>
           <tr>
@@ -91,6 +112,28 @@ const TableManageClinic = (props) => {
           )}
         </tbody>
       </table>
+      {totalPages > 0 && (
+        <ReactPaginate
+          nextLabel="&raquo;"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={4}
+          pageCount={totalPages}
+          previousLabel="&laquo;"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          breakLabel="..."
+          breakClassName="page-item"
+          breakLinkClassName="page-link"
+          containerClassName="pagination"
+          activeClassName="active"
+          renderOnZeroPageCount={null}
+        />
+      )}
     </div>
   );
 };

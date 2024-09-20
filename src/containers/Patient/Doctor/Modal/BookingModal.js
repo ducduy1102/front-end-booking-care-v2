@@ -149,7 +149,7 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
       address: valueBooking.address,
       reason: valueBooking.reason,
       date: dataTime.date,
-      birthday: birthday,
+      birthday: birthday === "NaN" ? null : birthday,
       selectedGender: valueBooking.selectedGender.value,
       doctorId: valueBooking.doctorId,
       timeType: valueBooking.timeType,
@@ -161,6 +161,8 @@ const BookingModal = ({ isOpenModal, closeBookingModal, dataTime }) => {
     if (res && res.errCode === 0) {
       setIsShowLoading(false);
       toast.success(res.message);
+      setValueBooking("");
+      setSelectedGender("");
       closeBookingModal();
     } else {
       setIsShowLoading(false);
