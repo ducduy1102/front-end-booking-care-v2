@@ -196,7 +196,7 @@
     "close": "Close",
     "delete": "Delete",
     "title-delete-user": "Delete email/user",
-    "question-delete-user": "Are you sure delete this email/user: ",
+    "question-delete-user": "Are you sure delete this email/user ",
     "title-delete-clinic": "Delete clinic",
     "question-delete-clinic": "Are you sure delete this clinic ",
     "title-delete-specialty": "Delete specialty",

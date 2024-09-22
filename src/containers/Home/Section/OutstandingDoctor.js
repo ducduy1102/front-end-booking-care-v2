@@ -27,7 +27,6 @@ const OutstandingDoctor = (props) => {
   }, [topDoctorsRedux]);
 
   const handleViewDetailDoctor = (doctor) => {
-    console.log("object", doctor);
     history.push(`/detail-doctor/${doctor.id}`);
   };
 

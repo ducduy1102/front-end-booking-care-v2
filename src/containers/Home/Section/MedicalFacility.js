@@ -19,7 +19,7 @@ const MedicalFacility = (props) => {
 
   const fetchClinics = async () => {
     let res = await getAllClinicService();
-    console.log("check res", res);
+
     if (res && res.errCode === 0) {
       setDataClinics(res.data ? res.data : []);
     }

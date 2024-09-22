@@ -22,8 +22,8 @@ const ModalDelete = ({
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {question} {type === "user" ? dataModal.email : `"${dataModal.name}"`}
-          ?
+          {question}
+          {type === "user" ? `"${dataModal.email}"` : `"${dataModal.name}"`}?
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

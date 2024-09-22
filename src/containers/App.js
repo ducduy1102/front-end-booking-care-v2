@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter as Router } from "connected-react-router";
@@ -23,9 +23,18 @@ import DetailDoctor from "./Patient/Doctor/DetailDoctor";
 import VerifyEmail from "./Patient/VerifyEmail";
 import DetailSpecialty from "./Patient/Specialty/DetailSpecialty";
 import DetailClinic from "./Patient/Clinic/DetailClinic";
+import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
+
+  const scrollbarsRef = useRef(null);
+
+  const handleScrollToTop = () => {
+    if (scrollbarsRef.current) {
+      scrollbarsRef.current.scrollToTop();
+    }
+  };
 
   const handlePersistorState = () => {
     const { persistor } = props;
@@ -52,7 +61,11 @@ const App = (props) => {
           {/* <ConfirmModal /> */}
 
           <div className="content-container">
-            <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
+            <ScrollToTopButton onClick={handleScrollToTop} />
+            <CustomScrollbars
+              ref={scrollbarsRef}
+              style={{ height: "100vh", width: "100%" }}
+            >
               <Switch>
                 <Route path={path.HOME} exact component={Home} />
                 <Route
@@ -64,7 +77,8 @@ const App = (props) => {
                   component={userIsAuthenticated(System)}
                 />
                 <Route
-                  path={"/doctor/"}
+                  // path={"/doctor/"}
+                  path={path.DOCTOR}
                   component={userIsAuthenticated(Doctor)}
                 />
 
