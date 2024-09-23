@@ -55,6 +55,16 @@ input {
           font-weight: 400;
           font-size: 12px;
         }
+
+        a {
+          &:hover {
+            color: #49bce2;
+          }
+        }
+
+        a.active {
+          color: #49bce2;
+        }
       }
     }
 

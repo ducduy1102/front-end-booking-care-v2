@@ -4,9 +4,10 @@ import Slider from "react-slick";
 import { fetchTopDoctor } from "../../../store/actions/adminActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, path } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
+import NavLinkBookMark from "../NavLinkBookMark";
 
 const OutstandingDoctor = (props) => {
   const history = useHistory();
@@ -38,9 +39,12 @@ const OutstandingDoctor = (props) => {
             <span className="title-section">
               <FormattedMessage id="homepage.outstanding-doctor" />
             </span>
-            <button className="btn-section">
-              <FormattedMessage id="homepage.more-infor" />
-            </button>
+
+            <NavLinkBookMark to={path.LIST_DOCTOR} className="">
+              <button className="btn-section">
+                <FormattedMessage id="homepage.more-infor" />
+              </button>
+            </NavLinkBookMark>
           </div>
           <div className="section-body">
             <Slider {...settings}>
@@ -75,7 +79,11 @@ const OutstandingDoctor = (props) => {
                           <div className="section-title">
                             {language === LANGUAGES.VI ? nameVi : nameEn}
                           </div>
-                          <div className="">Thần Kinh</div>
+                          <div className="specialties-name">
+                            {language === LANGUAGES.VI
+                              ? item.Doctor_Infor.speciatyData.name
+                              : item.Doctor_Infor.speciatyData.nameEn}
+                          </div>
                         </div>
                       </div>
                     </div>

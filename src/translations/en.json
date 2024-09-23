@@ -201,5 +201,9 @@
     "question-delete-clinic": "Are you sure delete this clinic ",
     "title-delete-specialty": "Delete specialty",
     "question-delete-specialty": "Are you sure delete this specialty "
+  },
+
+  "list": {
+    "outstanding-doctor": "Outstanding Doctors"
   }
 }

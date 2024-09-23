@@ -201,5 +201,9 @@
     "question-delete-clinic": "Bạn có chắc chắn xóa bệnh viện/phòng khám ",
     "title-delete-specialty": "Xóa chuyên khoa",
     "question-delete-specialty": "Bạn có chắc chắn xóa chuyên khoa "
+  },
+
+  "list": {
+    "outstanding-doctor": "Bác sĩ nổi bật"
   }
 }

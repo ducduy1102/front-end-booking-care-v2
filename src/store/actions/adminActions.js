@@ -213,7 +213,9 @@ export const fetchTopDoctor = () => {
     try {
       let res = await getTopDoctorHomeService("");
       // console.log("resTopDoctor", res);
-      if (res && res.errCode === 0) {
+      if (res && res.errCode === 0 && res.data?.limitInput) {
+        dispatch(fetchTopDoctorSuccess(res.data.doctors));
+      } else if (res && res.errCode === 0) {
         dispatch(fetchTopDoctorSuccess(res.data));
       } else {
         toast.error("Fetch top doctor failed!");

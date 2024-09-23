@@ -1,0 +1,32 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.bookmark-content {
+  a {
+    text-decoration: none;
+    color: #49bce2;
+
+    &:hover {
+      color: #49bce2;
+    }
+  }
+
+  .bookmark-name,
+  .icon-bookmark {
+    display: inline-block;
+  }
+
+  .icon-bookmark {
+    margin-right: 6px;
+    color: #49bce2;
+  }
+
+  .bookmark-name {
+    cursor: pointer;
+    &:hover {
+      color: #49bce2;
+    }
+  }
+}

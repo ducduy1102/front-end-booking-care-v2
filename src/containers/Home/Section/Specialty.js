@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { LANGUAGES } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 import { getAllSpecialtyService } from "../../../services/userService";
 import "./Specialty.scss";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Specialty = (props) => {
   const { settings } = props;
   const history = useHistory();
   const [dataSpecialty, setDataSpecialty] = useState([]);
+  const language = useSelector((state) => state.app.language);
 
   useEffect(() => {
     fetchAllSpecialty();
@@ -55,7 +56,7 @@ const Specialty = (props) => {
                         style={{ backgroundImage: `url(${item.image})` }}
                       ></div>
                       <div className="section-title specialty-name">
-                        {item.name}
+                        {language === LANGUAGES.VI ? item.name : item.nameEn}
                       </div>
                     </div>
                   );

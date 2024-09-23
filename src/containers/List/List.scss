@@ -1,0 +1,49 @@
+.list-header {
+  .title-list {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+
+.list-body {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  .list-custom {
+    height: 260px;
+    cursor: pointer;
+
+    .custom-border {
+      margin-top: 20px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .outer-bg {
+        .bg-img {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+
+          background-position: center center;
+          background-repeat: no-repeat;
+          background-size: cover;
+
+          &.list-outstanding-doctor {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .list-title {
+      margin-top: 4px;
+      font-size: 18px;
+      color: black;
+      text-transform: capitalize;
+    }
+  }
+}

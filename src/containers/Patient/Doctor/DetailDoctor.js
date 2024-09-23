@@ -9,6 +9,7 @@ import DoctorSchedule from "./DoctorSchedule";
 import DoctorExtraInfor from "./DoctorExtraInfor";
 import Comment from "../SocialPlugin/Comment";
 import LikeAndShare from "../SocialPlugin/LikeAndShare";
+import BookMark from "../../Home/BookMark";
 
 const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
@@ -48,6 +49,7 @@ const DetailDoctor = (props) => {
     <>
       <HomeHeader isShowBanner={false} />
       <div className="doctor-detail-container">
+        <BookMark />
         <div className="container intro-doctor">
           <div
             className="content-left"

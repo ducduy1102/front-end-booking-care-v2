@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./HomeHeader.scss";
 import logo from "../../assets/images/logo.svg";
 import { FormattedMessage } from "react-intl";
-import { LANGUAGES } from "../../utils";
+import { LANGUAGES, path } from "../../utils";
 import { changeLanguageApp } from "../../store/actions";
 import viFlag from "../../assets/images/vietnam-flag.svg";
 import enFlag from "../../assets/images/en-flag.svg";
+import NavLinkBookMark from "./NavLinkBookMark";
 
 const HomeHeader = (props) => {
   const dispatch = useDispatch();
@@ -52,14 +53,16 @@ const HomeHeader = (props) => {
               </div>
             </div>
             <div className="child-content">
-              <div>
-                <b>
-                  <FormattedMessage id="home-header.doctor" />
-                </b>
-              </div>
-              <div className="sub-title">
-                <FormattedMessage id="home-header.choose-doctor" />
-              </div>
+              <NavLinkBookMark to={path.LIST_DOCTOR} className="">
+                <div>
+                  <b>
+                    <FormattedMessage id="home-header.doctor" />
+                  </b>
+                </div>
+                <div className="sub-title">
+                  <FormattedMessage id="home-header.choose-doctor" />
+                </div>
+              </NavLinkBookMark>
             </div>
             <div className="child-content">
               <div>
