@@ -15,6 +15,7 @@ const TableManageSpecialty = (props) => {
   const dispatch = useDispatch();
   const [arrSpecialties, setSpecialties] = useState([]);
   const specialtyRedux = useSelector((state) => state.admin.allSpecialties);
+  const language = useSelector((state) => state.app.language);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -93,7 +94,9 @@ const TableManageSpecialty = (props) => {
                 return (
                   <tr key={`specialty-${index}`}>
                     <th scope="row">{item.id}</th>
-                    <td>{item.name}</td>
+                    <td>
+                      {language === LANGUAGES.VI ? item.name : item.nameEn}
+                    </td>
                     <td>
                       <button
                         className="btn-edit"

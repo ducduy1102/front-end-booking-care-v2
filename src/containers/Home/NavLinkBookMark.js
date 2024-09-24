@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const NavLinkBookMark = ({ to, children, className }) => {
+const NavLinkBookMark = ({ to, children, className, title, subtitle }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
@@ -14,6 +14,10 @@ const NavLinkBookMark = ({ to, children, className }) => {
       onClick={handleClick}
       className={`${isActive ? "active" : ""} ${className ? className : ""}`}
     >
+      <div>
+        <b>{title}</b>
+      </div>
+      <div className="sub-title">{subtitle}</div>
       {children}
     </NavLink>
   );

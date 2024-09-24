@@ -43,26 +43,20 @@ const HomeHeader = (props) => {
               </div>
             </div>
             <div className="child-content">
-              <div>
-                <b>
-                  <FormattedMessage id="home-header.health-facility" />
-                </b>
-              </div>
-              <div className="sub-title">
-                <FormattedMessage id="home-header.choose-hospital" />
-              </div>
+              <NavLinkBookMark
+                to={path.LIST_SPECIALTY}
+                className=""
+                title={<FormattedMessage id="home-header.health-facility" />}
+                subtitle={<FormattedMessage id="home-header.choose-hospital" />}
+              />
             </div>
             <div className="child-content">
-              <NavLinkBookMark to={path.LIST_DOCTOR} className="">
-                <div>
-                  <b>
-                    <FormattedMessage id="home-header.doctor" />
-                  </b>
-                </div>
-                <div className="sub-title">
-                  <FormattedMessage id="home-header.choose-doctor" />
-                </div>
-              </NavLinkBookMark>
+              <NavLinkBookMark
+                to={path.LIST_DOCTOR}
+                className=""
+                title={<FormattedMessage id="home-header.doctor" />}
+                subtitle={<FormattedMessage id="home-header.choose-doctor" />}
+              />
             </div>
             <div className="child-content">
               <div>

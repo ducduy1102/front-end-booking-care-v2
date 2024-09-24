@@ -79,8 +79,6 @@ const ProfileDoctor = ({
     return <></>;
   };
 
-  // console.log("dataProfile", dataProfile);
-
   return (
     <div className="profile-doctor-container">
       <div className="container intro-doctor">
@@ -102,6 +100,16 @@ const ProfileDoctor = ({
                 {dataProfile?.Markdown?.description && (
                   <span>{dataProfile.Markdown.description}</span>
                 )}
+                <div className="location">
+                  <div className="mt-1 location-name">
+                    <i className="fas fa-map-marker-alt"></i>{" "}
+                    <span>
+                      {language === LANGUAGES.VI
+                        ? dataProfile?.Doctor_Infor?.provinceTypeData.valueVi
+                        : dataProfile?.Doctor_Infor?.provinceTypeData.valueEn}
+                    </span>
+                  </div>
+                </div>
               </>
             ) : (
               <>{renderBookingModal(dataTime)}</>

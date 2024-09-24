@@ -67,6 +67,16 @@ const DetailDoctor = (props) => {
               {detailDoctor?.Markdown?.description && (
                 <span>{detailDoctor.Markdown.description}</span>
               )}
+              <div className="location">
+                <div className="mt-1 location-name">
+                  <i className="fas fa-map-marker-alt"></i>{" "}
+                  <span>
+                    {language === LANGUAGES.VI
+                      ? detailDoctor?.Doctor_Infor?.provinceTypeData.valueVi
+                      : detailDoctor?.Doctor_Infor?.provinceTypeData.valueEn}
+                  </span>
+                </div>
+              </div>
               <div className="like-share-plugin">
                 <LikeAndShare dataHref={currentURL} />
               </div>

@@ -72,7 +72,6 @@ const DetailSpecialty = (props) => {
         location: location,
       });
 
-      // console.log("res", res);
       if (res && res.errCode === 0) {
         let data = res.data;
         let arrDoctorId = [];
