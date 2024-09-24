@@ -8,28 +8,29 @@ import { LANGUAGES } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
-import { getAllSpecialtyService } from "../../../services/userService";
+import "./ListClinic.scss";
+import { getAllClinicService } from "../../../services/userService";
 
-const ListSpecialty = () => {
+const ListClinic = () => {
   const history = useHistory();
-  const [dataSpecialty, setDataSpecialty] = useState([]);
+  const [dataClinics, setDataClinics] = useState([]);
   const language = useSelector((state) => state.app.language);
 
   useEffect(() => {
-    fetchAllSpecialty();
+    fetchClinics();
   }, []);
 
-  const fetchAllSpecialty = async () => {
-    let res = await getAllSpecialtyService();
+  const fetchClinics = async () => {
+    let res = await getAllClinicService();
+
     if (res && res.errCode === 0) {
-      setDataSpecialty(res.data ? res.data : []);
+      setDataClinics(res.data ? res.data : []);
     }
   };
 
-  const handleViewDetailSpecialty = (specialty) => {
-    history.push(`/detail-specialty/${specialty.id}`);
+  const handleViewDetailClinic = (clinic) => {
+    history.push(`/detail-clinic/${clinic.id}`);
   };
-
   return (
     <div>
       <HomeHeader />
@@ -45,17 +46,17 @@ const ListSpecialty = () => {
             </button> */}
           </div>
           <div className="list-body">
-            {dataSpecialty &&
-              dataSpecialty.length > 0 &&
-              dataSpecialty.map((item, index) => {
+            {dataClinics &&
+              dataClinics.length > 0 &&
+              dataClinics.map((item, index) => {
                 return (
                   <div
-                    className="list-custom specialty-child"
-                    key={`specialty-${index}`}
-                    onClick={() => handleViewDetailSpecialty(item)}
+                    className="list-custom clinic-child"
+                    key={`clinic-${index}`}
+                    onClick={() => handleViewDetailClinic(item)}
                   >
                     <div
-                      className="bg-img list-specialty"
+                      className="bg-img list-clinic"
                       style={{ backgroundImage: `url(${item.image})` }}
                     ></div>
                     <div className="text-center list-title">
@@ -71,4 +72,4 @@ const ListSpecialty = () => {
   );
 };
 
-export default ListSpecialty;
+export default ListClinic;

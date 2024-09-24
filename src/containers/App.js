@@ -26,6 +26,7 @@ import DetailClinic from "./Patient/Clinic/DetailClinic";
 import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton";
 import ListDoctor from "./List/Doctor/ListDoctor";
 import ListSpecialty from "./List/Specialty/ListSpecialty";
+import ListClinic from "./List/Clinic/ListClinic";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -87,6 +88,7 @@ const App = (props) => {
                 <Route path={path.HOME_PAGE} component={HomePage} />
                 <Route path={path.LIST_DOCTOR} component={ListDoctor} />
                 <Route path={path.LIST_SPECIALTY} component={ListSpecialty} />
+                <Route path={path.LIST_CLINIC} component={ListClinic} />
 
                 <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                 <Route

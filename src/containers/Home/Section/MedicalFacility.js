@@ -6,12 +6,15 @@ import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import "./MedicalFacility.scss";
+import { useSelector } from "react-redux";
+import { LANGUAGES } from "../../../utils";
 
 const MedicalFacility = (props) => {
   const { settings } = props;
   const history = useHistory();
 
   const [dataClinics, setDataClinics] = useState([]);
+  const language = useSelector((state) => state.app.language);
 
   useEffect(() => {
     fetchClinics();
@@ -56,8 +59,8 @@ const MedicalFacility = (props) => {
                         className="bg-img section-medical-facility"
                         style={{ backgroundImage: `url(${item.image})` }}
                       ></div>
-                      <div className="section-title clinic-name">
-                        {item.name}
+                      <div className="text-center section-title clinic-name">
+                        {language === LANGUAGES.VI ? item.name : item.nameEn}
                       </div>
                     </div>
                   );

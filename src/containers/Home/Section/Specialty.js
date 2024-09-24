@@ -55,7 +55,7 @@ const Specialty = (props) => {
                         className="bg-img section-specialty"
                         style={{ backgroundImage: `url(${item.image})` }}
                       ></div>
-                      <div className="section-title specialty-name">
+                      <div className="text-center section-title specialty-name">
                         {language === LANGUAGES.VI ? item.name : item.nameEn}
                       </div>
                     </div>

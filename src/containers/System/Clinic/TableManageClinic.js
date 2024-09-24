@@ -15,6 +15,7 @@ const TableManageClinic = (props) => {
   const dispatch = useDispatch();
   const [arrClinics, setClinics] = useState([]);
   const clinicRedux = useSelector((state) => state.admin.allClinics);
+  const language = useSelector((state) => state.app.language);
 
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -95,7 +96,7 @@ const TableManageClinic = (props) => {
               return (
                 <tr key={`clinic-${index}`}>
                   <th scope="row">{item.id}</th>
-                  <td>{item.name}</td>
+                  <td>{language === LANGUAGES.VI ? item.name : item.nameEn}</td>
                   <td>{item.address}</td>
                   <td>
                     <button

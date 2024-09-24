@@ -33,7 +33,7 @@ const ListDoctor = (props) => {
   return (
     <div>
       <HomeHeader />
-      <BookMark name={"Bác sĩ nổi bật"} />
+      <BookMark name={<FormattedMessage id="list.outstanding-doctor" />} />
       <div className="container mt-4">
         <div className="list-container">
           <div className="list-header">

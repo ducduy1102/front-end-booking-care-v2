@@ -204,6 +204,7 @@
   },
 
   "list": {
-    "outstanding-doctor": "Outstanding Doctors"
+    "outstanding-doctor": "Outstanding doctors",
+    "specialty-popular": "Popular specialties"
   }
 }

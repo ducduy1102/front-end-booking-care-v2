@@ -199,7 +199,7 @@ const ManagePatient = (props) => {
                     ) : (
                       <>
                         <tr>
-                          <td colSpan={8} className="text-center">
+                          <td colSpan={10} className="text-center">
                             <FormattedMessage id="manage-patient.not-found-patient" />
                           </td>
                         </tr>

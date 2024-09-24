@@ -55,19 +55,13 @@
     }
 
     .list-title {
-      margin-top: 4px;
+      margin-top: 10px;
       font-size: 18px;
       color: black;
       text-transform: capitalize;
-    }
-  }
 
-  .specialty-child {
-    padding: 20px;
-    cursor: pointer;
-    .specialty-name {
       &:hover {
-        color: #49bce2 !important;
+        color: #49bce2;
       }
     }
   }
