@@ -9,6 +9,7 @@ import { LANGUAGES } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
+import HomeFooter from "../../Home/HomeFooter";
 
 const ListDoctor = (props) => {
   const history = useHistory();
@@ -89,6 +90,8 @@ const ListDoctor = (props) => {
           </div>
         </div>
       </div>
+      <hr />
+      <HomeFooter className="p-0" />
     </div>
   );
 };

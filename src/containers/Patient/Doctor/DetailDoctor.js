@@ -10,6 +10,7 @@ import DoctorExtraInfor from "./DoctorExtraInfor";
 import Comment from "../SocialPlugin/Comment";
 import LikeAndShare from "../SocialPlugin/LikeAndShare";
 import BookMark from "../../Home/BookMark";
+import { FormattedMessage } from "react-intl";
 
 const DetailDoctor = (props) => {
   const language = useSelector((state) => state.app.language);
@@ -49,7 +50,7 @@ const DetailDoctor = (props) => {
     <>
       <HomeHeader isShowBanner={false} />
       <div className="doctor-detail-container">
-        <BookMark />
+        <BookMark name={<FormattedMessage id="list.outstanding-doctor" />} />
         <div className="container intro-doctor">
           <div
             className="content-left"

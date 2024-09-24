@@ -7,7 +7,8 @@ import { useHistory } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import "./MedicalFacility.scss";
 import { useSelector } from "react-redux";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, path } from "../../../utils";
+import NavLinkBookMark from "../NavLinkBookMark";
 
 const MedicalFacility = (props) => {
   const { settings } = props;
@@ -40,9 +41,11 @@ const MedicalFacility = (props) => {
             <span className="title-section">
               <FormattedMessage id="homepage.outstanding-medical-facilities" />
             </span>
-            <button className="btn-section">
-              <FormattedMessage id="homepage.more-infor" />
-            </button>
+            <NavLinkBookMark to={path.LIST_CLINIC} className="">
+              <button className="btn-section">
+                <FormattedMessage id="homepage.more-infor" />
+              </button>
+            </NavLinkBookMark>
           </div>
           <div className="section-body">
             <Slider {...settings}>

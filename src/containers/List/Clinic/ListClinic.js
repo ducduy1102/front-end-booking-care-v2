@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
 import "./ListClinic.scss";
 import { getAllClinicService } from "../../../services/userService";
+import HomeFooter from "../../Home/HomeFooter";
 
 const ListClinic = () => {
   const history = useHistory();
@@ -34,12 +35,14 @@ const ListClinic = () => {
   return (
     <div>
       <HomeHeader />
-      <BookMark name={<FormattedMessage id="list.specialty-popular" />} />
+      <BookMark
+        name={<FormattedMessage id="list.outstanding-medical-facilities" />}
+      />
       <div className="container mt-4">
         <div className="list-container">
           <div className="list-header">
             <span className="title-list">
-              <FormattedMessage id="list.specialty-popular" />
+              <FormattedMessage id="list.outstanding-medical-facilities" />
             </span>
             {/* <button className="btn-list">
               <FormattedMessage id="homepage.more-infor" />
@@ -68,6 +71,8 @@ const ListClinic = () => {
           </div>
         </div>
       </div>
+      <hr />
+      <HomeFooter className="p-0 " />
     </div>
   );
 };

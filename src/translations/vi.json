@@ -78,7 +78,9 @@
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
     "more-infor": "Xem thêm",
     "specialty-popular": "Chuyên khoa phổ biến",
-    "outstanding-medical-facilities": "Cơ sở y tế nổi bật"
+    "outstanding-medical-facilities": "Cơ sở y tế nổi bật",
+    "copyright": "Bản quyền 2024 - Đức Duy. Để biết thêm thông tin, vui lòng truy cập Facebook của tôi.",
+    "click": "Nhấn vào đây"
   },
 
   "manage-schedule": {
@@ -205,6 +207,7 @@
 
   "list": {
     "outstanding-doctor": "Bác sĩ nổi bật",
-    "specialty-popular": "Chuyên khoa phổ biến"
+    "specialty-popular": "Chuyên khoa phổ biến",
+    "outstanding-medical-facilities": "Cơ sở y tế dành cho bạn"
   }
 }

@@ -79,7 +79,9 @@
     "outstanding-doctor": "Doctor featured last week",
     "more-infor": "See more",
     "specialty-popular": "Popular specialties",
-    "outstanding-medical-facilities": "Outstanding medical facilities"
+    "outstanding-medical-facilities": "Outstanding medical facilities",
+    "copyright": "Copyright 2024 - Duc Duy. More information, please visit my Facebook.",
+    "click": "Click here"
   },
 
   "manage-schedule": {
@@ -205,6 +207,7 @@
 
   "list": {
     "outstanding-doctor": "Outstanding doctors",
-    "specialty-popular": "Popular specialties"
+    "specialty-popular": "Popular specialties",
+    "outstanding-medical-facilities": "Medical facilities for you"
   }
 }

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, path } from "../../../utils";
 import { FormattedMessage } from "react-intl";
 import Slider from "react-slick";
 import { getAllSpecialtyService } from "../../../services/userService";
 import "./Specialty.scss";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import NavLinkBookMark from "../NavLinkBookMark";
 
 const Specialty = (props) => {
   const { settings } = props;
@@ -36,9 +37,11 @@ const Specialty = (props) => {
             <span className="title-section">
               <FormattedMessage id="homepage.specialty-popular" />
             </span>
-            <button className="btn-section">
-              <FormattedMessage id="homepage.more-infor" />
-            </button>
+            <NavLinkBookMark to={path.LIST_SPECIALTY} className="">
+              <button className="btn-section">
+                <FormattedMessage id="homepage.more-infor" />
+              </button>
+            </NavLinkBookMark>
           </div>
           <div className="section-body">
             <Slider {...settings}>

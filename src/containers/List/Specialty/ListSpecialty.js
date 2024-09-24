@@ -9,6 +9,7 @@ import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
 import { getAllSpecialtyService } from "../../../services/userService";
+import HomeFooter from "../../Home/HomeFooter";
 
 const ListSpecialty = () => {
   const history = useHistory();
@@ -67,6 +68,8 @@ const ListSpecialty = () => {
           </div>
         </div>
       </div>
+      <hr />
+      <HomeFooter className="p-0" />
     </div>
   );
 };

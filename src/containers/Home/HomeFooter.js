@@ -3,19 +3,19 @@ import { Redirect, Link } from "react-router-dom";
 
 import { FormattedMessage } from "react-intl";
 
-const HomeFooter = () => {
+const HomeFooter = ({ className = "" }) => {
   return (
-    <footer className="home-footer">
+    <footer className={`home-footer ${className}`}>
       <div className="container">
         <p>
-          &copy; Copyright 2024 Duc Duy. More information, please visit my
-          Facebook.
+          &copy; <FormattedMessage id="homepage.copyright" />
           <a
+            className="click"
             href="https://www.facebook.com/ducduy1110"
             target="_blank"
             rel="noreferrer"
           >
-            &#8594; Click here &#8592;
+            &#8594; <FormattedMessage id="homepage.click" /> &#8592;
           </a>
         </p>
       </div>
