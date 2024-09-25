@@ -24,6 +24,7 @@
   },
 
   "login": {
+    "home": "Booking Care - Login",
     "login": "Login",
     "username": "Username",
     "password": "Password",
@@ -54,6 +55,7 @@
   },
 
   "manage-user": {
+    "home": "Booking Care - Manage User",
     "title": "Manage User Redux",
     "add": "Add a new user",
     "edit": "Edit user",
@@ -76,6 +78,7 @@
   },
 
   "homepage": {
+    "home": "Booking Care - Home Page",
     "outstanding-doctor": "Doctor featured last week",
     "more-infor": "See more",
     "specialty-popular": "Popular specialties",
@@ -85,6 +88,7 @@
   },
 
   "manage-schedule": {
+    "home": "Booking Care - Manage doctor's medical examination plans",
     "title": "Manage doctor's medical examination plans",
     "choose-doctor": "Choose doctor",
     "choose-date": "Choose date",
@@ -92,7 +96,8 @@
   },
 
   "manage-patient": {
-    "title": "Managing medical examination patients",
+    "home": "Booking Care - Manage medical examination patients",
+    "title": "Manage medical examination patients",
     "select-date": "Select date",
     "fullname": "Full name",
     "time": "Time",
@@ -147,6 +152,7 @@
 
   "admin": {
     "manage-doctor": {
+      "home": "Booking Care - Add more information doctors",
       "title": "Create more information doctors",
       "select-doctor": "Select doctor",
       "intro": "Introduction",
@@ -164,6 +170,7 @@
   },
 
   "manage-specialty": {
+    "home": "Booking Care - Manage Specialty",
     "title": "Manage Specialty",
     "name": "Name of specialty",
     "image": "Image",
@@ -174,7 +181,8 @@
   },
 
   "manage-clinic": {
-    "title": "Manage clinic",
+    "home": "Booking Care - Manage Clinic",
+    "title": "Manage Clinic",
     "name": "Name of clinic",
     "address": "Address of clinic",
     "image": "Image",
@@ -206,8 +214,8 @@
   },
 
   "list": {
-    "outstanding-doctor": "Outstanding doctors",
-    "specialty-popular": "Popular specialties",
-    "outstanding-medical-facilities": "Medical facilities for you"
+    "outstanding-doctor": "Booking Care - Outstanding doctors",
+    "specialty-popular": "Booking Care - Popular specialties",
+    "outstanding-medical-facilities": "Booking Care - Medical facilities for you"
   }
 }

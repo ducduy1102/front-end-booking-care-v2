@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 // import { getAllCodeService } from "../../../services/userService";
 import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
@@ -32,6 +32,12 @@ const UserRedux = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [previewImgURL, setPreviewImgURL] = useState("");
   const [action, setAction] = useState("");
+
+  const intl = useIntl();
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "manage-user.home" });
+  }, [language]);
 
   // c2: call api trong redux rồi gọi ra
   useEffect(() => {

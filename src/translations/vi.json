@@ -24,6 +24,7 @@
   },
 
   "login": {
+    "home": "Booking Care - Đăng nhập",
     "login": "Đăng nhập",
     "username": "Tên đăng nhập",
     "password": "Mật khẩu",
@@ -53,6 +54,7 @@
   },
 
   "manage-user": {
+    "home": "Booking Care - Quản lý người dùng",
     "title": "Quản lý người dùng",
     "add": "Thêm mới người dùng",
     "edit": "Lưu thay đổi",
@@ -75,6 +77,7 @@
   },
 
   "homepage": {
+    "home": "Booking Care - Trang chủ",
     "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
     "more-infor": "Xem thêm",
     "specialty-popular": "Chuyên khoa phổ biến",
@@ -84,6 +87,7 @@
   },
 
   "manage-schedule": {
+    "home": "Booking Care - Quản lý kế hoạch khám bệnh của bác sĩ",
     "title": "Quản lý kế hoạch khám bệnh của bác sĩ",
     "choose-doctor": "Chọn bác sĩ",
     "choose-date": "Chọn ngày",
@@ -92,6 +96,7 @@
   },
 
   "manage-patient": {
+    "home": "Booking Care - Quản lý bệnh nhân",
     "title": "Quản lý bệnh nhân khám bệnh",
     "select-date": "Chọn ngày khám",
     "fullname": "Họ và tên",
@@ -147,6 +152,7 @@
 
   "admin": {
     "manage-doctor": {
+      "home": "Booking Care - Thêm thông tin bác sĩ",
       "title": "Tạo thêm thông tin bác sĩ",
       "select-doctor": "Chọn bác sĩ",
       "intro": "Thông tin giới thiệu",
@@ -164,6 +170,7 @@
   },
 
   "manage-specialty": {
+    "home": "Booking Care - Quản lý chuyên khoa",
     "title": "Quản lý chuyên khoa",
     "name": "Tên chuyên khoa",
     "image": "Ảnh chuyên khoa",
@@ -174,6 +181,7 @@
   },
 
   "manage-clinic": {
+    "home": "Booking Care - Quản lý phòng khám",
     "title": "Quản lý phòng khám",
     "name": "Tên phòng khám",
     "address": "Địa chỉ phòng khám",
@@ -206,8 +214,8 @@
   },
 
   "list": {
-    "outstanding-doctor": "Bác sĩ nổi bật",
-    "specialty-popular": "Chuyên khoa phổ biến",
-    "outstanding-medical-facilities": "Cơ sở y tế dành cho bạn"
+    "outstanding-doctor": "Booking Care - Bác sĩ nổi bật",
+    "specialty-popular": "Booking Care - Chuyên khoa phổ biến",
+    "outstanding-medical-facilities": "Booking Care - Cơ sở y tế dành cho bạn"
   }
 }

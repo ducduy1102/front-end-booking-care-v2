@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import "./ManageSchedule.scss";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import Select from "react-select";
 import { fetchAllDoctors, fetchAllScheduleTime } from "../../../store/actions";
 import { LANGUAGES } from "../../../utils";
@@ -24,6 +24,13 @@ const ManageSchedule = () => {
   const [selectedDoctor, setSelectedDoctor] = useState({});
   const [currentDate, setCurrentDate] = useState("");
   const [rangeTime, setRangeTime] = useState([]);
+
+  const intl = useIntl();
+
+  useEffect(() => {
+    // Logic when language changes if needed
+    document.title = intl.formatMessage({ id: "manage-schedule.home" });
+  }, [language]);
 
   useEffect(() => {
     dispatch(fetchAllDoctors());

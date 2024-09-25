@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { LANGUAGES } from "../../../utils";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
 import "./ListClinic.scss";
@@ -16,10 +16,17 @@ const ListClinic = () => {
   const history = useHistory();
   const [dataClinics, setDataClinics] = useState([]);
   const language = useSelector((state) => state.app.language);
+  const intl = useIntl();
 
   useEffect(() => {
     fetchClinics();
   }, []);
+
+  useEffect(() => {
+    document.title = intl.formatMessage({
+      id: "list.outstanding-medical-facilities",
+    });
+  }, [language]);
 
   const fetchClinics = async () => {
     let res = await getAllClinicService();

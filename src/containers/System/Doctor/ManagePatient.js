@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { LANGUAGES } from "../../../utils";
 import { useEffect, useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { toast } from "react-toastify";
 import "./ManagePatient.scss";
 import { DatePicker } from "../../../components/Input";
@@ -23,8 +23,11 @@ const ManagePatient = (props) => {
   const [dataModal, setDataModal] = useState({});
   const [isShowLoading, setIsShowLoading] = useState(false);
 
+  const intl = useIntl();
+
   useEffect(() => {
     // Logic when language changes if needed
+    document.title = intl.formatMessage({ id: "manage-patient.home" });
   }, [language]);
 
   useEffect(() => {

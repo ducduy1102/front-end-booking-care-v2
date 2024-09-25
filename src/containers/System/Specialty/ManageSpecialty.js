@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import "./ManageSpecialty.scss";
 import MdEditor from "react-markdown-editor-lite";
@@ -23,6 +23,7 @@ const mdParser = new MarkdownIt();
 const ManageSpecialty = () => {
   const dispatch = useDispatch();
   const specialtyRedux = useSelector((state) => state.admin.allSpecialties);
+  const language = useSelector((state) => state.app.language);
 
   const defaultValueSpecialty = {
     name: "",
@@ -35,6 +36,12 @@ const ManageSpecialty = () => {
   const [action, setAction] = useState("");
   const [previewImgURL, setPreviewImgURL] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  const intl = useIntl();
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "manage-specialty.home" });
+  }, [language]);
 
   useEffect(() => {
     // componentDidMount equivalent

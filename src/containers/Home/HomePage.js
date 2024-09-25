@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import HomeHeader from "./HomeHeader";
 import Specialty from "./Section/Specialty";
@@ -12,6 +12,7 @@ import OutstandingDoctor from "./Section/OutstandingDoctor";
 import HandBook from "./Section/HandBook";
 import About from "./Section/About";
 import HomeFooter from "./HomeFooter";
+import { useIntl } from "react-intl";
 
 const HomePage = () => {
   let settings = {
@@ -21,6 +22,13 @@ const HomePage = () => {
     slidesToShow: 4,
     slidesToScroll: 1,
   };
+
+  const intl = useIntl();
+  const language = useSelector((state) => state.app.language);
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "homepage.home" });
+  }, [language]);
 
   return (
     <div>

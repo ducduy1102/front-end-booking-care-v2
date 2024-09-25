@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { LANGUAGES } from "../../../utils";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
 import { getAllSpecialtyService } from "../../../services/userService";
@@ -15,10 +15,17 @@ const ListSpecialty = () => {
   const history = useHistory();
   const [dataSpecialty, setDataSpecialty] = useState([]);
   const language = useSelector((state) => state.app.language);
+  const intl = useIntl();
 
   useEffect(() => {
     fetchAllSpecialty();
   }, []);
+
+  useEffect(() => {
+    document.title = intl.formatMessage({
+      id: "list.specialty-popular",
+    });
+  }, [language]);
 
   const fetchAllSpecialty = async () => {
     let res = await getAllSpecialtyService();

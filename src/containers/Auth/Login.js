@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../store/actions";
 import "./Login.scss";
 import { handleLogin } from "../../services/userService";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { connect } from "react-redux";
 import { LANGUAGES, USER_ROLE } from "../../utils";
 import viFlag from "../../assets/images/vietnam-flag.svg";
@@ -18,8 +18,11 @@ const Login = (props) => {
 
   const language = useSelector((state) => state.app.language);
 
+  const intl = useIntl();
+
   useEffect(() => {
     if (language) {
+      document.title = intl.formatMessage({ id: "login.home" });
     }
   }, [language]);
   const dispatch = useDispatch();

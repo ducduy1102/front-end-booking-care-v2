@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import "./ManageDoctor.scss";
 import {
@@ -60,6 +60,12 @@ const ManageDoctor = (props) => {
 
   const [hasOldData, sethasOldData] = useState(false);
 
+  const intl = useIntl();
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "admin.manage-doctor.home" });
+  }, [language]);
+
   useEffect(() => {
     dispatch(fetchAllDoctors());
     dispatch(getRequiredDoctorInfor());
@@ -109,7 +115,7 @@ const ManageDoctor = (props) => {
         if (type === "SPECIALTY") {
           inputData.forEach((item, index) => {
             let object = {};
-            object.label = item.name;
+            object.label = language === LANGUAGES.VI ? item.name : item.nameEn;
             object.value = item.id;
             result.push(object);
           });
@@ -117,7 +123,7 @@ const ManageDoctor = (props) => {
         if (type === "CLINIC") {
           inputData.forEach((item, index) => {
             let object = {};
-            object.label = item.name;
+            object.label = language === LANGUAGES.VI ? item.name : item.nameEn;
             object.value = item.id;
             result.push(object);
           });
@@ -196,7 +202,7 @@ const ManageDoctor = (props) => {
     setSelectedDoctor(selectedDoctor);
 
     let res = await getDetailInforDoctorService(selectedDoctor.value);
-    console.log("res", res);
+    // console.log("res", res);
     if (res && res.errCode === 0 && res?.data?.Markdown) {
       let markdown = res.data.Markdown;
       let addressClinic = "",
@@ -277,25 +283,6 @@ const ManageDoctor = (props) => {
   };
 
   const handleChangeSelectDoctorInfor = (selectedOption, { name }) => {
-    // let stateCopy = {
-    //   ...valueInforDoctor,
-    //   // selectedPrice: selectedPrice,
-    //   // selectedPayment: selectedPayment,
-    //   // selectedProvince: selectedProvince,
-    // };
-    // stateCopy[name] = selectedOption;
-    // setValueInforDoctor({ ...stateCopy });
-
-    // console.log(valueInforDoctor);
-
-    // let _userDoctorInfor = _.cloneDeep(valueInforDoctor);
-    // _userDoctorInfor[name] = selectedOption;
-
-    // setValueInforDoctor(_userDoctorInfor);
-    // console.log(valueInforDoctor);
-    // console.log(_userDoctorInfor[name]);
-    // console.log(selectedOption);
-
     const setterMap = {
       selectedPrice: setSelectedPrice,
       selectedPayment: setSelectedPayment,
@@ -308,7 +295,6 @@ const ManageDoctor = (props) => {
     if (setter) {
       setter(selectedOption);
     }
-    console.log(valueInforDoctor);
 
     // switch (name) {
     //   case "selectedPrice":
@@ -326,8 +312,6 @@ const ManageDoctor = (props) => {
   };
 
   const handleSaveDetailDoctorInfor = () => {
-    console.log(valueInforDoctor);
-    console.log(valueMarkdown);
     saveDetailDoctorRedux({
       contentHTML: valueMarkdown.contentHTML,
       contentMarkdown: valueMarkdown.contentMarkdown,

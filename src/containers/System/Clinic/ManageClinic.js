@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import "./ManageClinic.scss";
 import MdEditor from "react-markdown-editor-lite";
@@ -23,6 +23,7 @@ const mdParser = new MarkdownIt();
 const ManageClinic = () => {
   const dispatch = useDispatch();
   const clinicRedux = useSelector((state) => state.admin.allClinics);
+  const language = useSelector((state) => state.app.language);
 
   const defaultValueClinic = {
     name: "",
@@ -36,6 +37,12 @@ const ManageClinic = () => {
   const [action, setAction] = useState("");
   const [previewImgURL, setPreviewImgURL] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  const intl = useIntl();
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "manage-clinic.home" });
+  }, [language]);
 
   useEffect(() => {
     // componentDidMount equivalent

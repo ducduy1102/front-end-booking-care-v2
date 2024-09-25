@@ -6,7 +6,7 @@ import { fetchTopDoctor } from "../../../store/actions/adminActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { LANGUAGES } from "../../../utils";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import "../../List/List.scss";
 import HomeFooter from "../../Home/HomeFooter";
@@ -18,10 +18,15 @@ const ListDoctor = (props) => {
   const topDoctorsRedux = useSelector((state) => state.admin.topDoctors);
   const language = useSelector((state) => state.app.language);
   const [arrDoctors, setArrDoctors] = useState([]);
+  const intl = useIntl();
 
   useEffect(() => {
     dispatch(fetchTopDoctor());
   }, []);
+
+  useEffect(() => {
+    document.title = intl.formatMessage({ id: "list.outstanding-doctor" });
+  }, [language]);
 
   useEffect(() => {
     setArrDoctors(topDoctorsRedux);
