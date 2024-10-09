@@ -23,7 +23,7 @@ const ListSpecialty = () => {
 
   useEffect(() => {
     document.title = intl.formatMessage({
-      id: "list.specialty-popular",
+      id: "list.title.specialty-popular",
     });
   }, [language]);
 

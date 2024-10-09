@@ -24,7 +24,7 @@ const ListClinic = () => {
 
   useEffect(() => {
     document.title = intl.formatMessage({
-      id: "list.outstanding-medical-facilities",
+      id: "list.title.outstanding-medical-facilities",
     });
   }, [language]);
 

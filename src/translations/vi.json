@@ -214,8 +214,13 @@
   },
 
   "list": {
-    "outstanding-doctor": "Booking Care - Bác sĩ nổi bật",
-    "specialty-popular": "Booking Care - Chuyên khoa phổ biến",
-    "outstanding-medical-facilities": "Booking Care - Cơ sở y tế dành cho bạn"
+    "title": {
+      "outstanding-doctor": "Booking Care - Bác sĩ nổi bật",
+      "specialty-popular": "Booking Care - Chuyên khoa phổ biến",
+      "outstanding-medical-facilities": "Booking Care - Cơ sở y tế dành cho bạn"
+    },
+    "outstanding-doctor": "Bác sĩ nổi bật",
+    "specialty-popular": "Chuyên khoa phổ biến",
+    "outstanding-medical-facilities": "Cơ sở y tế dành cho bạn"
   }
 }

@@ -25,7 +25,9 @@ const ListDoctor = (props) => {
   }, []);
 
   useEffect(() => {
-    document.title = intl.formatMessage({ id: "list.outstanding-doctor" });
+    document.title = intl.formatMessage({
+      id: "list.title.outstanding-doctor",
+    });
   }, [language]);
 
   useEffect(() => {

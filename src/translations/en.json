@@ -214,8 +214,13 @@
   },
 
   "list": {
-    "outstanding-doctor": "Booking Care - Outstanding doctors",
-    "specialty-popular": "Booking Care - Popular specialties",
-    "outstanding-medical-facilities": "Booking Care - Medical facilities for you"
+    "title": {
+      "outstanding-doctor": "Booking Care - Outstanding doctors",
+      "specialty-popular": "Booking Care - Popular specialties",
+      "outstanding-medical-facilities": "Booking Care - Medical facilities for you"
+    },
+    "outstanding-doctor": "Outstanding doctors",
+    "specialty-popular": "Popular specialties",
+    "outstanding-medical-facilities": "Medical facilities for you"
   }
 }
