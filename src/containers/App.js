@@ -27,6 +27,7 @@ import ScrollToTopButton from "../components/ScrollToTopButton/ScrollToTopButton
 import ListDoctor from "./List/Doctor/ListDoctor";
 import ListSpecialty from "./List/Specialty/ListSpecialty";
 import ListClinic from "./List/Clinic/ListClinic";
+import { VideoProvider } from "../context/VideoContext";
 
 const App = (props) => {
   const [bootstrapped, setBootstrapped] = useState(false);
@@ -85,10 +86,12 @@ const App = (props) => {
                   component={userIsAuthenticated(Doctor)}
                 />
 
-                <Route path={path.HOME_PAGE} component={HomePage} />
-                <Route path={path.LIST_DOCTOR} component={ListDoctor} />
-                <Route path={path.LIST_SPECIALTY} component={ListSpecialty} />
-                <Route path={path.LIST_CLINIC} component={ListClinic} />
+                <VideoProvider>
+                  <Route path={path.HOME_PAGE} component={HomePage} />
+                  <Route path={path.LIST_DOCTOR} component={ListDoctor} />
+                  <Route path={path.LIST_SPECIALTY} component={ListSpecialty} />
+                  <Route path={path.LIST_CLINIC} component={ListClinic} />
+                </VideoProvider>
 
                 <Route path={path.DETAIL_DOCTOR} component={DetailDoctor} />
                 <Route

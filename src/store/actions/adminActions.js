@@ -433,3 +433,24 @@ export const fetchAllClinicSuccess = (data) => ({
 export const fetchAllClinicFailed = () => ({
   type: actionTypes.FETCH_ALL_CLINIC_FAILED,
 });
+
+// Toggle PiP
+export const togglePiP = () => {
+  return (dispatch, getState) => {
+    const currentPiPState = getState().admin.isPiP;
+    const newPiPState = !currentPiPState;
+    localStorage.setItem("isPiP", JSON.stringify(newPiPState));
+
+    dispatch({
+      type: actionTypes.TOGGLE_PIP,
+    });
+  };
+};
+
+// Set PiP
+export const setPiP = (isPiP) => {
+  return {
+    type: actionTypes.SET_PIP,
+    payload: isPiP,
+  };
+};

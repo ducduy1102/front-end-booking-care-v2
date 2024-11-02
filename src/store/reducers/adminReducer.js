@@ -12,6 +12,7 @@ const initialState = {
   allRequiredDoctorInfor: [],
   allSpecialties: [],
   allClinics: [],
+  isPiP: JSON.parse(localStorage.getItem("isPiP")) || false,
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -170,6 +171,17 @@ const adminReducer = (state = initialState, action) => {
       state.allClinics = [];
       return {
         ...state,
+      };
+    // Toggle mini-player-video
+    case actionTypes.TOGGLE_PIP:
+      return {
+        ...state,
+        isPiP: !state.isPiP,
+      };
+    case actionTypes.SET_PIP:
+      return {
+        ...state,
+        isPiP: action.payload,
       };
     default:
       return state;

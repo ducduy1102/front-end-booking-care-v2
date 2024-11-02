@@ -61,6 +61,10 @@ const actionTypes = Object.freeze({
   // clinics
   FETCH_ALL_CLINIC_SUCCESS: "FETCH_ALL_CLINIC_SUCCESS",
   FETCH_ALL_CLINIC_FAILED: "FETCH_ALL_CLINIC_FAILED",
+
+  // PiP
+  TOGGLE_PIP: "TOGGLE_PIP",
+  SET_PIP: "SET_PIP",
 });
 
 export default actionTypes;

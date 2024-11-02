@@ -11,12 +11,22 @@ import "../../List/List.scss";
 import "./ListClinic.scss";
 import { getAllClinicService } from "../../../services/userService";
 import HomeFooter from "../../Home/HomeFooter";
+import VideoPlayer from "../../../components/VideoPlayer/VideoPlayer";
+import { useVideo } from "../../../context/VideoContext";
+import VideoPlayerContext from "../../../components/VideoPlayer/VideoPlayerContext";
 
 const ListClinic = () => {
   const history = useHistory();
   const [dataClinics, setDataClinics] = useState([]);
   const language = useSelector((state) => state.app.language);
   const intl = useIntl();
+
+  // Redux
+  // const isPiP = useSelector((state) => state.admin.isPiP);
+
+  // Context
+  const { state } = useVideo();
+  const isPiP = state.isPiP;
 
   useEffect(() => {
     fetchClinics();
@@ -79,6 +89,23 @@ const ListClinic = () => {
         </div>
       </div>
       <hr />
+      {/* Redux */}
+      {/* <VideoPlayer
+        display={isPiP ? "block" : "none"}
+        position={isPiP ? "fixed" : ""}
+        bottom={isPiP ? "1rem" : ""}
+        right={isPiP ? "1rem" : ""}
+        width={isPiP ? "300px" : "100%"}
+      /> */}
+
+      {/* Context */}
+      <VideoPlayerContext
+        display={isPiP ? "block" : "none"}
+        position={isPiP ? "fixed" : ""}
+        bottom={isPiP ? "1rem" : ""}
+        right={isPiP ? "1rem" : ""}
+        width={isPiP ? "300px" : "100%"}
+      />
       <HomeFooter className="p-0 " />
     </div>
   );
